@@ -1,0 +1,75 @@
+<header class="background-white">
+		<div class="header-output">
+			<div class="container header-in">
+				<div class="row">
+					<div class="col-lg-2">
+						<a id="logo" href="index.html" class="d-inline-block margin-tb-10px"><img src="~/img/weblink/logoPKM.png" alt=""></a>
+						<a class="mobile-toggle padding-15px background-main-color" href="#"><i class="fas fa-bars"></i></a>
+					</div>
+					<div class="col-lg-10  col-md-12 position-inherit text-lg-center">
+						<ul id="menu-main" class="nav-menu  margin-lr-auto width-auto link-padding-tb-25px dropdown-dark">
+
+							<li class="{{Request::path() == '/' ? 'active' : ''}}">
+								<a href="/">Beranda</a>
+							</li>
+
+							<li class="{{Request::path() == 'usahakegiatan' ? 'active' : ''}}">
+								<a href="/usahakegiatan">Usaha / Kegiatan</a>
+							</li>
+
+							<li class="{{Request::path() == 'penyediajasa' ? 'active' : ''}} mega-menu mega-links mega-links-4columns"><a href="/penyediajasa">Penyedia Jasa</a>
+								<div class="mega-menu-out sub-menu-out">
+									<ul class="sub-menu-columns">
+										<li>
+											<ul class="mega-menu-list">
+												<li class="{{Request::path() == 'penyediajasa' ? 'active' : ''}}">
+													<a href="/penyediajasa">Dashboard</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<ul class="mega-menu-list">
+												<li class="{{Request::path() == 'penyediajasa/pengangkut' ? 'active' : ''}}">
+													<a href="/penyediajasa/pengangkut">Penyedia Jasa Pengangkutan Sampah</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<ul class="mega-menu-list">
+												<li class="{{Request::path() == 'penyediajasa/pengolahan' ? 'active' : ''}}">
+													<a href="/penyediajasa/pengolahan">Penyedia Jasa Pengolahan Sampah</a>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</div>
+                            </li>
+
+                            <li class="">
+								<a href="http://kelolasampah.jakarta.go.id" target="_blank">DLH KINERJAPS</a>
+							</li>
+
+							<li class="{{Request::path() == 'kontak' ? 'active' : ''}}">
+								<a href="/kontak">Kontak</a>
+							</li>
+                            
+							<li class="{{Request::path() == 'register' ? 'active' : ''}}">
+								<a href="/register">Daftar PKM</a>
+                            </li>
+                            <li class="{{Request::path() == 'login' ? 'active' : ''}}">
+                                <a href="/login">Login</a>
+                            </li>                            
+						</ul>
+					</div>
+					@* <div class="col-lg-2  d-none d-lg-block">
+						<div class="margin-tb-20px">
+							<ul class="social-icon style-2 rounded ">
+								<li class="icon-facebook margin-right-2px"><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+								<li class="icon-youtube margin-right-2px"><a href="#"><i class="fab fa-youtube"></i></a></li>
+							</ul>
+						</div>
+					</div> *@
+				</div>
+			</div>
+		</div>
+	</header>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <partial name="_PublicHead" />
+    @await RenderSectionAsync("styles", required: false)
+</head>
+<body>
+
+	<!-- ======= Header  ======= -->
+    <partial name="_PublicHeader" />
+
+	<!-- ======= end Header  ======= -->
+
+    @RenderBody()
+
+
+	<partial name="_PublicFooter" />
+
+	<partial name="_PublicScripts" />
+    @await RenderSectionAsync("scripts", required: false)
+</body>
+
+</html>
