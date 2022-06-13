@@ -2,3 +2,15 @@
     Layout = "_Layout";
     ViewBag.Title = "Dashboard";
 }
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <p>
+                @foreach (var claim in Context.User.Claims) {
+                    <div>@claim.Type: <b>@claim.Value</b></div>
+                }
+            </p>
+        </div>
+    </div>
+</div>

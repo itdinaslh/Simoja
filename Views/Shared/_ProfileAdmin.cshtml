@@ -12,8 +12,17 @@
                     <img src="~/img/user.png" class="rounded-circle profile-image" alt="User Image">
                 </span>
                 <div class="info-card-text">
-                    <div class="fs-lg text-truncate text-truncate-lg">Rangga Dwi</div>
-                    <span class="text-truncate text-truncate-md opacity-80">System Admin</span>
+                    <div class="fs-lg text-truncate text-truncate-lg">@User.Identity!.Name</div>
+                    @* <span class="text-truncate text-truncate-md opacity-80">System Admin</span> *@
+                    @{
+                        if (User.IsInRole("SystemAdmin") || User.IsInRole("SimojaAdmin")) {
+                            <span class="text-truncate text-truncate-md opacity-80">System Admin</span>
+                        } else if (User.IsInRole("SimojaAngkut")) {
+                            <span class="text-truncate text-truncate-md opacity-80">Penyedia Jasa Angkutan</span>
+                        } else if (User.IsInRole("SimojaOlah")) {
+                            <span class="text-truncate text-truncate-md opacity-80">Penyedia Jasa Pengolahan</span>
+                        }
+                    }
                 </div>
             </div>
         </div>
