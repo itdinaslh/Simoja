@@ -26,6 +26,7 @@ services.AddDbContext<AppDbContext>(options => {
     services.AddScoped<IJenisKegiatan, JenisKegiatanService>();
     services.AddScoped<IStatusKelola, StatusKelolaService>();
     services.AddScoped<IPihakAngkut, PihakAngkutService>();
+    services.AddScoped<IClient, ClientService>();
 }
 
 services.AddAuthentication(options => {

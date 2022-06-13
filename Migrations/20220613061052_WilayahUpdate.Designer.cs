@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220613061052_WilayahUpdate")]
+    partial class WilayahUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("JenisKegiatanID");
 
-                    b.ToTable("JenisKegiatan", (string)null);
+                    b.ToTable("JenisKegiatan");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kabupaten", b =>
@@ -78,7 +80,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("ProvinsiID");
 
-                    b.ToTable("Kabupaten", (string)null);
+                    b.ToTable("Kabupaten");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kecamatan", b =>
@@ -108,7 +110,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("KabupatenID");
 
-                    b.ToTable("Kecamatan", (string)null);
+                    b.ToTable("Kecamatan");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kelurahan", b =>
@@ -138,7 +140,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("KecamatanID");
 
-                    b.ToTable("Kelurahan", (string)null);
+                    b.ToTable("Kelurahan");
                 });
 
             modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>
@@ -159,7 +161,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("PihakAngkutID");
 
-                    b.ToTable("PihakAngkut", (string)null);
+                    b.ToTable("PihakAngkut");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Provinsi", b =>
@@ -192,7 +194,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("ProvinsiID");
 
-                    b.ToTable("Provinsi", (string)null);
+                    b.ToTable("Provinsi");
                 });
 
             modelBuilder.Entity("Simoja.Entity.StatusKelola", b =>
@@ -213,7 +215,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("StatusKelolaID");
 
-                    b.ToTable("StatusKelola", (string)null);
+                    b.ToTable("StatusKelola");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kabupaten", b =>

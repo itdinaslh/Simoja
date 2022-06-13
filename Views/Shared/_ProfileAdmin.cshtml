@@ -12,8 +12,7 @@
                     <img src="~/img/user.png" class="rounded-circle profile-image" alt="User Image">
                 </span>
                 <div class="info-card-text">
-                    <div class="fs-lg text-truncate text-truncate-lg">@User.Identity!.Name</div>
-                    @* <span class="text-truncate text-truncate-md opacity-80">System Admin</span> *@
+                    <div class="fs-lg text-truncate text-truncate-lg">@User.Identity!.Name</div>                    
                     @{
                         if (User.IsInRole("SystemAdmin") || User.IsInRole("SimojaAdmin")) {
                             <span class="text-truncate text-truncate-md opacity-80">System Admin</span>

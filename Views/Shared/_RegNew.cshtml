@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <partial name="_Head" />    
+        @await RenderSectionAsync("styles", required: false)
+    </head>    
+    <body class="mod-bg-4 header-function-fixed nav-function-fixed mod-nav-link">
+        <!-- DOC: script to save and load page settings -->
+        <script>
+            /**
+             *	This script should be placed right after the body tag for fast execution
+             *	Note: the script is written in pure javascript and does not depend on thirdparty library
+             **/
+            'use strict';
+
+            var classHolder = document.getElementsByTagName("BODY")[0],
+                /**
+                 * Load from localstorage
+                 **/
+                themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+                {},
+                themeURL = themeSettings.themeURL || '',
+                themeOptions = themeSettings.themeOptions || '';
+            /**
+             * Load theme options
+             **/
+            if (themeSettings.themeOptions)
+            {
+                classHolder.className = themeSettings.themeOptions;
+                console.log("%c✔ Theme settings loaded", "color: #148f32");
+            }
+            else
+            {
+                console.log("Heads up! Theme settings is empty or does not exist, loading default settings...");
+            }
+            if (themeSettings.themeURL && !document.getElementById('mytheme'))
+            {
+                var cssfile = document.createElement('link');
+                cssfile.id = 'mytheme';
+                cssfile.rel = 'stylesheet';
+                cssfile.href = themeURL;
+                document.getElementsByTagName('head')[0].appendChild(cssfile);
+            }
+            /**
+             * Save to localstorage
+             **/
+            var saveSettings = function()
+            {
+                themeSettings.themeOptions = String(classHolder.className).split(/[^\w-]+/).filter(function(item)
+                {
+                    return /^(nav|header|mod|display)-/i.test(item);
+                }).join(' ');
+                if (document.getElementById('mytheme'))
+                {
+                    themeSettings.themeURL = document.getElementById('mytheme').getAttribute("href");
+                };
+                localStorage.setItem('themeSettings', JSON.stringify(themeSettings));
+            }
+            /**
+             * Reset settings
+             **/
+            var resetSettings = function()
+            {
+                localStorage.setItem("themeSettings", "");
+            }
+
+        </script>
+        <!-- BEGIN Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="page-inner">
+                <div class="page-content-wrapper">
+                    <!-- Page Header -->
+                    <partial name="_HeaderAdmin" />
+                    <!-- BEGIN Page Content -->
+                    <!-- the #js-page-content id is needed for some plugins to initialize -->
+                    <main id="js-page-content" role="main" class="page-content">
+                        <partial name="_Beadcrumb" />
+
+                        @RenderBody()
+                    </main>
+                    <!-- this overlay is activated only when mobile menu is triggered -->
+                    <div class="page-content-overlay" data-action="toggle" data-class="mobile-nav-on"></div>
+                    <!-- END Page Content -->
+                    <!-- BEGIN Page Footer -->
+                    <partial name="_Footer" />
+                </div>
+            </div>
+        </div>
+        <!-- END Page Wrapper -->
+
+        <!-- BEGIN Page Settings -->
+        <partial name="_Settings" />
+
+        <!-- Page Scripts -->
+        <partial name="_MainScripts" />
+        @await RenderSectionAsync("scripts", required: false)
+    </body>
+</html>
