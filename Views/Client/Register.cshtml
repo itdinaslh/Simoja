@@ -1,0 +1,124 @@
+@model Simoja.Entity.Client
+
+@{
+    Layout = "_RegNew";
+    ViewBag.Title = "Pendaftaran";
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Data Perusahaan</h2>                
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="form-row">
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="">Nama Badan Usaha / Penyedia Jasa *</label>
+                            <input type="text" asp-for="ClientName" class="form-control" required autocomplete="off" >
+                            <span asp-validation-for="ClientName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6 col-xs-12">
+                            <label for="">Email</label>
+                            <input type="text" name="email" id="txtEmail" value="@(User.Identity?.Name)" readonly class="form-control" autocomplete="off" >
+                        </div>
+                    </div>
+                    <hr style="border-top: 1px dotted grey;">
+                    <form id="clientform" asp-action="SaveRegisterAngkut" asp-controller="Client" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Telp *</label>
+                                <input type="text" name="telp" id="txttelp" class="form-control" autofocus required autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Fax</label>
+                                <input type="text" name="fax" id="txtFax" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kota / Kabupaten Administrasi *</label>
+                                <select name="idKota" id="cbIdKota" class="form-control" required></select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kecamatan *</label>
+                                <select name="idKecamatan" id="cbIdKecamatan" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kelurahan *</label>
+                                <select name="idKelurahan" id="cbIdKelurahan" class="form-control" required></select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Alamat *</label>
+                                <input type="text" name="alamat" id="txtAlamat" class="form-control" required autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Izin Usaha yang diterbitkan oleh PTSP *</label>
+                                <input type="text" name="noIzinUsaha" id="noIzinUsaha" class="form-control" required autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Jumlah Kendaraan Berizin</label>
+                                <input type="number" name="JmlKendaraan" id="JmlKendaraan" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Tanggal Penerbitan Izin *</label>
+                                <div class="input-group flex-nowrap">
+                                    <input type="text" name="tglTerbitIzin" id="txtTglTerbit" class="form-control datepicker" required autocomplete="off" >
+                                    <div class="input-group-append">
+                                        <span class="input-group-text fs-xl">
+                                            <i class="fal fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Masa Berakhir Izin *</label>
+                                <div class="input-group flex-nowrap">
+                                    <input type="text" name="tglAkhirIzin" id="tglAkhirIzin" class="form-control datepicker" required autocomplete="off" >
+                                    <div class="input-group-append">
+                                        <span class="input-group-text fs-xl">
+                                            <i class="fal fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Induk Berusaha (NIB) *</label>
+                                <input type="text" name="NIB" id="NIB" class="form-control" required autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Nama Penanggung Jawab</label>
+                                <input type="text" name="tggjawab" id="tggjawab" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Nama PIC</label>
+                                <input type="text" name="pic" id="pic" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No HP PIC</label>
+                                <input type="text" name="hppic" id="hppic" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success">Berikutnya</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

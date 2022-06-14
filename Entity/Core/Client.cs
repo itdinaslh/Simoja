@@ -9,9 +9,11 @@ public class Client {
     public int ClientId { get; set; }
 
     #nullable disable
-    [Required]
+    [Required(ErrorMessage = "Nama PT / Badan Usaha Wajib Diisi")]
     [MaxLength(100)]
-    public string UserName { get; set; }
+    public string ClientName { get; set; }
+
+    public bool IsVerified { get; set; } = false;
 
     [Required]
     public string UserId { get; set; }

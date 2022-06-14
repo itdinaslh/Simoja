@@ -69,14 +69,14 @@
         <!-- BEGIN Page Wrapper -->
         <div class="page-wrapper">
             <div class="page-inner">
+                <!-- Left Sidebar -->
+                <partial name="_SidebarRegister" />
                 <div class="page-content-wrapper">
                     <!-- Page Header -->
                     <partial name="_HeaderAdmin" />
                     <!-- BEGIN Page Content -->
                     <!-- the #js-page-content id is needed for some plugins to initialize -->
                     <main id="js-page-content" role="main" class="page-content">
-                        <partial name="_Beadcrumb" />
-
                         @RenderBody()
                     </main>
                     <!-- this overlay is activated only when mobile menu is triggered -->
