@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    PopulateKota();
+})
+
 $('#cbIdKota').on('change', function() {
     var idkec = $('#cbIdKota option:selected').val();
     $('#cbIdKecamatan').val(null).trigger('change');
@@ -14,19 +18,20 @@ function PopulateKota() {
     $('#cbIdKota').select2({
         placeholder: 'Pilih Kota / Kabupaten...',
             ajax: {
-                url: '/master/kota/search',
+                url: '/api/address/kabupaten/search',
+                contentType: "application/json; charset=utf-8",
                 data: function(params) {
-                    return {
-                        q: params.term
-                    }
-                },
-                dataType: 'json',
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
+                },                
                 delay: 100,
                 processResults: function (data) {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.NamaKota,
+                                text: item.namaKabupaten,
                                 id: item.id
                             }
                         })
@@ -41,11 +46,12 @@ function loadKecamatan(theID) {
     $('#cbIdKecamatan').select2({
         placeholder: 'Pilih Kecamatan...',
         ajax: {
-            url: '/master/kecamatan/search/' + theID,
+            url: '/api/address/kecamatan/search/?theID=' + theID,
             data: function(params) {
-                return {
-                    q: params.term
-                }
+                var query = {
+                    term: params.term,
+                };
+                return query;
             },
             dataType: 'json',
             delay: 100,
@@ -53,7 +59,7 @@ function loadKecamatan(theID) {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.NamaKecamatan,
+                            text: item.namaKecamatan,
                             id: item.id
                         }
                     })
@@ -68,11 +74,12 @@ function loadKelurahan(theID) {
     $('#cbIdKelurahan').select2({
         placeholder: 'Pilih Kelurahan...',
         ajax: {
-            url: '/master/kelurahan/search/' + theID,
+            url: '/api/address/kelurahan/search/?theID=' + theID,
             data: function(params) {
-                return {
-                    q: params.term
-                }
+                var query = {
+                    term: params.term,
+                };
+                return query;
             },
             dataType: 'json',
             delay: 100,
@@ -80,7 +87,7 @@ function loadKelurahan(theID) {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.NamaKelurahan,
+                            text: item.namaKelurahan,
                             id: item.id
                         }
                     })

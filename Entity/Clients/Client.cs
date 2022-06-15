@@ -20,26 +20,31 @@ public class Client {
     [Required]
     public string UserId { get; set; }
 
-    #nullable enable
     [MaxLength(15)]
-    public string? Telp { get; set; }
+    [Required(ErrorMessage = "No Telp Wajib Diisi")]
+    public string Telp { get; set; }
 
+    #nullable enable
+   
     [MaxLength(15)]
     public string? Fax { get; set; }
 
+
+    #nullable disable
     [MaxLength(15)]
     public string? KelurahanID { get; set; }
-
+    
     [MaxLength(150)]
-    public string? Alamat { get; set;}
+    public string Alamat { get; set;}
 
+    #nullable enable
     [MaxLength(50)]
     public string? Latitude { get; set; }
 
     [MaxLength(50)]
     public string? Longitude { get; set; }
 
-    public int JenisUsahaId { get; set; }
+    public int? JenisUsahaId { get; set; }
 
     [MaxLength(75)]
     public string? PenanggungJawab { get; set; }

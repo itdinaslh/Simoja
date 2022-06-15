@@ -14,4 +14,6 @@ public class PihakAngkut {
     public string NamaPihak { get; set; }
 
     public bool? IsActive { get; set; } = true;
+
+    public List<DetailKawasan> DetailKawasans { get; set; }
 }

@@ -70,6 +70,8 @@ public class DetailKawasan {
     #nullable disable
     public Client Client;
 
+    public StatusKelola StatusKelola { get; set; }
+
     public JenisKegiatan JenisKegiatan { get; set; }
 
     #nullable enable

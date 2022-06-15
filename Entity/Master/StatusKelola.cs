@@ -14,4 +14,6 @@ public class StatusKelola {
     public string NamaStatus { get; set; }
 
     public bool? IsActive { get; set; } = true;
+
+    public List<DetailKawasan> DetailKawasans { get; set; }
 }

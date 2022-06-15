@@ -22,4 +22,10 @@ public class AppDbContext : DbContext {
     public DbSet<Kelurahan> Kelurahans { get; set; }
 
     public DbSet<Client> Clients { get; set; }
+
+    public DbSet<DetailAngkut> DetailAngkuts { get; set; }
+
+    public DbSet<DetailOlah> DetailOlahs { get; set; }
+
+    public DbSet<DetailKawasan> DetailKawasans { get; set; }
 }

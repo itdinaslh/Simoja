@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220615160926_UpdateDetailKawasan")]
+    partial class UpdateDetailKawasan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -496,7 +498,7 @@ namespace Simoja.Migrations
             modelBuilder.Entity("Simoja.Entity.Client", b =>
                 {
                     b.HasOne("Simoja.Entity.Kelurahan", "Kelurahan")
-                        .WithMany("Clients")
+                        .WithMany()
                         .HasForeignKey("KelurahanID");
 
                     b.Navigation("Kelurahan");
@@ -522,17 +524,17 @@ namespace Simoja.Migrations
                         .IsRequired();
 
                     b.HasOne("Simoja.Entity.JenisKegiatan", "JenisKegiatan")
-                        .WithMany("DetailKawasans")
+                        .WithMany()
                         .HasForeignKey("JenisKegiatanID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Simoja.Entity.PihakAngkut", "PihakAngkut")
-                        .WithMany("DetailKawasans")
+                        .WithMany()
                         .HasForeignKey("PihakAngkutID");
 
                     b.HasOne("Simoja.Entity.StatusKelola", "StatusKelola")
-                        .WithMany("DetailKawasans")
+                        .WithMany()
                         .HasForeignKey("StatusKelolaID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -591,11 +593,6 @@ namespace Simoja.Migrations
                     b.Navigation("DetailOlah");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.JenisKegiatan", b =>
-                {
-                    b.Navigation("DetailKawasans");
-                });
-
             modelBuilder.Entity("Simoja.Entity.Kabupaten", b =>
                 {
                     b.Navigation("Kecamatans");
@@ -606,24 +603,9 @@ namespace Simoja.Migrations
                     b.Navigation("Kelurahans");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.Kelurahan", b =>
-                {
-                    b.Navigation("Clients");
-                });
-
-            modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>
-                {
-                    b.Navigation("DetailKawasans");
-                });
-
             modelBuilder.Entity("Simoja.Entity.Provinsi", b =>
                 {
                     b.Navigation("Kabupatens");
-                });
-
-            modelBuilder.Entity("Simoja.Entity.StatusKelola", b =>
-                {
-                    b.Navigation("DetailKawasans");
                 });
 #pragma warning restore 612, 618
         }
