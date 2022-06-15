@@ -8,6 +8,8 @@ public class Client {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ClientId { get; set; }
 
+    public Guid ClientGuid { get; set; } = new Guid();
+
     #nullable disable
     [Required(ErrorMessage = "Nama PT / Badan Usaha Wajib Diisi")]
     [MaxLength(100)]
@@ -48,23 +50,17 @@ public class Client {
     [MaxLength(15)]
     public string? NoHpPIC { get; set; }
 
-    [MaxLength(75)]
-    public string? NoIzinUsaha { get; set; }
-    
-    public DateOnly? TglTerbitIzin { get; set; }
-
-    public DateOnly? TglAkhirIzin { get; set; }
-
-    public string? DokumenIzinPath { get; set; }
-
-    [MaxLength(75)]
-    public string? NIB { get; set; }
-
-    public string? DokumenNIBPath { get; set ;}
-
+    #nullable enable
     public DateTime? CreatedAt { get; set ;} = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
     
-    public Kelurahan? Kelurahan { get; set; }
+    #nullable disable
+    public Kelurahan Kelurahan { get; set; }
+
+    public DetailAngkut DetailAngkut { get; set; }
+
+    public DetailOlah DetailOlah { get; set; }
+
+    public DetailKawasan DetailKawasan { get; set; }
 }

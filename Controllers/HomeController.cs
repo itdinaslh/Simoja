@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Repository;
+using Simoja.Entity;
 
 namespace Simoja.Controllers;
 
@@ -57,5 +58,14 @@ public class HomeController : Controller
     [HttpGet("/clients/pendaftaran")]
     public IActionResult Register() {
         return View();
+    }
+
+    [HttpPost("clients/pendaftaran")]
+    public IActionResult Register(Client client) {
+        if (ModelState.IsValid) {
+
+        }
+
+        return View(client);
     }
 }
