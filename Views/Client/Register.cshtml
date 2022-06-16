@@ -18,8 +18,10 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">                    
-                    <form id="clientform" asp-action="SaveRegisterAngkut" asp-controller="Client" method="post">
+                    <form id="clientform" asp-action="Register" asp-controller="Client" method="post">
                         <div class="form-row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="ClientId" />
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Nama Badan Usaha / Penyedia Jasa *</label>
                                 <input type="text" asp-for="ClientName" class="form-control" required autofocus autocomplete="off" >
@@ -27,7 +29,7 @@
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Email</label>
-                                <input type="text" value="@(User.Identity?.Name)" readonly class="form-control" autocomplete="off" >
+                                <input type="text" value="@(User.Identity?.Name)" asp-for="UserId" readonly class="form-control" autocomplete="off" >
                             </div>
                         </div>
                         <hr style="border-top: 1px dotted grey;">

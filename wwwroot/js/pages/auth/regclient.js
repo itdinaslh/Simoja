@@ -25,7 +25,6 @@ $(document).ready(function() {
     });
 
 
-
     $('#jkeg').select2({
         placeholder: 'Pilih jenis Kegiaan...',
             ajax: {
@@ -126,7 +125,7 @@ $(document).ready(function() {
             }
     });
 
-    PopulateKota();
+    // PopulateKota();
 
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -135,8 +134,7 @@ $(document).ready(function() {
 });
 
 $("#fileIzin").dropzone({
-    url: "/clients/upload/izin",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+    url: "/clients/upload/izin",    
     success: function (file, response) {
         var imgName = response;
         file.previewElement.classList.add("dz-success");

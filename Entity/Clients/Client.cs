@@ -8,7 +8,7 @@ public class Client {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ClientId { get; set; }
 
-    public Guid ClientGuid { get; set; } = new Guid();
+    public Guid ClientGuid { get; set; } = Guid.NewGuid();
 
     #nullable disable
     [Required(ErrorMessage = "Nama PT / Badan Usaha Wajib Diisi")]
@@ -32,7 +32,7 @@ public class Client {
 
     #nullable disable
     [MaxLength(15)]
-    public string? KelurahanID { get; set; }
+    public string KelurahanID { get; set; }
     
     [MaxLength(150)]
     public string Alamat { get; set;}
