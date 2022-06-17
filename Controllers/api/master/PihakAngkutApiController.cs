@@ -44,4 +44,17 @@ public class PihakAngkutApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/kawasan/pihak-angkut/search")]
+    public async Task<IActionResult> SearchPihakAngkut(string? term) {
+        var data = await repo.PihakAngkuts
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaPihak.ToLower().Contains(term.ToLower()) : true            
+            ).Select(jen => new {
+                id = jen.PihakAngkutID,
+                namaPihak = jen.NamaPihak
+            }).Take(5).ToListAsync();
+
+        return Ok(data);
+    }
 }

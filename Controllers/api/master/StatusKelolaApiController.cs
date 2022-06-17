@@ -44,4 +44,17 @@ public class StatusKelolaApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/kawasan/status/search")]
+    public async Task<IActionResult> SearchStatusKelola(string? term) {
+        var data = await repo.StatusKelolas
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaStatus.ToLower().Contains(term.ToLower()) : true            
+            ).Select(jen => new {
+                id = jen.StatusKelolaID,
+                namaStatus = jen.NamaStatus
+            }).Take(5).ToListAsync();
+
+        return Ok(data);
+    }
 }

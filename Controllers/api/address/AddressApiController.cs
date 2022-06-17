@@ -28,7 +28,7 @@ public class AddressApiController : Controller {
     }
 
     [HttpGet("/api/address/kecamatan/search")]
-    public async Task<IActionResult> SearchKecamatan(string theID,string? term) {
+    public async Task<IActionResult> SearchKecamatan(string theID, string? term) {
         var data = await repo.Kecamatans
             .Where(kab => kab.KabupatenID == theID)
             .Where(k => !String.IsNullOrEmpty(term) ?

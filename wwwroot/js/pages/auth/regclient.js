@@ -49,14 +49,17 @@ $(document).ready(function() {
                 cache: true
             }
     });
+
     $('#jkegkawasan').select2({
-        placeholder: 'Pilih jenis Kegiaan...',
+        placeholder: 'Pilih jenis Kegiatan...',
             ajax: {
-                url: '/master/kawasan/jenis/ajaxReg',
+                url: '/api/master/kawasan/jenis/search',
                 data: function(params) {
-                    return {
-                        q: params.term
-                    }
+                    var query = {
+                        term: params.term,
+                    };
+                    
+                    return query;
                 },
                 dataType: 'json',
                 delay: 100,
@@ -64,7 +67,7 @@ $(document).ready(function() {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.NamaJenis,
+                                text: item.namaKegiatan,
                                 id: item.id
                             }
                         })
@@ -74,15 +77,16 @@ $(document).ready(function() {
             }
     });
 
-
     $('#statuslola').select2({
         placeholder: 'Pilih Status Pengelolaan...',
             ajax: {
-                url: '/master/kawasan/status/ajaxReg',
+                url: '/api/master/kawasan/status/search',
                 data: function(params) {
-                    return {
-                        q: params.term
-                    }
+                    var query = {
+                        term: params.term,
+                    };
+                    
+                    return query;
                 },
                 dataType: 'json',
                 delay: 100,
@@ -90,7 +94,7 @@ $(document).ready(function() {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.NamaStatus,
+                                text: item.namaStatus,
                                 id: item.id
                             }
                         })
@@ -103,11 +107,13 @@ $(document).ready(function() {
     $('#pihakangkut').select2({
         placeholder: 'Pilih Pihak Pengangkutan...',
             ajax: {
-                url: '/master/kawasan/pihak/ajaxReg',
+                url: '/api/master/kawasan/pihak-angkut/search',
                 data: function(params) {
-                    return {
-                        q: params.term
-                    }
+                    var query = {
+                        term: params.term,
+                    };
+                    
+                    return query;
                 },
                 dataType: 'json',
                 delay: 100,
@@ -115,7 +121,7 @@ $(document).ready(function() {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.NamaPihak,
+                                text: item.namaPihak,
                                 id: item.id
                             }
                         })
@@ -247,44 +253,137 @@ $('#clientform').submit(function(e) {
 });
 
 $("#wadah").dropzone({
-    url: "/clients/upload/wadah",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    success: function (file, response) {
-        var imgName = response;
-        file.previewElement.classList.add("dz-success");
-        console.log("Successfully uploaded :" + imgName);
-        $('#WadahIsAdded').val('WadahIsAdded');
+    addRemoveLinks: true,
+    paramName: "files",
+    url: "/clients/upload/wadah",    
+    init: function() {
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/wadah').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
     },
-    error: function (file, response) {
-        file.previewElement.classList.add("dz-error");
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/wadah/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
     }
 });
 
 $("#tps").dropzone({
-    url: "/clients/upload/tps",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    success: function (file, response) {
-        var imgName = response;
-        file.previewElement.classList.add("dz-success");
-        console.log("Successfully uploaded :" + imgName);
-        $('#TPSIsAdded').val('TPSIsAdded');
+    addRemoveLinks: true,
+    paramName: "files",
+    url: "/clients/upload/tps",    
+    init: function() {
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/tps').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
     },
-    error: function (file, response) {
-        file.previewElement.classList.add("dz-error");
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/tps/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
     }
 });
 
 $("#pengolahan").dropzone({
-    url: "/clients/upload/pengolahan",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-    success: function (file, response) {
-        var imgName = response;
-        file.previewElement.classList.add("dz-success");
-        console.log("Successfully uploaded :" + imgName);
-        $('#PengolahanIsAdded').val('PengolahanIsAdded');
+    addRemoveLinks: true,
+    paramName: "files",
+    url: "/clients/upload/pengolahan",    
+    init: function() {
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/pengolahan').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
     },
-    error: function (file, response) {
-        file.previewElement.classList.add("dz-error");
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/pengolahan/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+        });
     }
 });
 $('#clientform2').submit(function(e) {

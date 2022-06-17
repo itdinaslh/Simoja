@@ -44,4 +44,17 @@ public class JenisKegiatanApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/kawasan/jenis/search")]
+    public async Task<IActionResult> SearchKegiatan(string? term) {
+        var data = await repo.JenisKegiatans
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaKegiatan.ToLower().Contains(term.ToLower()) : true            
+            ).Select(jen => new {
+                id = jen.JenisKegiatanID,
+                namaKegiatan = jen.NamaKegiatan
+            }).Take(5).ToListAsync();
+
+        return Ok(data);
+    }
 }

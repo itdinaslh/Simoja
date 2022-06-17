@@ -112,6 +112,8 @@ public class ClientController : Controller {
         return View(new DetailKawasan());
     }
 
+    // Upload Function
+
     [HttpPost("/clients/upload/izin")]
     public async Task<IActionResult> UploadIzin(List<IFormFile> files) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
@@ -164,11 +166,91 @@ public class ClientController : Controller {
         return Json(Result.Success());
     }
 
+    [HttpPost("/clients/upload/wadah")]
+    public async Task<IActionResult> UploadWadah(List<IFormFile> files) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid  + "/wadah");            
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+
+        return Json(Result.Success());
+    }
+
+    [HttpPost("/clients/upload/tps")]
+    public async Task<IActionResult> UploadTPS(List<IFormFile> files) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid  + "/tps");            
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+
+        return Json(Result.Success());
+    }
+
+    [HttpPost("/clients/upload/pengolahan")]
+    public async Task<IActionResult> UploadPengolahan(List<IFormFile> files) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid  + "/pengolahan");            
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+
+        return Json(Result.Success());
+    }
+
+
+    // Get Folder Contents For Dropzone Preview
     [HttpGet("/clients/dokumen/izin")]
     public async Task<JsonResult> GetFolderIzinContents() {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var folderPath = "wwwroot/upload/dokumen/izin/" + c.ClientGuid;
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/izin";
 
         if (!Directory.Exists(folderPath))
             return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
@@ -186,7 +268,7 @@ public class ClientController : Controller {
             galleryItems.Add(new FileItem
             {
                 Name = fileInfo.Name,
-                FilePath = "/upload/dokumen/izin/" + c.ClientGuid + "/" + fileInfo.Name,
+                FilePath = "/upload/" + c.ClientGuid + "/izin/" + fileInfo.Name,
                 FileSize = fileInfo.Length
             });
         }
@@ -198,7 +280,7 @@ public class ClientController : Controller {
     public async Task<JsonResult> GetFolderNIBContents() {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var folderPath = "wwwroot/upload/dokumen/nib/" + c.ClientGuid;
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/nib";
 
         if (!Directory.Exists(folderPath))
             return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
@@ -216,7 +298,7 @@ public class ClientController : Controller {
             galleryItems.Add(new FileItem
             {
                 Name = fileInfo.Name,
-                FilePath = "/upload/dokumen/nib/" + c.ClientGuid + "/" + fileInfo.Name,
+                FilePath = "/upload/" + c.ClientGuid + "/nib/" + fileInfo.Name,
                 FileSize = fileInfo.Length
             });
         }
@@ -224,6 +306,97 @@ public class ClientController : Controller {
         return new JsonResult(galleryItems) { StatusCode = 200 };
     }
 
+    [HttpGet("/clients/dokumen/wadah")]
+    public async Task<JsonResult> GetFolderWadahContents() {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/wadah";
+
+        if (!Directory.Exists(folderPath))
+            return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
+
+        var folderItems = Directory.GetFiles(folderPath);
+
+        if (folderItems.Length == 0)
+            return new JsonResult("Folder is empty!") { StatusCode = (int)HttpStatusCode.NoContent };
+
+        var galleryItems = new List<FileItem>();
+
+        foreach (var file in folderItems)
+        {
+            var fileInfo = new FileInfo(file);
+            galleryItems.Add(new FileItem
+            {
+                Name = fileInfo.Name,
+                FilePath = "/upload/" + c.ClientGuid + "/wadah/" + fileInfo.Name,
+                FileSize = fileInfo.Length
+            });
+        }
+
+        return new JsonResult(galleryItems) { StatusCode = 200 };
+    }
+
+    [HttpGet("/clients/dokumen/tps")]
+    public async Task<JsonResult> GetFolderTPSContents() {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/tps";
+
+        if (!Directory.Exists(folderPath))
+            return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
+
+        var folderItems = Directory.GetFiles(folderPath);
+
+        if (folderItems.Length == 0)
+            return new JsonResult("Folder is empty!") { StatusCode = (int)HttpStatusCode.NoContent };
+
+        var galleryItems = new List<FileItem>();
+
+        foreach (var file in folderItems)
+        {
+            var fileInfo = new FileInfo(file);
+            galleryItems.Add(new FileItem
+            {
+                Name = fileInfo.Name,
+                FilePath = "/upload/" + c.ClientGuid + "/tps/" + fileInfo.Name,
+                FileSize = fileInfo.Length
+            });
+        }
+
+        return new JsonResult(galleryItems) { StatusCode = 200 };
+    }
+
+    [HttpGet("/clients/dokumen/pengolahan")]
+    public async Task<JsonResult> GetFolderPengolahanContents() {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/pengolahan";
+
+        if (!Directory.Exists(folderPath))
+            return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
+
+        var folderItems = Directory.GetFiles(folderPath);
+
+        if (folderItems.Length == 0)
+            return new JsonResult("Folder is empty!") { StatusCode = (int)HttpStatusCode.NoContent };
+
+        var galleryItems = new List<FileItem>();
+
+        foreach (var file in folderItems)
+        {
+            var fileInfo = new FileInfo(file);
+            galleryItems.Add(new FileItem
+            {
+                Name = fileInfo.Name,
+                FilePath = "/upload/" + c.ClientGuid + "/pengolahan/" + fileInfo.Name,
+                FileSize = fileInfo.Length
+            });
+        }
+
+        return new JsonResult(galleryItems) { StatusCode = 200 };
+    }
+
+    // Dropzone Delete Function
     [HttpGet("/clients/dokumen/izin/delete")]
     public async Task<JsonResult> DeleteFileIzin(string file) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
@@ -244,6 +417,51 @@ public class ClientController : Controller {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/nib/" + file);
+
+        try {
+            System.IO.File.Delete(filePath);
+        } catch {
+            return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
+    }
+
+    [HttpGet("/clients/dokumen/wadah/delete")]
+    public async Task<JsonResult> DeleteFileWadah(string file) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/wadah/" + file);
+
+        try {
+            System.IO.File.Delete(filePath);
+        } catch {
+            return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
+    }
+
+    [HttpGet("/clients/dokumen/tps/delete")]
+    public async Task<JsonResult> DeleteFileTPS(string file) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/tps/" + file);
+
+        try {
+            System.IO.File.Delete(filePath);
+        } catch {
+            return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
+    }
+
+    [HttpGet("/clients/dokumen/pengolahan/delete")]
+    public async Task<JsonResult> DeleteFilPengolahan(string file) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/pengolahan/" + file);
 
         try {
             System.IO.File.Delete(filePath);

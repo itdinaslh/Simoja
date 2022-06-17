@@ -24,6 +24,7 @@ function PopulateKota() {
                     var query = {
                         term: params.term,
                     };
+                    
                     return query;
                 },                
                 delay: 100,
