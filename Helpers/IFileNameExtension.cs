@@ -1,12 +1,14 @@
-public static class IFileNameExtension {
-    public static string TempFileName(this IFormFile file, bool randomName = true) {
+public static class IFileNameExtension
+{
+    public static string TempFileName(this IFormFile file, bool randomName = true)
+    {
         var ext = file.FileName.Substring(file.FileName.LastIndexOf('.'));
 
-        var filename = randomName ? Path.GetTempFileName() : file.FileName;
+        var fileName = randomName ? Path.GetTempFileName() : file.FileName;
 
-        var start = filename.LastIndexOf('\\');
-        var end = filename.LastIndexOf('.');
+        var start = fileName.LastIndexOf('\\');
+        var end = fileName.LastIndexOf('.');
 
-        return filename.Substring(start, end - start) + ext;
+        return fileName.Substring(start, end - start) + ext;
     }
 }

@@ -3,7 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Repository;
+using Simoja.Helpers;
 using Simoja.Entity;
+using System.Net;
+using System.Drawing;
+
 
 namespace Simoja.Controllers;
 
@@ -72,17 +76,145 @@ public class ClientController : Controller {
         return View(new DetailAngkut());
     }
 
-    [HttpGet("/clients/upload/izin")]
-    public async Task UploadIzin(List<IFormFile> files) {
-        foreach (var file in files) {
-            // get file names uploaded
-            var filename = file.TempFileName();
+    [HttpPost("/clients/upload/izin")]
+    public async Task<IActionResult> UploadIzin(List<IFormFile> files) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-            if (file.Length > 0) {
-                using (var stream = new FileStream($"wwwroot\\upload\\{filename}", FileMode.Create)) {
-                    await file.CopyToAsync(stream);
-                }
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/dokumen/izin/" + c.ClientGuid);            
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
             }
+
         }
+
+        return Json(Result.Success());
+    }
+
+    [HttpPost("/clients/upload/nib")]
+    public async Task<IActionResult> UploadNIB(List<IFormFile> files) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/dokumen/nib/" + c.ClientGuid);            
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+
+        return Json(Result.Success());
+    }
+
+    [HttpGet("/clients/dokumen/izin")]
+    public async Task<JsonResult> GetFolderIzinContents() {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var folderPath = "wwwroot/upload/dokumen/izin/" + c.ClientGuid;
+
+        if (!Directory.Exists(folderPath))
+            return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
+
+        var folderItems = Directory.GetFiles(folderPath);
+
+        if (folderItems.Length == 0)
+            return new JsonResult("Folder is empty!") { StatusCode = (int)HttpStatusCode.NoContent };
+
+        var galleryItems = new List<FileItem>();
+
+        foreach (var file in folderItems)
+        {
+            var fileInfo = new FileInfo(file);
+            galleryItems.Add(new FileItem
+            {
+                Name = fileInfo.Name,
+                FilePath = "/upload/dokumen/izin/" + c.ClientGuid + "/" + fileInfo.Name,
+                FileSize = fileInfo.Length
+            });
+        }
+
+        return new JsonResult(galleryItems) { StatusCode = 200 };
+    }
+
+    [HttpGet("/clients/dokumen/nib")]
+    public async Task<JsonResult> GetFolderNIBContents() {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var folderPath = "wwwroot/upload/dokumen/nib/" + c.ClientGuid;
+
+        if (!Directory.Exists(folderPath))
+            return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
+
+        var folderItems = Directory.GetFiles(folderPath);
+
+        if (folderItems.Length == 0)
+            return new JsonResult("Folder is empty!") { StatusCode = (int)HttpStatusCode.NoContent };
+
+        var galleryItems = new List<FileItem>();
+
+        foreach (var file in folderItems)
+        {
+            var fileInfo = new FileInfo(file);
+            galleryItems.Add(new FileItem
+            {
+                Name = fileInfo.Name,
+                FilePath = "/upload/dokumen/nib/" + c.ClientGuid + "/" + fileInfo.Name,
+                FileSize = fileInfo.Length
+            });
+        }
+
+        return new JsonResult(galleryItems) { StatusCode = 200 };
+    }
+
+    [HttpGet("/clients/dokumen/izin/delete")]
+    public async Task<JsonResult> DeleteFileIzin(string file) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var filePath = Path.Combine("wwwroot/upload/dokumen/izin/" + c.ClientGuid + "/" + file);
+
+        try {
+            System.IO.File.Delete(filePath);
+        } catch {
+            return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
+    }
+
+    [HttpGet("/clients/dokumen/nib/delete")]
+    public async Task<JsonResult> DeleteFileNIB(string file) {
+        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        var filePath = Path.Combine("wwwroot/upload/dokumen/nib/" + c.ClientGuid + "/" + file);
+
+        try {
+            System.IO.File.Delete(filePath);
+        } catch {
+            return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
+        }
+
+        return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
     }
 }
