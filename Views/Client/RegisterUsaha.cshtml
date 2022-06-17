@@ -1,0 +1,210 @@
+@model Simoja.Entity.DetailKawasan
+
+@{
+    Layout = "_RegNew";
+    ViewBag.Title = "Usaha / Kegiatan";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Perizinan &amp; Data</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form id="clientform2" asp-controller="Client" asp-action="SaveRegisterUsaha" method="post">
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Nama Usaha / Kegiatan</label>
+                                <input type="text" name="usaha" id="usaha" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Jenis Kegiatan</label>
+                                <select name="jkegkawasan" id="jkegkawasan" class="form-control">
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Status Pengelolaan</label>
+                                <select name="statuslola" id="statuslola" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+                        <label for=""><b>DATA PENGELOLAAN SAMPAH EKSISTING</b> </label>
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Timbulan Sampah Rata-rata (kg / hari)</label>
+                                <input type="text" name="timbulan" id="timbulan" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Melakukan Pemilahan</label>
+                                <select id="city" name="dipilah" class="form-control">
+                                    <option value="1"> Ya </option>
+                                    <option value="2"> Tidak</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Jumlah Pemilahan</label>
+                                <input type="text" name="jmlpilah" id="jmlpilah" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Jenis Pemilahan :</label>
+                                <input type="text" name="jpemilahan" id="jpemilahan" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>                       
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Melakukan Upaya Pengurangan/Pembatasan Timbulan Sampah  (pilihan)</label>
+                                <select name="pembatasan" id="pembatasan" class="form-control">
+                                    <option value="1">Ya</option>
+                                    <option value="2">Tidak</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Upaya yang dilakukan </label>
+                                <input type="text" name="upaya" id="upaya" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Memiliki TPS :</label>
+                                <select name="punyatps" id="punyatps" class="form-control">
+                                    <option value="1">Ya</option>
+                                    <option value="2">Tidak</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">TPS Terpilah :</label>
+                                <select name="tpsterpilah" id="tpsterpilah" class="form-control">
+                                    <option value="1">Ya</option>
+                                    <option value="2">Tidak</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Dimensi TPS keseluruhan
+                                </label>
+                                <input type="text" name="dimensitps" id="dimensitps" placeholder="P x L x T (satuan meter)" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Melakukan Pengolahan Sampah :</label>
+                                <select name="isolah" id="isolah" class="form-control">
+                                    <option value="1">Ya</option>
+                                    <option value="2">Tidak</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Jenis Pengolahan
+                                </label>
+                                <input type="text" name="jenisolah" id="jenisolah" placeholder="Komposting, bsf, dll" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Lokasi pengolahan</label>
+                                <select name="lokasiolah" id="lokasiolah" class="form-control">
+                                    <option value="tps3r">TPS 3R (di dalam area)</option>
+                                    <option value="luarkawasan">Luar kawasan (di luar area)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kapasitas rata-rata pengolahan sampah (kg/hari)</label>
+                                <input type="text" name="avgolah" id="avgolah" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Pihak Pengangkut Residu Sampah</label>
+                                <select name="idpihakangkut" id="pihakangkut" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Pihak Pengolah Sampah</label>
+                                <input type="text" name="namapengolah" id="namapengolah" placeholder="Nama Pihak Pengolah" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">&nbsp</label>
+                                <input type="text" name="lokasiolahluar" id="lokasiolahluar" placeholder="Lokasi Pengolahan" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+                        <div class="form-row">
+                            <div class="form-grop col-md-4 col-xs-12">
+                                <label for="">Upload Wadah Pilah</label>
+                                <div id="wadah" class="dropzone needsclick">
+                                    <div class="dz-message needsclick">
+                                        <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                                        <span>Drop file disini atau Klik Untuk Upload.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-grop col-md-4 col-xs-12">
+                                <label for="">Upload TPS</label>
+                                <div id="tps" class="dropzone needsclick">
+                                    <div class="dz-message needsclick">
+                                        <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                                        <span>Drop file disini atau Klik Untuk Upload.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-grop col-md-4 col-xs-12">
+                                <label for="">Upload Jenis Pengolahan</label>
+                                <div id="pengolahan" class="dropzone needsclick">
+                                    <div class="dz-message needsclick">
+                                        <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                                        <span>Drop file disini atau Klik Untuk Upload.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success">Submit Data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/js/formplugins/dropzone/dropzone.js"></script>
+    <script src="~/js/pages/auth/regclient.js"></script>
+}

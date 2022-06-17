@@ -14,6 +14,10 @@ public class ClientService : IClient {
 
     public IQueryable<DetailAngkut> DetailAngkuts => context.DetailAngkuts;
 
+    public IQueryable<DetailOlah> DetailOlahs => context.DetailOlahs;
+
+    public IQueryable<DetailKawasan> DetailKawasans => context.DetailKawasans;
+
     public async Task SaveClientAsync(Client client) {
         #nullable disable
         if (client.ClientId == 0) {            

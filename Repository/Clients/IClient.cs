@@ -7,5 +7,9 @@ public interface IClient {
 
     IQueryable<DetailAngkut> DetailAngkuts { get; }
 
+    IQueryable<DetailOlah> DetailOlahs { get; }
+
+    IQueryable<DetailKawasan> DetailKawasans { get; }
+
     Task SaveClientAsync(Client client);
 }

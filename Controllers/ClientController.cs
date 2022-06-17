@@ -6,8 +6,6 @@ using Simoja.Repository;
 using Simoja.Helpers;
 using Simoja.Entity;
 using System.Net;
-using System.Drawing;
-
 
 namespace Simoja.Controllers;
 
@@ -27,6 +25,10 @@ public class ClientController : Controller {
         if (myClient is not null) {
             if (myClient.JenisUsahaId == 1) {
                 return RedirectToAction("RegisterAngkut");
+            } else if (myClient.JenisUsahaId == 2) {
+                return RedirectToAction("RegisterOlah");
+            } else {
+                return RedirectToAction("RegisterUsaha");
             }
         }
 
@@ -52,7 +54,11 @@ public class ClientController : Controller {
 
             client.JenisUsahaId = theID;
 
-            await repo.SaveClientAsync(client);
+            try {
+                await repo.SaveClientAsync(client);                
+            } catch {
+                return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };               
+            }
 
             return RedirectToAction(action);
         }
@@ -76,12 +82,42 @@ public class ClientController : Controller {
         return View(new DetailAngkut());
     }
 
+    [HttpGet("/clients/register/pengolahan")]
+    public async Task<IActionResult> RegisterOlah() {
+        int curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
+            .Select(ci => ci.ClientId)
+            .FirstOrDefaultAsync();
+
+        DetailOlah detail = await repo.DetailOlahs.Where(o => o.ClientId == curClient).FirstOrDefaultAsync();
+
+        if (detail is not null) {
+            return View(detail);
+        }
+
+        return View(new DetailOlah());
+    }
+
+    [HttpGet("/clients/register/usaha-kegiatan")]
+    public async Task<IActionResult> RegisterUsaha() {
+        int curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
+            .Select(ci => ci.ClientId)
+            .FirstOrDefaultAsync();
+
+        DetailKawasan detail = await repo.DetailKawasans.Where(o => o.ClientId == curClient).FirstOrDefaultAsync();
+
+        if (detail is not null) {
+            return View(detail);
+        }
+
+        return View(new DetailKawasan());
+    }
+
     [HttpPost("/clients/upload/izin")]
     public async Task<IActionResult> UploadIzin(List<IFormFile> files) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/dokumen/izin/" + c.ClientGuid);            
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/izin");            
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -107,7 +143,7 @@ public class ClientController : Controller {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/dokumen/nib/" + c.ClientGuid);            
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid  + "/nib");            
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -192,7 +228,7 @@ public class ClientController : Controller {
     public async Task<JsonResult> DeleteFileIzin(string file) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var filePath = Path.Combine("wwwroot/upload/dokumen/izin/" + c.ClientGuid + "/" + file);
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/izin/" + file);
 
         try {
             System.IO.File.Delete(filePath);
@@ -207,7 +243,7 @@ public class ClientController : Controller {
     public async Task<JsonResult> DeleteFileNIB(string file) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var filePath = Path.Combine("wwwroot/upload/dokumen/nib/" + c.ClientGuid + "/" + file);
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/nib/" + file);
 
         try {
             System.IO.File.Delete(filePath);
