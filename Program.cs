@@ -29,6 +29,7 @@ services.AddDbContext<AppDbContext>(options => {
     services.AddScoped<IClient, ClientService>();
     services.AddScoped<IAddressRepo, AddressService>();
     services.AddScoped<IDetailAngkut, DetailAngkutService>();
+    services.AddScoped<IKendaraan, KendaraanService>();
 }
 
 services.AddAuthentication(options => {
@@ -66,7 +67,8 @@ services.AddAuthentication(options => {
     options.MapInboundClaims = false;
 
     options.TokenValidationParameters.NameClaimType = "name";
-    options.TokenValidationParameters.RoleClaimType = "role";    
+    options.TokenValidationParameters.RoleClaimType = "role";
+      
 });
 
 services.AddHttpClient();

@@ -28,4 +28,8 @@ public class AppDbContext : DbContext {
     public DbSet<DetailOlah> DetailOlahs { get; set; }
 
     public DbSet<DetailKawasan> DetailKawasans { get; set; }
+
+    public DbSet<JenisKendaraan> JenisKendaraans { get; set; }
+
+    public DbSet<Kendaraan> Kendaraans { get; set; }
 }

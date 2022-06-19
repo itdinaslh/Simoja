@@ -95,18 +95,12 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/register/pengolahan")]
-    public async Task<IActionResult> RegisterOlah() {
-        int curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
-            .Select(ci => ci.ClientId)
-            .FirstOrDefaultAsync();
-
-        DetailOlah detail = await repo.DetailOlahs.Where(o => o.ClientId == curClient).FirstOrDefaultAsync();
-
-        if (detail is not null) {
-            return View(detail);
-        }
-
-        return View(new DetailOlah());
+    public IActionResult RegisterOlah() {
+        return View(new RegOlahModel{
+            DetailOlah = new DetailOlah(),
+            TglAwal = DateTime.Now.ToString("dd/MM/yyyy"),
+            TglAkhir = DateTime.Now.ToString("dd/MM/yyyy")
+        });
     }
 
     [HttpGet("/clients/register/usaha-kegiatan")]
@@ -502,5 +496,25 @@ public class ClientController : Controller {
         }
 
         return View("~/Views/Client/RegisterAngkut.cshtml", model);
+    }
+
+    [HttpPost("/clients/register/olah/save")]
+    // [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveDetailOlah(RegOlahModel model) {
+        Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        model.DetailOlah.ClientId = client.ClientId;
+        model.DetailOlah.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin";
+        model.DetailOlah.NIBPath = "/upload/" + client.ClientGuid + "/nib";
+        model.DetailOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        model.DetailOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+
+        if (ModelState.IsValid) {
+            await repo.SaveDetailOlah(model.DetailOlah);
+
+            return RedirectToAction("Waiting");
+        }
+
+        return View("~/Views/Client/RegisterOlah.cshtml", model);
     }
 }

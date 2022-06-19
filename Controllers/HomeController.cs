@@ -41,17 +41,33 @@ public class HomeController : Controller
             var data = await repo.DetailAngkuts.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
-                    return RedirectToAction("IndexAngkut");
+                    return RedirectToAction("Dashboard", "JasaAngkut");
 
                 return RedirectToAction("Waiting", "Client");                
             } else {
                 return RedirectToAction("RegisterAngkut", "Client");
             }
-        } else {
-            
-        }
+        } else if (thisClient.JenisUsahaId == 2) {
+            var data = await repo.DetailOlahs.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            if (data is not null) {
+                if (thisClient.IsVerified)
+                    return RedirectToAction("IndexOlah");
 
-        return View();
+                return RedirectToAction("Waiting", "Client");                
+            } else {
+                return RedirectToAction("RegisterOlah", "Client");
+            }
+        } else {
+            var data = await repo.DetailKawasans.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            if (data is not null) {
+                if (thisClient.IsVerified)
+                    return RedirectToAction("IndexUsaha");
+
+                return RedirectToAction("Waiting", "Client");                
+            } else {
+                return RedirectToAction("RegisterUsaha", "Client");
+            }
+        }        
     }
 
     public IActionResult Privacy()
@@ -65,7 +81,13 @@ public class HomeController : Controller
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 
-    public IActionResult IndexAngkut() {
+    [HttpGet("/dashboard/pengolahan")]
+    public IActionResult IndexOlah() {
+        return View();
+    }
+
+    [HttpGet("/dashboard/usaha-kegiatan")]
+    public IActionResult IndexUsaha() {
         return View();
     }
 

@@ -7,25 +7,26 @@ function loadContent() {
 }
 
 function loadTable() {
-    $('#tbJenis').DataTable().destroy();
-    $('#tbJenis').DataTable({
+    $('#tblData').DataTable().destroy();
+    $('#tblData').DataTable({
         serverSide: true,
         processing: true,
         responsive: true,
         lengthMenu:[5,10,20],
         pagingType: "simple_numbers",
         ajax: {
-            url: '/master/jasa/jeniskendaraan/ajax',
-            method: 'GET'
+            url: '/api/master/kendaraan/jenis',
+            method: 'POST'
         },
         columns: [
-            {data:'rownum', name:'rownum'},
-            {data:'NamaJenis', name:'NamaJenis'},
+            {data:'jenisKendaraanId', name:'jenisKendaraanId'},
+            {data:'globalId', name:'globalId'},
+            {data:'namaJenis', name:'namaJenis'},
             {
                 "render": function (data, type, row)
                 {
-                    return "<button class='btn btn-sm btn-outline-success mr-2 showMe' data-href='/master/jasa/jeniskendaraan/edit/"
-                    + row.id + "'><i class='fal fa-edit'></i> Edit</button>";
+                    return "<button class='btn btn-sm btn-outline-success mr-2 showMe' data-href='/master/kendaraan/jenis/edit/"
+                    + row.jenisKendaraanId + "'><i class='fal fa-edit'></i> Edit</button>";
                 }
             }
         ],

@@ -14,4 +14,6 @@ public interface IClient {
     Task SaveClientAsync(Client client);
 
     Task SaveDetailAngkut(DetailAngkut detail);
+
+    Task SaveDetailOlah(DetailOlah olah);
 }

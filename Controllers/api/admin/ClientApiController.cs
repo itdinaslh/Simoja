@@ -9,14 +9,16 @@ namespace Simoja.Controllers.api;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "SystemAdmin, SimojaAdmin")]
-public class JenisKegiatanApiController : Controller {
-    private IJenisKegiatan repo;
+[Authorize(Roles = "SimojaAdmin, SystemAdmin")]
+public class ClientApiController : Controller {
+    private IClient clientRepo;
 
-    public JenisKegiatanApiController(IJenisKegiatan jenisRepo) => repo = jenisRepo;
+    public ClientApiController(IClient cRepo) {
+        clientRepo = cRepo;
+    }
 
-    [HttpPost("/api/master/kawasan/jenis")]
-    public async Task<IActionResult> JenisKegiatanTable() {
+    [HttpPost("/api/admin/jasa/unverified")]
+    public async Task<IActionResult> JasaUnverified() {
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -27,35 +29,33 @@ public class JenisKegiatanApiController : Controller {
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.JenisKegiatans;
+        var init = clientRepo.Clients
+            .Where(c => c.JenisUsahaId != 3);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
         }
 
         if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => a.NamaKegiatan.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.ClientName.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
 
-        var result = await init.Skip(skip).Take(pageSize).ToListAsync();
+        var result = await init
+            .Select(c => new {
+                clientId = c.ClientId,
+                clientName = c.ClientName,
+                jenisUsaha = c.JenisUsahaId == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
+                email = c.UserId,
+                telp = c.Telp
+            })
+            .Skip(skip)
+            .Take(pageSize)
+            .ToListAsync();
 
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
-    }
-
-    [HttpGet("/api/master/kawasan/jenis/search")]
-    public async Task<IActionResult> SearchKegiatan(string? term) {
-        var data = await repo.JenisKegiatans
-            .Where(j => !String.IsNullOrEmpty(term) ?
-                j.NamaKegiatan.ToLower().Contains(term.ToLower()) : true            
-            ).Select(jen => new {
-                id = jen.JenisKegiatanID,
-                namaKegiatan = jen.NamaKegiatan
-            }).Take(5).ToListAsync();
-
-        return Ok(data);
     }
 }

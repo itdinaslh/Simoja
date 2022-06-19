@@ -10,13 +10,13 @@ namespace Simoja.Controllers.api;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Roles = "SystemAdmin, SimojaAdmin")]
-public class JenisKegiatanApiController : Controller {
-    private IJenisKegiatan repo;
+public class JenisKendaraanApiController : Controller {
+    private IKendaraan repo;
 
-    public JenisKegiatanApiController(IJenisKegiatan jenisRepo) => repo = jenisRepo;
+    public JenisKendaraanApiController(IKendaraan kRepo) => repo = kRepo;
 
-    [HttpPost("/api/master/kawasan/jenis")]
-    public async Task<IActionResult> JenisKegiatanTable() {
+    [HttpPost("/api/master/kendaraan/jenis")]
+    public async Task<IActionResult> JenisKendaraanTable() {
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -27,14 +27,14 @@ public class JenisKegiatanApiController : Controller {
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.JenisKegiatans;
+        var init = repo.JenisKendaraans;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
         }
 
         if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => a.NamaKegiatan.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.NamaJenis.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
@@ -44,18 +44,5 @@ public class JenisKegiatanApiController : Controller {
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
-    }
-
-    [HttpGet("/api/master/kawasan/jenis/search")]
-    public async Task<IActionResult> SearchKegiatan(string? term) {
-        var data = await repo.JenisKegiatans
-            .Where(j => !String.IsNullOrEmpty(term) ?
-                j.NamaKegiatan.ToLower().Contains(term.ToLower()) : true            
-            ).Select(jen => new {
-                id = jen.JenisKegiatanID,
-                namaKegiatan = jen.NamaKegiatan
-            }).Take(5).ToListAsync();
-
-        return Ok(data);
-    }
+    } 
 }

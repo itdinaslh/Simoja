@@ -68,4 +68,6 @@ public class Client {
     public DetailOlah DetailOlah { get; set; }
 
     public DetailKawasan DetailKawasan { get; set; }
+
+    public List<Kendaraan> Kendaraans { get; set; }
 }

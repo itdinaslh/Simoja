@@ -21,19 +21,21 @@ public class DetailOlah {
     [Required(ErrorMessage = "Tanggal Berakhir Izin Wajib Diisi")]
     public DateOnly TglAkhirIzin { get; set; }
 
-    [Required(ErrorMessage = "Wajib Upload Dokumen Izin!")]
-    public string DokumenIzinPath { get; set; }
+    #nullable enable
+    public string? DokumenIzinPath { get; set; }
 
+    #nullable disable
     [Required(ErrorMessage = "NIB Wajib Diisi!")]
     [MaxLength(100)]
     public string NIB { get; set; }
 
-    [Required(ErrorMessage = "Wajib Upload NIB")]
-    public string NIBPath { get; set; }
+    #nullable enable    
+    public string? NIBPath { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
+    #nullable disable
     public Client Client { get; set; }
 }   
