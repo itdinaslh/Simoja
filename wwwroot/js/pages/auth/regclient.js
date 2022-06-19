@@ -24,7 +24,6 @@ $(document).ready(function() {
             }
     });
 
-
     $('#jkeg').select2({
         placeholder: 'Pilih jenis Kegiaan...',
             ajax: {

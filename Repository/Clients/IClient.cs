@@ -12,4 +12,6 @@ public interface IClient {
     IQueryable<DetailKawasan> DetailKawasans { get; }
 
     Task SaveClientAsync(Client client);
+
+    Task SaveDetailAngkut(DetailAngkut detail);
 }

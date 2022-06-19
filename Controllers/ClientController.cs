@@ -17,6 +17,11 @@ public class ClientController : Controller {
         repo = cRepo;
     } 
 
+    [HttpGet("/clients/waiting")]
+    public IActionResult Waiting() {
+        return View();
+    }
+
     [HttpGet("/clients/register")]
     public async Task<IActionResult> Register() {
         #nullable disable
@@ -79,7 +84,14 @@ public class ClientController : Controller {
             return View(detail);
         }
 
-        return View(new DetailAngkut());
+        return View(new RegAngkutModel {
+            DetailAngkut = new DetailAngkut {
+                DokumenIzinPath = "/upload",
+                NIBPath = "/upload"
+            },
+            TglAwal = DateTime.Now.ToString("dd/MM/yyyy"),
+            TglAkhir = DateTime.Now.ToString("dd/MM/yyyy")
+        });
     }
 
     [HttpGet("/clients/register/pengolahan")]
@@ -244,8 +256,8 @@ public class ClientController : Controller {
         return Json(Result.Success());
     }
 
-
     // Get Folder Contents For Dropzone Preview
+
     [HttpGet("/clients/dokumen/izin")]
     public async Task<JsonResult> GetFolderIzinContents() {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
@@ -458,7 +470,7 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/dokumen/pengolahan/delete")]
-    public async Task<JsonResult> DeleteFilPengolahan(string file) {
+    public async Task<JsonResult> DeleteFilePengolahan(string file) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/pengolahan/" + file);
@@ -470,5 +482,25 @@ public class ClientController : Controller {
         }
 
         return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
+    }
+
+    [HttpPost("/clients/register/angkut/save")]
+    // [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SaveDetailAngkut(RegAngkutModel model) {
+        Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
+
+        model.DetailAngkut.ClientId = client.ClientId;
+        model.DetailAngkut.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin";
+        model.DetailAngkut.NIBPath = "/upload/" + client.ClientGuid + "/nib";
+        model.DetailAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        model.DetailAngkut.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+
+        if (ModelState.IsValid) {
+            await repo.SaveDetailAngkut(model.DetailAngkut);
+
+            return RedirectToAction("Waiting");
+        }
+
+        return View("~/Views/Client/RegisterAngkut.cshtml", model);
     }
 }

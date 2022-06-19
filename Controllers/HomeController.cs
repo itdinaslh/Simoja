@@ -27,12 +27,26 @@ public class HomeController : Controller
 
         string? currentUser = User.Identity?.Name;
 
-        var thisClient = await repo.Clients.Where(c => c.ClientName == currentUser).FirstOrDefaultAsync();
+        var thisClient = await repo.Clients.Where(c => c.UserId == currentUser)
+            .Select(c => new {
+                c.ClientId,
+                c.JenisUsahaId,
+                c.IsVerified
+            })
+            .FirstOrDefaultAsync();
 
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
-        } else if (thisClient.JenisUsahaId == 1) {
-            return RedirectToAction("IndexAngkut");
+        } else if (thisClient.JenisUsahaId == 1) {            
+            var data = await repo.DetailAngkuts.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            if (data is not null) {
+                if (thisClient.IsVerified)
+                    return RedirectToAction("IndexAngkut");
+
+                return RedirectToAction("Waiting", "Client");                
+            } else {
+                return RedirectToAction("RegisterAngkut", "Client");
+            }
         } else {
             
         }
@@ -55,17 +69,4 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpGet("/clients/pendaftaran")]
-    public IActionResult Register() {
-        return View();
-    }
-
-    [HttpPost("clients/pendaftaran")]
-    public IActionResult Register(Client client) {
-        if (ModelState.IsValid) {
-
-        }
-
-        return View(client);
-    }
 }

@@ -41,4 +41,24 @@ public class ClientService : IClient {
 
         await context.SaveChangesAsync();
     }
+
+    public async Task SaveDetailAngkut(DetailAngkut detail) {
+        if (detail.DetailAngkutId == 0) {
+            await context.AddAsync(detail);
+        } else {
+            DetailAngkut data = await context.DetailAngkuts.FindAsync(detail.DetailAngkutId);
+
+            if (data is not null) {
+                data.JmlAngkutan = detail.JmlAngkutan;
+                data.NoIzinUsaha = detail.NoIzinUsaha;
+                data.TglTerbitIzin = detail.TglTerbitIzin;
+                data.TglAkhirIzin = detail.TglAkhirIzin;
+                data.NIB = detail.NIB;
+
+                context.Update(data);
+            }
+        }
+
+        await context.SaveChangesAsync();
+    }
 }
