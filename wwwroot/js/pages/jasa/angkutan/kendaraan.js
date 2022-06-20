@@ -7,26 +7,26 @@ function loadTable() {
     $('#tblKendaraan').DataTable({
         serverSide: true,
         processing: true,
-        responsive: true,
+        responsive: true,        
         lengthMenu:[5,10,20],
         pagingType: "simple_numbers",
         ajax: {
-            url: '/clients/jasa/angkutan/kendaraan/ajaxindex',
-            method: 'GET'
+            url: '/api/clients/jasa/pengangkutan/kendaraan/list',
+            method: 'POST'
         },
         columns: [
-            {data:'id', name:'kendaraan.id'},
-            {data:'NoPolisi', name:'kendaraan.NoPolisi'},
-            {data:'NoPintu', name:'kendaraan.NoPintu'},
-            {data:'NamaJenis', name:'jeniskendaraan.NamaJenis'},
-            {data:'TahunPembuatan', name:'kendaraan.TahunPembuatan'},
-            {data:'TglBerlakuSTNK', name:'kendaraan.TglBerlakuSTNK'},
-            {data:'TglBerlakuKIR', name:'kendaraan.TglBerlakuKIR'},
+            {data:'kendaraanId', name:'kendaraanId'},            
+            {data:'noPolisi', name:'noPolisi'},            
+            {data:'noPintu', name:'noPintu'},
+            {data:'jenis', name:'jenis', searchable: false},
+            {data:'tahunPembuatan', name:'tahunPembuatan'},
+            {data:'tglSTNK', name:'tglSTNK'},
+            {data:'tglKIR', name:'tglKIR'},
             {
                 "render": function (data, type, row)
                 {
-                    return "<a class='btn btn-sm btn-outline-success mr-2' href='/clients/jasa/angkutan/kendaraan/details/"
-                    + row.id + "'><i class='fal fa-edit'></i> Data Kendaraan</a>";
+                    return "<a class='btn btn-sm btn-outline-success mr-2' href='/clients/jasa/kendaraan/details/?id="
+                    + row.uniqueId + "'><i class='fal fa-edit'></i> Data Kendaraan</a>";
                 }
             }
         ],

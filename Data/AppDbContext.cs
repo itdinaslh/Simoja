@@ -32,4 +32,6 @@ public class AppDbContext : DbContext {
     public DbSet<JenisKendaraan> JenisKendaraans { get; set; }
 
     public DbSet<Kendaraan> Kendaraans { get; set; }
+
+    public DbSet<LokasiAngkut> LokasiAngkuts { get; set; }
 }

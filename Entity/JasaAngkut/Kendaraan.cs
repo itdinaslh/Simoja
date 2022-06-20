@@ -11,6 +11,8 @@ public class Kendaraan {
 
     public int ClientId { get; set; }
 
+    public Guid UniqueId { get; set; } = Guid.NewGuid();
+
     #nullable disable
     [Required(ErrorMessage = "No Polisi wajib diisi")]
     [MaxLength(25, ErrorMessage = "Max 25 Karakter")]
@@ -21,6 +23,10 @@ public class Kendaraan {
     public string NoPintu { get; set; }
 
     public int JenisKendaraanId { get; set; }
+
+    [Required(ErrorMessage = "Tahun pembuatan wajib diisi")]
+    [MaxLength(4, ErrorMessage = "Maksimal 4 karakter")]
+    public string TahunPembuatan { get; set; }
 
     [Required(ErrorMessage = "Tanggal berlaku STNK wajib diisi")]
     public DateOnly TglSTNK { get; set; }

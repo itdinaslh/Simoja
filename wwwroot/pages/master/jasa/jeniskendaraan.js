@@ -25,7 +25,7 @@ function loadTable() {
             {
                 "render": function (data, type, row)
                 {
-                    return "<button class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/master/kendaraan/jenis/edit/"
+                    return "<button class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/master/kendaraan/jenis/edit/?jenisId="
                     + row.jenisKendaraanId + "'><i class='fal fa-edit'></i> Edit</button>";
                 }
             }

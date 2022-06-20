@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220619223419_AlterKendaraan")]
+    partial class AlterKendaraan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -512,52 +514,6 @@ namespace Simoja.Migrations
                     b.ToTable("Kendaraan");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.LokasiAngkut", b =>
-                {
-                    b.Property<int>("LokasiAngkutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LokasiAngkutId"));
-
-                    b.Property<string>("Alamat")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("KelurahanID")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.Property<string>("NamaLokasi")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateOnly?>("TglAkhirKontrak")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("TglAwalKontrak")
-                        .HasColumnType("date");
-
-                    b.Property<Guid>("UniqueId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("LokasiAngkutId");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("KelurahanID");
-
-                    b.HasIndex("UniqueId")
-                        .IsUnique();
-
-                    b.ToTable("LokasiAngkut");
-                });
-
             modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>
                 {
                     b.Property<int>("PihakAngkutID")
@@ -741,25 +697,6 @@ namespace Simoja.Migrations
                     b.Navigation("JenisKendaraan");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.LokasiAngkut", b =>
-                {
-                    b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithMany("LokasiAngkuts")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Simoja.Entity.Kelurahan", "Kelurahan")
-                        .WithMany("LokasiAngkuts")
-                        .HasForeignKey("KelurahanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-
-                    b.Navigation("Kelurahan");
-                });
-
             modelBuilder.Entity("Simoja.Entity.Client", b =>
                 {
                     b.Navigation("DetailAngkut");
@@ -769,8 +706,6 @@ namespace Simoja.Migrations
                     b.Navigation("DetailOlah");
 
                     b.Navigation("Kendaraans");
-
-                    b.Navigation("LokasiAngkuts");
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisKegiatan", b =>
@@ -796,8 +731,6 @@ namespace Simoja.Migrations
             modelBuilder.Entity("Simoja.Entity.Kelurahan", b =>
                 {
                     b.Navigation("Clients");
-
-                    b.Navigation("LokasiAngkuts");
                 });
 
             modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>

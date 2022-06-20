@@ -21,7 +21,7 @@ public class JenisKendaraanController : Controller {
     }
 
     [HttpGet("/master/kendaraan/jenis/create")]
-    public IActionResult Create() => PartialView("~/Views/Master/JenisKendaraan/AddEdit.csthml", new JenisKendaraan());
+    public IActionResult Create() => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", new JenisKendaraan());
 
     [HttpGet("/master/kendaraan/jenis/edit")]
     public async Task<IActionResult> Edit(int jenisId) => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", 
@@ -33,6 +33,7 @@ public class JenisKendaraanController : Controller {
     public async Task<IActionResult> SaveDataAsync(JenisKendaraan model) {
         if (ModelState.IsValid) {
             await repo.SaveDataAsync(model);
+            return Json(Result.Success());
         }
 
         return PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", model);

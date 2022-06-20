@@ -28,4 +28,6 @@ public class Kelurahan {
     public Kecamatan Kecamatan { get; set; }
 
     public List<Client> Clients { get; set; }
+
+    public List<LokasiAngkut> LokasiAngkuts { get; set; }
 }

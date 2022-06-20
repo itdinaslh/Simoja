@@ -1,7 +1,7 @@
 <aside class="page-sidebar">
     <div class="page-logo">
         <a href="#" class="page-logo-link press-scale-down d-flex align-items-center position-relative" data-toggle="modal" data-target="#modal-shortcut">
-            <img src="~/img/weblink/logo-dlh-small.png" width="40px" alt="System" aria-roledescription="logo">
+            <img src="~/img/logo/logo-dinas-30.png" width="40px" alt="System" aria-roledescription="logo">
             <span class="page-logo-text mr-1">SIMOJA</span>
             <span class="position-absolute text-white opacity-50 small pos-top pos-right mr-2 mt-n2"></span>
             <i class="fal fa-angle-down d-inline-block ml-1 fs-lg color-primary-300"></i>
@@ -32,14 +32,14 @@
                 </a>
             </li>
             <li class="nav-title">Data</li>
-            <li class="{{Request::is('clients/jasa/angkutan/*') ? 'active open' : ''}}">
+            <li class='@(ViewBag.Parent == "Perizinan" ? "active open" : "")'>
                 <a href="#" title="Data" data-filter-tags="data">
                     <i class="fal fa-clipboard"></i>
                     <span class="nav-link-text" data-i18n="nav.data">Data</span>
                 </a>
                 <ul>
-                    <li class="{{Request::path() == 'clients/jasa/angkutan/kendaraan' ? 'active' : ''}}">
-                        <a href="/clients/jasa/angkutan/kendaraan" title="Data Perizinan" data-filter-tags="data perizinan">
+                    <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
+                        <a asp-controller="JasaAngkut" asp-action="Kendaraan" title="Data Perizinan" data-filter-tags="data perizinan">
                             <span class="nav-link-text" data-i18n="nav.data_perizinan"> Data Perizinan</span>
                         </a>
                     </li>

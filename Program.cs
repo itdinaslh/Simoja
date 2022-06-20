@@ -30,6 +30,7 @@ services.AddDbContext<AppDbContext>(options => {
     services.AddScoped<IAddressRepo, AddressService>();
     services.AddScoped<IDetailAngkut, DetailAngkutService>();
     services.AddScoped<IKendaraan, KendaraanService>();
+    services.AddScoped<ILokasiAngkut, LokasiAngkutService>();
 }
 
 services.AddAuthentication(options => {

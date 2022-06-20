@@ -70,4 +70,6 @@ public class Client {
     public DetailKawasan DetailKawasan { get; set; }
 
     public List<Kendaraan> Kendaraans { get; set; }
+
+    public List<LokasiAngkut> LokasiAngkuts { get; set; }
 }
