@@ -13,11 +13,12 @@ function PopulateJenisKendaraan() {
     $('#vehicleType').select2({
         placeholder: 'Pilih Jenis Kendaraan...',
             ajax: {
-                url: '/kendaraan/jenis/search',
+                url: '/api/master/kendaraan/jenis/search',
                 data: function(params) {
-                    return {
-                        q: params.term
-                    }
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
                 },
                 dataType: 'json',
                 delay: 100,
@@ -25,7 +26,7 @@ function PopulateJenisKendaraan() {
                     return {
                         results: $.map(data, function (item) {
                             return {
-                                text: item.NamaJenis,
+                                text: item.namaJenis,
                                 id: item.id
                             }
                         })
@@ -42,69 +43,85 @@ $(document).on('load', function() {
     $('#fotoadded').val('');
 });
 
-// $('#clientform').submit(function(e) {
-//     e.preventDefault();
-//     var stnkdata = $('#docAdded').val();
-//     var kirdata = $('#locAdded').val();
-//     var fotodata = $('#techAdded').val();
-
-//     // $('input:text[required]').parent().show();
-
-//     if (stnkdata.length == 0) {
-//         alert('Harap Upload Dokumen STNK!');
-//     } else if (kirdata.length == 0) {
-//         alert('Harap Upload Dokumen KIR!');
-//     } else if (fotodata.length == 0) {
-//         alert('Harap Upload Foto Kendaraan!');
-//     } else {
-//         $.ajax({
-//             url: this.action,
-//             method: this.method,
-//             data: $(this).serialize(),
-//             success: function(result) {
-//                 if (result.success) {
-//                     window.location.href = '/clients/jasa/angkutan/kendaraan';
-//                 }
-//             }
-//         });
-//     }
-// });
-
 $(document).on('submit', '#clientform', function(e) {
     e.preventDefault();
-    var stnkdata = $('#stnkadded').val();
-    var kirdata = $('#kiradded').val();
-    var fotodata = $('#fotoadded').val();
+    // var stnkdata = $('#stnkadded').val();
+    // var kirdata = $('#kiradded').val();
+    // var fotodata = $('#fotoadded').val();
 
     // $('input:text[required]').parent().show();
 
-    if (stnkdata = '') {
-        alert('Harap Upload Dokumen STNK!');
-    } else if (kirdata == '') {
-        alert('Harap Upload Dokumen KIR!');
-    } else if (fotodata == '') {
-        alert('Harap Upload Foto Kendaraan!');
-    } else {
-        $.ajax({
-            url: this.action,
-            method: this.method,
-            data: $(this).serialize(),
-            success: function(result) {
-                if (result.success) {
-                    window.location.href = '/clients/jasa/angkutan/kendaraan';
-                }
+    // if (stnkdata = '') {
+    //     alert('Harap Upload Dokumen STNK!');
+    // } else if (kirdata == '') {
+    //     alert('Harap Upload Dokumen KIR!');
+    // } else if (fotodata == '') {
+    //     alert('Harap Upload Foto Kendaraan!');
+    // } else {
+    //     $.ajax({
+    //         url: this.action,
+    //         method: this.method,
+    //         data: $(this).serialize(),
+    //         success: function(result) {
+    //             if (result.success) {
+    //                 window.location.href = '/clients/jasa/angkutan/kendaraan';
+    //             }
+    //         }
+    //     });
+    // }
+
+    $.ajax({
+        url: this.action,
+        method: this.method,
+        data: $(this).serialize(),
+        success: function(result) {
+            if (result.success) {
+                window.location.href = '/clients/jasa/pengangkutan/kendaraan';
             }
-        });
-    }
+        }
+    });
 });
 
-$("#stnk").dropzone({
-    url: "/clients/jasa/angkutan/upload/stnk",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+$("#stnk").dropzone({    
+    paramName: "files",
+    url: "/clients/pengangkutan/upload/stnk?id=" + $('#UID').val(),    
     init: function() {
-        this.on("sending", function(file, xhr, formData) {
-          formData.append("pathuid", $('#theUID').val());
-          console.log(formData)
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/stnk').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
+    },
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/stnk/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
         });
     },
     success: function (file, response) {
@@ -118,13 +135,46 @@ $("#stnk").dropzone({
     }
 });
 
-$("#kir").dropzone({
-    url: "/clients/jasa/angkutan/upload/kir",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+$("#kir").dropzone({    
+    paramName: "files",
+    url: "/clients/pengangkutan/upload/kir?id=" + $('#UID').val(),    
     init: function() {
-        this.on("sending", function(file, xhr, formData) {
-          formData.append("pathuid", $('#theUID').val());
-          console.log(formData)
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/kir').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
+    },
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/kir/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
         });
     },
     success: function (file, response) {
@@ -138,13 +188,46 @@ $("#kir").dropzone({
     }
 });
 
-$("#foto").dropzone({
-    url: "/clients/jasa/angkutan/upload/fotokendaraan",
-    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+$("#foto").dropzone({    
+    paramName: "files",
+    url: "/clients/pengangkutan/upload/foto-kendaraan?id=" + $('#UID').val(),    
     init: function() {
-        this.on("sending", function(file, xhr, formData) {
-          formData.append("pathuid", $('#theUID').val());
-          console.log(formData)
+        var myDropzone = this;
+        $.getJSON('/clients/dokumen/foto-kendaraan').done(function (data) {
+            //Call the action method to load the images from the server
+
+            if (data!== null && data.length > 0) {
+
+                $.each(data, function (index, item) {
+                    //// Create the mock file:
+                    var mockFile = {
+                        name: item.name,
+                        size: item.fileSize,
+                        filePath: item.filePath
+                    };
+
+                    // Call the default addedfile event handler
+                    myDropzone.emit("addedfile", mockFile);
+
+                    // And optionally show the thumbnail of the file:
+                    myDropzone.emit("thumbnail", mockFile, item.filePath);
+
+                    // Make sure there is no progress bar ober tha image
+                    myDropzone.emit("complete", mockFile);
+
+                    // subtract loaded files from max files count to keep upload limit
+                    //myDropzone.options.maxFiles -= 1;
+                });
+            }
+        });
+    },
+    removedfile: function removedfile(file) {
+        $.getJSON("/clients/dokumen/foto-kendaraan/delete/?file=" + file.name).done(function (result) {
+            console.log("delete: " + result);
+            if (result === true) {
+                var _ref;
+                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
         });
     },
     success: function (file, response) {

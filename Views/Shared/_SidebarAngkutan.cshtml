@@ -43,8 +43,8 @@
                             <span class="nav-link-text" data-i18n="nav.data_perizinan"> Data Perizinan</span>
                         </a>
                     </li>
-                    <li class="{{Request::path() == 'clients/jasa/angkutan/lokasi' ? 'active' : ''}}">
-                        <a href="/clients/jasa/angkutan/lokasi" title="Kerjasama" data-filter-tags="kerjasama">
+                    <li class='@(ViewBag.Title == "Lokasi Angkut" ? "active" : "")'>
+                        <a asp-controller="JasaAngkut" asp-action="LokasiAngkut" title="Kerjasama" data-filter-tags="kerjasama">
                             <span class="nav-link-text" data-i18n="nav.kerjasama"> Kerjasama</span>
                         </a>
                     </li>

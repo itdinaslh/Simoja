@@ -7,5 +7,7 @@ public interface IKendaraan {
 
     IQueryable<Kendaraan> Kendaraans { get; }
 
-    Task SaveDataAsync(JenisKendaraan jenis);
+    Task SaveJenisAsync(JenisKendaraan jenis);
+
+    Task SaveKendaraanAsync(Kendaraan kendaraan);
 }

@@ -44,5 +44,19 @@ public class JenisKendaraanApiController : Controller {
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
-    } 
+    }
+
+    [HttpGet("/api/master/kendaraan/jenis/search")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SearchJenisKendaraan(string? term) {
+        var data = await repo.JenisKendaraans
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaJenis.ToLower().Contains(term.ToLower()) : true            
+            ).Select(jen => new {
+                id = jen.JenisKendaraanId,
+                namaJenis = jen.NamaJenis
+            }).Take(10).ToListAsync();
+
+        return Ok(data);
+    }
 }

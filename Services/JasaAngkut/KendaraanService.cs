@@ -14,7 +14,7 @@ public class KendaraanService : IKendaraan {
 
     public IQueryable<Kendaraan> Kendaraans => context.Kendaraans;
 
-    public async Task SaveDataAsync(JenisKendaraan jenis) {
+    public async Task SaveJenisAsync(JenisKendaraan jenis) {
         if (jenis.JenisKendaraanId == 0) {
             await context.AddAsync(jenis);
         } else {
@@ -23,6 +23,28 @@ public class KendaraanService : IKendaraan {
             if (data is not null) {
                 data.GlobalId = jenis.GlobalId;
                 data.NamaJenis = jenis.NamaJenis;
+                data.UpdatedAt = DateTime.Now;
+
+                context.Update(data);
+            }
+        }
+
+        await context.SaveChangesAsync();
+    }
+
+    public async Task SaveKendaraanAsync(Kendaraan kendaraan) {
+        if (kendaraan.KendaraanId == 0) {
+            await context.AddAsync(kendaraan);
+        } else {
+            var data = await context.Kendaraans.FindAsync(kendaraan.KendaraanId);
+
+            if (data is not null) {
+                data.JenisKendaraanId = kendaraan.JenisKendaraanId;
+                data.NoPolisi = kendaraan.NoPolisi;
+                data.NoPintu = kendaraan.NoPintu;
+                data.TglSTNK = kendaraan.TglSTNK;
+                data.TglKIR = kendaraan.TglKIR;
+                data.TahunPembuatan = kendaraan.TahunPembuatan;
                 data.UpdatedAt = DateTime.Now;
 
                 context.Update(data);

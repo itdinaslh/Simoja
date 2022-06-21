@@ -32,7 +32,7 @@ public class JenisKendaraanController : Controller {
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveDataAsync(JenisKendaraan model) {
         if (ModelState.IsValid) {
-            await repo.SaveDataAsync(model);
+            await repo.SaveJenisAsync(model);
             return Json(Result.Success());
         }
 

@@ -26,11 +26,18 @@ public class LokasiAngkut {
     [Required(ErrorMessage = "Alamat wajib diisi")]
     public string Alamat { get; set; }
 
-    public DateOnly? TglAwalKontrak { get; set; }
+    public DateOnly TglAwalKontrak { get; set; }
 
-    public DateOnly? TglAkhirKontrak { get; set; }
+    public DateOnly TglAkhirKontrak { get; set; }
 
     public Client Client { get; set; }
 
     public Kelurahan Kelurahan { get; set; }
+
+    public DateTime? CreatedAt { get; set; } = DateTime.Now;
+
+    public DateTime? UpdatedAt { get; set; } = DateTime.Now;
+
+    #nullable enable
+    public string? DokumenPath { get; set; }
 }

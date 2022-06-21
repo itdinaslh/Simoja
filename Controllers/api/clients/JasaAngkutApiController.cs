@@ -64,8 +64,8 @@ public class JasaAngkutApiController : Controller {
                 noPintu = c.NoPintu,
                 jenis = c.JenisKendaraan.NamaJenis,
                 tahunPembuatan = c.TahunPembuatan,
-                tglSTNK = c.TglSTNK,
-                tglKIR = c.TglKIR
+                tglSTNK = c.TglSTNK.ToString("dd/MM/yyyy"),
+                tglKIR = c.TglKIR.ToString("dd/MM/yyyy")
             })
             .Skip(skip)
             .Take(pageSize)
@@ -114,14 +114,14 @@ public class JasaAngkutApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                LokasiAngkutId = c.LokasiAngkutId,
+                lokasiAngkutId = c.LokasiAngkutId,
                 uniqueId = c.UniqueId,
                 namaLokasi = c.NamaLokasi,
-                Kabupaten = c.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
-                Kecamatan = c.Kelurahan.Kecamatan.NamaKecamatan,
-                Kelurahan = c.Kelurahan.NamaKelurahan,
-                tglAwalKontrak = c.TglAwalKontrak,
-                tglAkhirKontrak = c.TglAkhirKontrak
+                kabupaten = c.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                kecamatan = c.Kelurahan.Kecamatan.NamaKecamatan,
+                kelurahan = c.Kelurahan.NamaKelurahan,
+                tglAwalKontrak = c.TglAwalKontrak.ToString("dd/MM/yyyy"),
+                tglAkhirKontrak = c.TglAkhirKontrak.ToString("dd/MM/yyyy")
             })
             .Skip(skip)
             .Take(pageSize)
@@ -130,7 +130,5 @@ public class JasaAngkutApiController : Controller {
         var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
         
         return Ok(jsonData);
-    }
-
-    
+    }    
 }

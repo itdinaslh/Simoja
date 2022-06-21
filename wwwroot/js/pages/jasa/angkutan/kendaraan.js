@@ -20,7 +20,7 @@ function loadTable() {
             {data:'noPintu', name:'noPintu'},
             {data:'jenis', name:'jenis', searchable: false},
             {data:'tahunPembuatan', name:'tahunPembuatan'},
-            {data:'tglSTNK', name:'tglSTNK'},
+            {data:'tglSTNK', name:'tglSTNK', searchable: false, orderable: false},
             {data:'tglKIR', name:'tglKIR'},
             {
                 "render": function (data, type, row)
