@@ -186,26 +186,77 @@ public class JasaAngkutController : Controller {
     [HttpGet("/clients/jasa/pengangkutan/lokasi-angkut")]
     public IActionResult LokasiAngkut() => View();
 
-    [HttpGet("/clients/jasa/pengangkutan/lokasi/create")]
-    public async Task<IActionResult> LokasiAngkutCreate() {        
-        #nullable disable
+    [HttpPost("/clients/pengangkutan/upload/lokasi-angkut")]
+    public async Task<IActionResult> UploadLokasi(List<IFormFile> files, string id) {
+        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
+        foreach (var file in files) {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/lokasi-angkut/" + id);
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);            
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);            
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+
+        return Json(Result.Success());
+    }
+
+    [HttpGet("/clients/jasa/pengangkutan/lokasi/create")]
+    public IActionResult LokasiAngkutCreate() {        
+        #nullable disable        
+
+        return View(new LokasiAngkutCreateVM {
+            LokasiAngkut = new LokasiAngkut()
+        });
+    }
+
+    [HttpPost("/clients/jasa/pengangkutan/lokasi/store")]
+    public async Task<IActionResult> LokasiAngkutSave(LokasiAngkutCreateVM model) {
         string currentUser = User.Identity.Name;
 
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId
+                c.ClientId,
+                c.ClientGuid
             }).FirstOrDefaultAsync();
 
-        return View(new LokasiAngkutCreateVM {
-            LokasiAngkut = new LokasiAngkut {
-                ClientId = thisClient.ClientId
-            }
-        });
+        Guid uid = Guid.NewGuid();
+
+        var lokasi = await lokasiRepo.LokasiAngkuts
+            .Where(l => l.LokasiAngkutId == model.LokasiAngkut.LokasiAngkutId)
+            .FirstOrDefaultAsync();
+
+        if (lokasi is not null) {
+            uid = model.LokasiAngkut.UniqueId;
+        } else {
+            uid = model.UID;
+        }
+
+        model.LokasiAngkut.ClientId = thisClient.ClientId;        
+        model.LokasiAngkut.DokumenPath = "/upload/" + thisClient.ClientGuid + "/lokasi-angkut/" + uid;
+        model.LokasiAngkut.TglAwalKontrak = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        model.LokasiAngkut.TglAkhirKontrak = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+
+        model.LokasiAngkut.UniqueId = uid;
+
+        if (ModelState.IsValid) {
+            await lokasiRepo.SaveLokasiAngkutAsync(model.LokasiAngkut);
+
+            return Json(Result.Success());
+        }
+
+        return View("~/Views/JasaAngkut/LokasiAngkutCreate.cshtml", model);
     }
 
-    // [HttpPost("/clients/jasa/pengangkutan/lokasi/store")]
-    // public async Task<IActionResult> LokasiAngkutSave(LokasiAngkutCreateVM model) {
-
-    // }
 }
