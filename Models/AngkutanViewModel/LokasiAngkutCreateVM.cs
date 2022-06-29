@@ -1,4 +1,5 @@
 using Simoja.Entity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Simoja.Models;
 
@@ -9,7 +10,9 @@ public class LokasiAngkutCreateVM {
 
     public Guid UID { get; set; } = Guid.NewGuid();
 
-    public string TglAwal { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
+    [Required(ErrorMessage = "Tanggal Awal Kontrak Wajib Diisi!")]
+    public string TglAwal { get; set; } = String.Empty;
 
-    public string TglAkhir { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
+    [Required(ErrorMessage = "Tanggal Berakhir Kontrak Wajib Diisi!")]
+    public string TglAkhir { get; set; } = String.Empty;
 }

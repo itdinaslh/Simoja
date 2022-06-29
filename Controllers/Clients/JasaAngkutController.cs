@@ -212,7 +212,7 @@ public class JasaAngkutController : Controller {
         return Json(Result.Success());
     }
 
-    [HttpGet("/clients/jasa/pengangkutan/lokasi/create")]
+    [HttpGet("/clients/jasa/pengangkutan/lokasi-angkut/create")]
     public IActionResult LokasiAngkutCreate() {        
         #nullable disable        
 
@@ -221,7 +221,7 @@ public class JasaAngkutController : Controller {
         });
     }
 
-    [HttpPost("/clients/jasa/pengangkutan/lokasi/store")]
+    [HttpPost("/clients/jasa/pengangkutan/lokasi-angkut/store")]
     public async Task<IActionResult> LokasiAngkutSave(LokasiAngkutCreateVM model) {
         string currentUser = User.Identity.Name;
 
@@ -231,7 +231,7 @@ public class JasaAngkutController : Controller {
                 c.ClientGuid
             }).FirstOrDefaultAsync();
 
-        Guid uid = Guid.NewGuid();
+        Guid uid = Guid.Empty;
 
         var lokasi = await lokasiRepo.LokasiAngkuts
             .Where(l => l.LokasiAngkutId == model.LokasiAngkut.LokasiAngkutId)
