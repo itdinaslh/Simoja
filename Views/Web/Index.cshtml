@@ -1,0 +1,144 @@
+@{
+    Layout = "_LayoutPublic";
+    ViewBag.Title = "Beranda";
+}
+
+@section styles {
+    <link rel="stylesheet" href="~/lib/datatables/datatables.min.css" />
+}
+
+<section class="background-1 padding-tb-30px">
+    <div class="container">
+        <div class="text-center  margin-bottom-35px wow fadeInUp">
+            <h3 class="font-weight-700 text-title-large text-main-color">Pengelolaan Kawasan Mandiri</h3>
+            <span class="opacity-7">Pengelolaan sampah kawasan secara mandiri diamanatkan dalam Peraturan Daerah Provinsi
+                Daerah Khusus Ibukota Jakarta Nomor 3 Tahun 2013 tentang Pengelolaan Sampah pasal 12 ayat (2)
+                Penanggung jawab dan/atau pengelola kawasan permukiman, kawasan komersial, kawasan industri,
+                kawasan khusus, fasilitas umum, fasilitas sosial, fasilitas lainnya dan kegiatan keramaian sesaat,
+                wajib melaksanakan pengelolaan sampah; Instruksi Gubernur Provinsi Daerah Khusus Ibukota
+                Jakarta Nomor 8 Tahun 2016 tentang Penerapan Pengelolaan Sampah Kawasan Secara Mandiri,
+                dan Keputusan Kepala Dinas Kebersihan Provinsi Daerah Khusus Ibukota Jakarta Nomor 117
+                Tahun 2016 tentang Pelaksanaan Pengelolaan Sampah Pada Kawasan Secara Mandiri</span>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-6 sm-mb-30px wow fadeInUp">
+                <div class="blog-item thum-hover background-white text-center">
+                    <div class="position-relative">
+                        <a href="#">
+                            <div class="item-thumbnail background-dark"><img src="/img/pk.jpg" height="200" style="height: 100" alt=""></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-md-6 sm-mb-30px wow fadeInUp" data-wow-delay="0.2s">
+                <div class="blog-item thum-hover background-white text-center">
+                    <div class="position-relative">
+                        <a href="#">
+                            <div class="item-thumbnail background-dark"><img src="/img/pk2.jpeg" height="200" alt=""></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-md-6 sm-mb-30px wow fadeInUp" data-wow-delay="0.4s">
+                <div class="blog-item thum-hover background-white text-center">
+                    <div class="position-relative">
+                        <a href="#">
+                            <div class="item-thumbnail background-dark"><img src="/img/pk3.jpeg" height="200"  alt=""></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-3 col-md-6 sm-mb-30px wow fadeInUp" data-wow-delay="0.6s">
+                <div class="blog-item thum-hover background-white text-center">
+                    <div class="position-relative">
+                        <a href="#">
+                            <div class="item-thumbnail background-dark"><img src="/img/pk4.jpeg" height="200"  alt=""></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+<section class="padding-tb-10px" style="background-image: url('assets/img/pattern-1.jpg');">
+    <div class="container">
+        <div class="text-center  margin-bottom-35px wow fadeInUp">
+            <h3 class="font-weight-700 text-title-medium text-main-color">Pengelolaan Kawasan Mandiri Terdaftar</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 sm-mb-30px text-center wow fadeInUp">
+                <i class="icon_toolbox_alt icon-large text-main-color"></i>
+                <h1 class="number font-2 margin-tb-15px text-main-color">{{$kawasan}}</h1>
+                <h6 class="title font-weight-300">Total Usaha / Kegiatan</h6>
+            </div>
+            <div class="col-lg-4 col-md-6 sm-mb-30px text-center wow fadeInUp" data-wow-delay="0.2s">
+                <i class="fa fa-fw icon-large text-main-color" aria-hidden="true"></i>
+                <h1 class="number font-2 margin-tb-15px text-main-color">{{$angkut}}</h1>
+                <h6 class="title font-weight-300">Total Penyedia Jasa Pengangkutan Sampah</h6>
+            </div>
+            <div class="col-lg-4 col-md-6 sm-mb-30px text-center wow fadeInUp" data-wow-delay="0.4s">
+                <i class="fa fa-fw icon-large text-main-color" aria-hidden="true" ></i>
+                <h1 class="number font-2 margin-tb-15px text-main-color">{{$olah}}</h1>
+                <h6 class="title font-weight-300">Total Penyedia Jasa Pengolahan Sampah</h6>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="background-1 padding-tb-30px">
+    <div class="container">
+        <div class="text-center  margin-bottom-35px wow fadeInUp">
+            <h3 class="font-weight-700 text-title-medium text-main-color">Pengelolaan Kawasan Mandiri Terdaftar</h3>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="mydata" class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Usaha</th>
+                            <th>Penanggung Jawab</th>
+                            <th>PIC</th>
+                            <th>No HP PIC</th>
+                            <th>Telp</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts {
+    <script src="/lib/datatables/datatables.min.js"></script>
+    <script>
+        $('#mydata').DataTable().destroy();
+        $('#mydata').DataTable();
+        @* $('#mydata').DataTable({
+            serverSide: true,
+            processing: true,
+            responsive: true,
+            lengthMenu:[5,10,20],
+            pagingType: "simple_numbers",
+            ajax: {
+                url: '/home/ajaxidex',
+                method: 'GET'
+            },
+            columns: [
+                {data:'rownum', name:'rownum'},
+                {data:'NamaPerusahaan', name:'clientskawasan.NamaPerusahaan'},
+                {data:'NamaJenis', name:'jeniskawasan.NamaJenis'},
+                {data:'Telp', name:'clientskawasan.Telp'},
+                {data:'NamaKota', name:'kota.NamaKota'},
+            ],
+            order: [[0, "desc"]]
+        }); *@
+    </script>
+}

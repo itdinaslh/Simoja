@@ -1,0 +1,109 @@
+@model LokasiAngkutCreateVM
+
+@{
+    Layout = "_LayoutClient";
+    ViewBag.Main = "Penyedia Jasa";
+    ViewBag.Category = "Pengangkutan Sampah";
+    ViewBag.Parent = "Perizinan";
+    ViewBag.Title = "Lokasi Angkut";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Isi Data Lokasi</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <form id="vehicleform" action="/clients/jasa/pengangkutan/lokasi-angkut/store'" method="post">
+                        <input type="hidden" id="UID" value="@Model.UID">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" id="UID" asp-for="UID" />
+                        <input type="hidden" name="imgadded" id="imgadded" >
+                        <div class="form-group">
+                            <label for="">Nama Lokasi/Gedung/Kawasan *</label>
+                            <input type="text" asp-for="LokasiAngkut.NamaLokasi" class="form-control" required autofocus autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kota / Kabupaten Administrasi *</label>
+                            <select name="CityID" id="cbIdKota" class="form-control" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kecamatan *</label>
+                            <select name="DistrictID" id="cbIdKecamatan" class="form-control" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Kelurahan *</label>
+                            <select asp-for="LokasiAngkut.KelurahanID" id="cbIdKelurahan" class="form-control" required></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Alamat *</label>
+                            <input type="text" name="Address" id="Address" class="form-control" required autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tanggal Awal Kontrak *</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="text" asp-for="TglAwal" id="ContractStartDate" class="form-control datepicker" required autocomplete="off" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text fs-xl">
+                                        <i class="fal fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tanggal Berakhir Kontrak *</label>
+                            <div class="input-group flex-nowrap">
+                                <input type="text" asp-for="TglAkhir" id="ContractEndDate" class="form-control datepicker" required autocomplete="off" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text fs-xl">
+                                        <i class="fal fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success">Submit Data</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">        
+        <div id="panel-2" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
+                <h2>Upload Dokumen Kontrak Kerjasama</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="form-group">
+                    <div id="upLokasi" action="/clients/jasa/angkutan/upload/lokasi" class="dropzone needsclick" style="min-height: 7rem;">                        
+                        <div class="dz-message needsclick">
+                            <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
+                            <span>Drop file disini atau Klik Untuk Upload.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/js/formplugins/dropzone/dropzone.js"></script>
+    <script src="~/js/address.js"></script>
+    <script src="~/js/pages/jasa/angkutan/locationcreate.js"></script>
+}

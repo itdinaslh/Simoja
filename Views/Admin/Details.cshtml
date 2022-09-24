@@ -1,0 +1,202 @@
+﻿@model ClientAngkutDetailVM
+
+@{
+    ViewBag.Main = "Data PKM";
+    ViewBag.Category = "Penyedia Jasa";
+    ViewBag.Parent = "Penyedia Jasa";
+    ViewBag.Title = "Detail Penyedia Jasa";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/lightbox/dist/lightbox.css" />
+    <style>
+        .myimg {
+            height: 75px;
+            width: 75px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Data Perusahaan</h2>
+            </div>
+            <div class="panel-container show">
+                <form action="/admin/jasa/details/update" method="post">
+                    <input type="hidden" id="theID" name="theID" value="">
+                    <div class="panel-content">
+                        <div class="form-group">
+                            <label for="">Nama Perusahaan</label>
+                            <input type="text" asp-for="Client!.ClientName" id="namausaha" class="form-control" required autofocus autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Email</label>
+                            <input type="text" asp-for="Client!.UserId" id="useremail" class="form-control" readonly required autofocus autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jenis Usaha</label>
+                            <select asp-for="Client!.JenisUsahaId" id="JenisUsaha" class="form-control" required autocomplete="off">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Alamat</label>
+                            <input type="text" asp-for="Client!.Alamat" id="address" class="form-control" required autocomplete="off" >
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kota / Kabupaten *</label>
+                                <select id="cbIdKota" class="form-control" required autocomplete="off">
+                                    <option value="@Model.KabupatenId">@Model.NamaKabupaten</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kecamatan</label>
+                                <select name="kec" id="cbIdKecamatan" class="form-control" required autocomplete="off">
+                                    <option value="@Model.KecamatanId">@Model.NamaKecamatan</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kelurahan</label>
+                                <select asp-for="Client!.KelurahanID" id="cbIdKelurahan" class="form-control" required autocomplete="off" >
+                                    <option value="@Model.Client!.KelurahanID">@Model.NamaKelurahan</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Telp</label>
+                                <input asp-for="Client!.Telp" name="telp" id="telp" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Fax</label>
+                                <input type="text" asp-for="Client!.Fax" id="fax" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Penanggung Jawab</label>
+                                <input asp-for="Client!.PenanggungJawab" id="tAnswer" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">PIC</label>
+                                <input asp-for="Client!.PIC" id="pic" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No HP PIC</label>
+                                <input asp-for="Client!.NoHpPIC" id="picphone" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No Izin Usaha</label>
+                                <input asp-for="Client!.DetailAngkut.NoIzinUsaha" id="docnum" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No Induk Berusaha</label>
+                                 <input asp-for="Client!.DetailAngkut.NIB" id="nib" class="form-control" autocomplete="off">
+                            </div>                            
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Tanggal Penerbitan Izin *</label>
+                                <div class="input-group flex-nowrap">
+                                    <input asp-for="TglTerbitIzin" id="txtTglTerbit" class="form-control datepicker" required autocomplete="off" >
+                                    <div class="input-group-append">
+                                        <span class="input-group-text fs-xl">
+                                            <i class="fal fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Masa Berakhir Izin *</label>
+                                <div class="input-group flex-nowrap">
+                                    <input asp-for="TglAkhirIzin" id="tglAkhirIzin" class="form-control datepicker" required autocomplete="off" >
+                                    <div class="input-group-append">
+                                        <span class="input-group-text fs-xl">
+                                            <i class="fal fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Latitude</label>
+                                <input asp-for="Client!.Latitude" id="Latitude" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Longitude</label>
+                                <input asp-for="Client!.Longitude" id="Longitude" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <button class="btn btn-success" type="submit">Update Data</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient">
+                <h2>Dokumen Izin</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="">
+                        @*@foreach ($doc as $row)
+                            <a href="{{ $row['url'] }}" data-toggle="lightbox" data-gallery="gal-izin">
+                                <img class="myimg" src="{{ $row['url'] }}" alt="image">
+                            </a>
+                        @endforeach*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient">
+                <h2>Dokumen NIB</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="">
+                        @*@foreach ($nib as $row)
+                            <a href="{{ $row['url'] }}" data-toggle="lightbox" data-gallery="gal-nib">
+                                <img class="myimg" src="{{ $row['url'] }}" alt="image">
+                            </a>
+                        @endforeach*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button id="btnVerify" class="btn btn-danger" data-href=""> Verifikasi</button>
+            <a class="btn btn-primary" href="">Kembali Ke Daftar Penyedia</a>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top:30px;">
+    <div class="col-xl-12">
+        <div class="text-center">
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/address.js"></script>    
+}
