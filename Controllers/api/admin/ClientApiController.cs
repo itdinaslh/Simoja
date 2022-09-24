@@ -46,6 +46,7 @@ public class ClientApiController : Controller {
             .Select(c => new {
                 clientId = c.ClientId,
                 clientName = c.ClientName,
+                jenisId = c.JenisUsahaId,
                 jenisUsaha = c.JenisUsahaId == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
                 email = c.UserId,
                 telp = c.Telp,

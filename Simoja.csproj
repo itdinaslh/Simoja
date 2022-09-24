@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Admin\JasaAngkut\**" />
+    <Content Remove="Views\Admin\JasaAngkut\**" />
+    <EmbeddedResource Remove="Views\Admin\JasaAngkut\**" />
+    <None Remove="Views\Admin\JasaAngkut\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\fab.css" />
   </ItemGroup>
 
@@ -25,10 +32,6 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.20" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Admin\JasaAngkut\" />
   </ItemGroup>
 
 </Project>

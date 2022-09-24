@@ -2,7 +2,7 @@
 
 namespace Simoja.Models;
 
-public class ClientAngkutDetailVM
+public class ClientDetailVM
 {
     public Client? Client { get; set; }
 
@@ -16,9 +16,4 @@ public class ClientAngkutDetailVM
 
     public string? NamaKabupaten { get; set; }
 
-#nullable disable
-
-    public string TglTerbitIzin { get; set; }
-
-    public string TglAkhirIzin { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿@model ClientAngkutDetailVM
+﻿@model ClientDetailVM
 
 @{
     ViewBag.Main = "Data PKM";
@@ -30,8 +30,8 @@
                 <h2>Data Perusahaan</h2>
             </div>
             <div class="panel-container show">
-                <form action="/admin/jasa/details/update" method="post">
-                    <input type="hidden" id="theID" name="theID" value="">
+                <form action="/admin/jasa/details/update" id="frmUpdate" method="post">
+                    <input type="hidden" asp-for="Client!.ClientId">
                     <div class="panel-content">
                         <div class="form-group">
                             <label for="">Nama Perusahaan</label>
@@ -44,7 +44,8 @@
                         <div class="form-group">
                             <label for="">Jenis Usaha</label>
                             <select asp-for="Client!.JenisUsahaId" id="JenisUsaha" class="form-control" required autocomplete="off">
-                                <option value=""></option>
+                                <option value="1">Pengangkutan Sampah</option>
+                                <option value="2">Pengolahan Sampah</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -74,7 +75,7 @@
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Telp</label>
-                                <input asp-for="Client!.Telp" name="telp" id="telp" class="form-control" autocomplete="off" >
+                                <input asp-for="Client!.Telp" id="telp" class="form-control" autocomplete="off" >
                             </div>
                         </div>
                         <div class="form-row">
@@ -96,40 +97,6 @@
                                 <label for="">No HP PIC</label>
                                 <input asp-for="Client!.NoHpPIC" id="picphone" class="form-control" autocomplete="off" >
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-xs-12">
-                                <label for="">No Izin Usaha</label>
-                                <input asp-for="Client!.DetailAngkut.NoIzinUsaha" id="docnum" class="form-control" autocomplete="off" >
-                            </div>
-                            <div class="form-group col-md-6 col-xs-12">
-                                <label for="">No Induk Berusaha</label>
-                                 <input asp-for="Client!.DetailAngkut.NIB" id="nib" class="form-control" autocomplete="off">
-                            </div>                            
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6 col-xs-12">
-                                <label for="">Tanggal Penerbitan Izin *</label>
-                                <div class="input-group flex-nowrap">
-                                    <input asp-for="TglTerbitIzin" id="txtTglTerbit" class="form-control datepicker" required autocomplete="off" >
-                                    <div class="input-group-append">
-                                        <span class="input-group-text fs-xl">
-                                            <i class="fal fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6 col-xs-12">
-                                <label for="">Masa Berakhir Izin *</label>
-                                <div class="input-group flex-nowrap">
-                                    <input asp-for="TglAkhirIzin" id="tglAkhirIzin" class="form-control datepicker" required autocomplete="off" >
-                                    <div class="input-group-append">
-                                        <span class="input-group-text fs-xl">
-                                            <i class="fal fa-calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>                            
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
@@ -184,7 +151,7 @@
         </div>
         <div class="text-center">
             <button id="btnVerify" class="btn btn-danger" data-href=""> Verifikasi</button>
-            <a class="btn btn-primary" href="">Kembali Ke Daftar Penyedia</a>
+            <a class="btn btn-primary" asp-action="JasaUnverified" asp-controller="Admin">Kembali Ke Daftar Penyedia</a>
         </div>
     </div>
 </div>
@@ -197,6 +164,9 @@
 </div>
 
 @section scripts {
+    <script src="~/lib/sweetalert//sweetalert2.all.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
-    <script src="~/js/address.js"></script>    
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/js/address.js"></script>
+    <script src="~/js/pages/admin/jasa/detailjasa.js"></script>
 }

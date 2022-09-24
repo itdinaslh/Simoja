@@ -8,7 +8,8 @@ function loadTable() {
         serverSide: true,
         processing: true,
         responsive: true,
-        lengthMenu:[5,10,20],
+        lengthMenu: [5, 10, 20],
+        stateSave: true,
         pagingType: "simple_numbers",
         ajax: {
             url: '/api/admin/jasa/unverified',
@@ -23,7 +24,7 @@ function loadTable() {
             {
                 "render": function (data, type, row)
                 {
-                    return "<a class='btn btn-sm btn-outline-success mr-2 verify' href='/admin/jasa/details/?theID="
+                    return "<a class='btn btn-sm btn-outline-success mr-2 verify' href='/admin/jasa/details/?type=" + row.jenisId + "&theID="
                     + row.clientGuid + "'><i class='fal fa-edit'></i> Cek Data</a>";
                 }
             }

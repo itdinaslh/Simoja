@@ -23,32 +23,17 @@ public class AdminController : Controller {
     }
 
     [HttpGet("/admin/jasa/details")]
-    public async Task<IActionResult> Details(Guid theID)
+    public async Task<IActionResult> Details(int type, Guid theID)
     {
         Client? client = await repo.Clients.Where(c => c.ClientGuid == theID)
-            .Include(d => d.DetailAngkut)
-            .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
-            .FirstOrDefaultAsync();        
+            .Include(k => k.Kelurahan.Kecamatan.Kabupaten)
+            .FirstOrDefaultAsync();
 
         if (client is not null)
         {
-            DateOnly TglAwal, TglAkhir;
-
-            if (client!.JenisUsahaId == 1)
-            {
-                TglAwal = client.DetailAngkut.TglTerbitIzin;
-                TglAkhir = client.DetailAngkut.TglAkhirIzin;
-            } else if (client!.JenisUsahaId == 2)
-            {
-                TglAwal = client.DetailOlah.TglTerbitIzin;
-                TglAkhir = client.DetailOlah.TglAkhirIzin;
-            }
-
-            return View("~/Views/Admin/Details.cshtml", new ClientAngkutDetailVM
+            return View("~/Views/Admin/Details.cshtml", new ClientDetailVM
             {
                 Client = client,
-                TglTerbitIzin = TglAwal.ToString("dd/MM/yyyy"),
-                TglAkhirIzin = TglAkhir.ToString("dd/MM/yyyy"),
                 KabupatenId = client.Kelurahan.Kecamatan.Kabupaten.KabupatenID,
                 NamaKabupaten = client.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
                 KecamatanId = client.Kelurahan.Kecamatan.KecamatanID,
@@ -59,4 +44,17 @@ public class AdminController : Controller {
 
         return NotFound();
     }
+
+    [HttpPost("/admin/jasa/details/update")]
+    public async Task<IActionResult> UpdateDetailsJasa(ClientDetailVM model)
+    {
+        if (ModelState.IsValid)
+        {
+            await repo.SaveClientAsync(model.Client!);
+
+            return Json(Result.Success());
+        }        
+
+        return Json(Result.Failed());
+    } 
 }

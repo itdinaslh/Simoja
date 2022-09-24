@@ -1,7 +1,7 @@
-$(document).ready(function() {
-    PopulateJenis();
-
+$(document).ready(function () {
     PopulateKota();
+
+    PopulateJenis();
 
     var idkota = $('#cbIdKota option:selected').val();
     var idkecamatan = $('#cbIdKecamatan option:selected').val();
@@ -13,33 +13,10 @@ $(document).ready(function() {
         format: 'dd/mm/yyyy',
         orientation: 'bottom'
     });
-})
+});
 
 function PopulateJenis() {
-    $('#comtype').select2({
-        placeholder: 'Pilih jenis usaha...',
-            ajax: {
-                url: '/master/jasa/findjenis',
-                data: function(params) {
-                    return {
-                        q: params.term
-                    }
-                },
-                dataType: 'json',
-                delay: 100,
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                text: item.NamaJenis,
-                                id: item.id
-                            }
-                        })
-                    }
-                },
-                cache: true
-            }
-    });
+    $('#JenisUsaha').select2();
 }
 
 $(document).on('click', '#btnVerify', function() {
@@ -70,16 +47,43 @@ $(document).on('click', '#btnVerify', function() {
             });
         }
     });
-
 });
+
+$('#frmUpdate').submit(function (e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: this.action,
+        method: this.method,
+        data: $(this).serialize(),
+        success: function (result) {
+            if (result.success) {
+                showSuccessMessage();
+            } else {
+                showFailedMessage();
+            }
+        }
+    })
+})
 
 function showSuccessMessage() {
     Swal.fire(
     {
         position: 'top-end',
         type: 'success',
-        title: 'Berhasil Diverifikasi',
+        title: 'Berhasil simpan data',
         showConfirmButton: false,
         timer: 1000
     });
+}
+
+function showFailedMessage() {
+    Swal.fire(
+        {
+            position: 'top-end',            
+            title: 'Gagal simpan data',
+            type: 'error',
+            showConfirmButton: false,
+            timer: 1000
+        });
 }
