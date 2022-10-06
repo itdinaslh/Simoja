@@ -56,5 +56,22 @@ public class AdminController : Controller {
         }        
 
         return Json(Result.Failed());
-    } 
+    }
+
+    [HttpPost("/admin/clients/verifikasi")]
+    public async Task<IActionResult> VerifyCLient(int theID)
+    {
+        Client? client = await repo.Clients.Where(c => c.ClientId == theID).FirstOrDefaultAsync();
+
+        if (client is not null)
+        {
+            client.IsVerified = true;
+
+            await repo.VerifyClient(theID, true);
+
+            return Json(Result.Success());
+        }
+
+        return Json(Result.Failed());
+    }
 }

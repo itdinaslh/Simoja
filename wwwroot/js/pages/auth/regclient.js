@@ -1,4 +1,6 @@
-$(document).ready(function() {
+$(document).ready(function () {
+    loadTable();
+
     $('#cbJenisUsaha').select2({
         placeholder: 'Pilih jenis usaha...',
             ajax: {
@@ -230,25 +232,17 @@ $("#fileNIB").dropzone({
 
 $('#clientform').submit(function(e) {
     e.preventDefault();
-    $('input:text[required]').parent().show();
-    var izin = $('#IzinIsAdded').val();
-    var nib = $('#NibIsAdded').val();
-    if (izin.length == 0) {
-        alert('Harap Upload Dokumen Izin!');
-    } else if (nib.length == 0) {
-        alert('Harap Upload Dokumen NIB!');
-    } else {
-        $.ajax({
-            url: this.action,
-            method: this.method,
-            data: $(this).serialize(),
-            success: function(result) {
-                if (result.success) {
-                    window.location.href = '/clients/waiting';
-                }
+    $.ajax({
+        url: this.action,
+        method: this.method,
+        data: $(this).serialize(),
+        success: function (result) {
+            if (result.success) {
+                loadTable();
+                ClearField();
             }
-        });
-    }
+        }
+    });
 });
 
 $("#wadah").dropzone({
@@ -395,8 +389,6 @@ $('#clientform2').submit(function(e) {
         alert('Harap Upload Dokumen Izin!');
     } else if (tps.length == 0) {
         alert('Harap Upload Dokumen NIB!');
-    } else if (olah.length == 0) {
-        alert('Harap Upload Dokumen NIB!');
     } else {
         $.ajax({
             url: this.action,
@@ -404,17 +396,42 @@ $('#clientform2').submit(function(e) {
             data: $(this).serialize(),
             success: function(result) {
                 if (result.success) {
-                    window.location.href = '/clients/waiting';
+                    loadTable();
                 }
             }
         });
     }
 });
 
+function loadTable() {
+    $('#tblData').DataTable().destroy();
+    $('#tblData').DataTable({
+        serverSide: true,
+        processing: true,
+        responsive: true,
+        stateSave: true,
+        lengthMenu: [5, 10, 20],
+        pagingType: "simple_numbers",
+        ajax: {
+            url: '/api/clients/jasa/pengangkutan/izin/list',
+            method: 'POST'
+        },
+        columns: [
+            { data: 'noIzinUsaha', name: 'noIzinUsaha' },
+            { data: 'jmlAngkutan', name: 'jmlAngkutan' },
+            { data: 'tglAkhirIzin', name: 'tglAkhirIzin' },
+            {
+                "render": function (data, type, row) {
+                    return "<button class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/jenis/edit?jenisID="
+                        + row.izinAngkutId + "'><i class='fal fa-edit'></i> Edit</button>";
+                }
+            }
+        ],
+        order: [[0, "desc"]]
+    });
+}
 
-
-
-
-
-
-
+function ClearField() {
+    $('.datainput').val('');
+    $('#txtJmlAngkut').val(0);
+}

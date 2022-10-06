@@ -4,7 +4,7 @@ namespace Simoja.Models;
 
 public class RegAngkutModel {
     #nullable disable
-    public DetailAngkut DetailAngkut { get; set; }
+    public IzinAngkut DetailAngkut { get; set; }
 
     public string TglAwal { get; set; }
 

@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Simoja.Entity;
 
-[Table("DetailKawasan")]
-public class DetailKawasan {
+[Table("IzinKawasan")]
+public class IzinlKawasan {
     #nullable disable
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int DetailKawasanId { get; set; }
+    public int IzinKawasanId { get; set; }
     
     public int ClientId { get; set; }
 

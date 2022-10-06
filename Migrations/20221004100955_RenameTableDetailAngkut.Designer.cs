@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221004100955_RenameTableDetailAngkut")]
+    partial class RenameTableDetailAngkut
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +50,6 @@ namespace Simoja.Migrations
                     b.Property<string>("Fax")
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
-
-                    b.Property<int?>("FlagId")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
@@ -100,82 +99,18 @@ namespace Simoja.Migrations
 
                     b.HasKey("ClientId");
 
-                    b.HasIndex("FlagId");
-
                     b.HasIndex("KelurahanID");
 
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.Flag", b =>
+            modelBuilder.Entity("Simoja.Entity.DetailKawasan", b =>
                 {
-                    b.Property<int>("FlagId")
+                    b.Property<int>("DetailKawasanId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FlagId"));
-
-                    b.Property<string>("FlagName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("FlagId");
-
-                    b.ToTable("Flags");
-                });
-
-            modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
-                {
-                    b.Property<int>("IzinAngkutId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IzinAngkutId"));
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("DokumenIzinPath")
-                        .HasColumnType("text");
-
-                    b.Property<int>("JmlAngkutan")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("NIBPath")
-                        .HasColumnType("text");
-
-                    b.Property<string>("NoIzinUsaha")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateOnly>("TglAkhirIzin")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("TglTerbitIzin")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("IzinAngkutId");
-
-                    b.HasIndex("ClientId")
-                        .IsUnique();
-
-                    b.ToTable("IzinAngkut");
-                });
-
-            modelBuilder.Entity("Simoja.Entity.IzinlKawasan", b =>
-                {
-                    b.Property<int>("IzinKawasanId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IzinKawasanId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DetailKawasanId"));
 
                     b.Property<int>("ClientId")
                         .HasColumnType("integer");
@@ -256,7 +191,7 @@ namespace Simoja.Migrations
                     b.Property<string>("WadahPath")
                         .HasColumnType("text");
 
-                    b.HasKey("IzinKawasanId");
+                    b.HasKey("DetailKawasanId");
 
                     b.HasIndex("ClientId")
                         .IsUnique();
@@ -267,16 +202,16 @@ namespace Simoja.Migrations
 
                     b.HasIndex("StatusKelolaID");
 
-                    b.ToTable("IzinKawasan");
+                    b.ToTable("DetailKawasan");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.IzinOlah", b =>
+            modelBuilder.Entity("Simoja.Entity.DetailOlah", b =>
                 {
-                    b.Property<int>("IzinOlahId")
+                    b.Property<int>("DetailOlahId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IzinOlahId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DetailOlahId"));
 
                     b.Property<int>("ClientId")
                         .HasColumnType("integer");
@@ -285,6 +220,14 @@ namespace Simoja.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DokumenIzinPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NIB")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("NIBPath")
                         .HasColumnType("text");
 
                     b.Property<string>("NoIzinUsaha")
@@ -301,12 +244,57 @@ namespace Simoja.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("IzinOlahId");
+                    b.HasKey("DetailOlahId");
 
                     b.HasIndex("ClientId")
                         .IsUnique();
 
-                    b.ToTable("IzinOlah");
+                    b.ToTable("DetailOlah");
+                });
+
+            modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
+                {
+                    b.Property<int>("DetailAngkutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DetailAngkutId"));
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DokumenIzinPath")
+                        .HasColumnType("text");
+
+                    b.Property<int>("JmlAngkutan")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("NIBPath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NoIzinUsaha")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<DateOnly>("TglAkhirIzin")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("TglTerbitIzin")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("DetailAngkutId");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
+
+                    b.ToTable("IzinAngkut");
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisKegiatan", b =>
@@ -657,35 +645,18 @@ namespace Simoja.Migrations
 
             modelBuilder.Entity("Simoja.Entity.Client", b =>
                 {
-                    b.HasOne("Simoja.Entity.Flag", "Flag")
-                        .WithMany()
-                        .HasForeignKey("FlagId");
-
                     b.HasOne("Simoja.Entity.Kelurahan", "Kelurahan")
                         .WithMany("Clients")
                         .HasForeignKey("KelurahanID");
 
-                    b.Navigation("Flag");
-
                     b.Navigation("Kelurahan");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
-                {
-                    b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithOne("IzinAngkut")
-                        .HasForeignKey("Simoja.Entity.IzinAngkut", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Client");
-                });
-
-            modelBuilder.Entity("Simoja.Entity.IzinlKawasan", b =>
+            modelBuilder.Entity("Simoja.Entity.DetailKawasan", b =>
                 {
                     b.HasOne("Simoja.Entity.Client", null)
-                        .WithOne("IzinKawasan")
-                        .HasForeignKey("Simoja.Entity.IzinlKawasan", "ClientId")
+                        .WithOne("DetailKawasan")
+                        .HasForeignKey("Simoja.Entity.DetailKawasan", "ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -712,11 +683,22 @@ namespace Simoja.Migrations
                     b.Navigation("StatusKelola");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.IzinOlah", b =>
+            modelBuilder.Entity("Simoja.Entity.DetailOlah", b =>
                 {
                     b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithOne("IzinOlah")
-                        .HasForeignKey("Simoja.Entity.IzinOlah", "ClientId")
+                        .WithOne("DetailOlah")
+                        .HasForeignKey("Simoja.Entity.DetailOlah", "ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
+                {
+                    b.HasOne("Simoja.Entity.Client", "Client")
+                        .WithOne("DetailAngkut")
+                        .HasForeignKey("Simoja.Entity.IzinAngkut", "ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -790,11 +772,11 @@ namespace Simoja.Migrations
 
             modelBuilder.Entity("Simoja.Entity.Client", b =>
                 {
-                    b.Navigation("IzinAngkut");
+                    b.Navigation("DetailAngkut");
 
-                    b.Navigation("IzinKawasan");
+                    b.Navigation("DetailKawasan");
 
-                    b.Navigation("IzinOlah");
+                    b.Navigation("DetailOlah");
 
                     b.Navigation("Kendaraans");
 

@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Simoja.Entity;
 
-[Table("DetailAngkut")]
-public class DetailAngkut {
+[Table("IzinAngkut")]
+public class IzinAngkut {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int DetailAngkutId { get; set; }
+    public int IzinAngkutId { get; set; }
 
     public int ClientId { get; set; }
 
@@ -25,12 +25,7 @@ public class DetailAngkut {
     public DateOnly TglAkhirIzin { get; set; }
     
     #nullable enable
-    public string? DokumenIzinPath { get; set; }
-
-    [Required(ErrorMessage = "NIB Wajib Diisi!")]
-    [MaxLength(100)]
-    #nullable disable
-    public string NIB { get; set; }
+    public string? DokumenIzinPath { get; set; }    
     
     #nullable enable
     public string? NIBPath { get; set; }

@@ -4,7 +4,7 @@ namespace Simoja.Models;
 
 public class RegOlahModel {
     #nullable disable
-    public DetailOlah DetailOlah { get; set; }
+    public IzinOlah IzinOlah { get; set; }
 
     public string TglAwal { get; set; }
 

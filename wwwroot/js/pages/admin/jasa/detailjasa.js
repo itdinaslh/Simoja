@@ -41,7 +41,7 @@ $(document).on('click', '#btnVerify', function() {
                     if (result.success) {
                         showSuccessMessage();
                     } else {
-                        alert('Data gagal disimpan');
+                        alert('Gagal Verifikasi!');
                     }
                 }
             });

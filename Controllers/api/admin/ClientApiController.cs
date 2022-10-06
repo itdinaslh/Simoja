@@ -30,7 +30,7 @@ public class ClientApiController : Controller {
         int recordsTotal = 0;
 
         var init = clientRepo.Clients
-            .Where(c => c.JenisUsahaId != 3);
+            .Where(c => c.JenisUsahaId != 3 && c.IsVerified == false);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);

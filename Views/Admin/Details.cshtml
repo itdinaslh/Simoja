@@ -31,7 +31,7 @@
             </div>
             <div class="panel-container show">
                 <form action="/admin/jasa/details/update" id="frmUpdate" method="post">
-                    <input type="hidden" asp-for="Client!.ClientId">
+                    <input type="hidden" asp-for="Client!.ClientId" id="theID">
                     <div class="panel-content">
                         <div class="form-group">
                             <label for="">Nama Perusahaan</label>
@@ -149,8 +149,12 @@
                 </div>
             </div>
         </div>
-        <div class="text-center">
-            <button id="btnVerify" class="btn btn-danger" data-href=""> Verifikasi</button>
+        <div class="text-center">            
+            @if (Model.Client!.IsVerified) {
+                <button id="btnUnverify" class="btn btn-warning">Batalkan Verifikasi</button>
+            } else {
+                <button id="btnVerify" class="btn btn-danger"> Verifikasi</button>
+            }           
             <a class="btn btn-primary" asp-action="JasaUnverified" asp-controller="Admin">Kembali Ke Daftar Penyedia</a>
         </div>
     </div>

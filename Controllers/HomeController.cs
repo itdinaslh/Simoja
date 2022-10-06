@@ -38,7 +38,7 @@ public class HomeController : Controller
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
         } else if (thisClient.JenisUsahaId == 1) {            
-            var data = await repo.DetailAngkuts.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            var data = await repo.IzinAngkuts.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
                     return RedirectToAction("Dashboard", "JasaAngkut");
@@ -48,7 +48,7 @@ public class HomeController : Controller
                 return RedirectToAction("RegisterAngkut", "Client");
             }
         } else if (thisClient.JenisUsahaId == 2) {
-            var data = await repo.DetailOlahs.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            var data = await repo.IzinOlahs.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
                     return RedirectToAction("IndexOlah");
@@ -58,7 +58,7 @@ public class HomeController : Controller
                 return RedirectToAction("RegisterOlah", "Client");
             }
         } else {
-            var data = await repo.DetailKawasans.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            var data = await repo.IzinKawasans.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
                     return RedirectToAction("IndexUsaha");

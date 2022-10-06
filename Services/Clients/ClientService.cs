@@ -12,11 +12,11 @@ public class ClientService : IClient {
 
     public IQueryable<Client> Clients => context.Clients;
 
-    public IQueryable<DetailAngkut> DetailAngkuts => context.DetailAngkuts;
+    public IQueryable<IzinAngkut> IzinAngkuts => context.IzinAngkuts;
 
-    public IQueryable<DetailOlah> DetailOlahs => context.DetailOlahs;
+    public IQueryable<IzinOlah> IzinOlahs => context.IzinOlahs;
 
-    public IQueryable<DetailKawasan> DetailKawasans => context.DetailKawasans;
+    public IQueryable<IzinlKawasan> IzinKawasans => context.IzinKawasans;
 
     public async Task SaveClientAsync(Client client) {
         #nullable disable
@@ -32,8 +32,10 @@ public class ClientService : IClient {
             cli.Latitude = client.Latitude;
             cli.Longitude = client.Longitude;
             cli.PenanggungJawab = client.PenanggungJawab;
+            cli.IsVerified = client.IsVerified;
             cli.PIC = client.PIC;
             cli.NoHpPIC = client.NoHpPIC;
+            cli.NIB = client.NIB;
             cli.UpdatedAt = DateTime.Now;
 
             context.Update(cli);
@@ -42,18 +44,31 @@ public class ClientService : IClient {
         await context.SaveChangesAsync();
     }
 
-    public async Task SaveDetailAngkut(DetailAngkut detail) {
-        if (detail.DetailAngkutId == 0) {
+    public async Task VerifyClient(int id, bool status)
+    {
+        Client client = await context.Clients.FindAsync(id);
+
+        if (client is not null)
+        {
+            client.IsVerified = status;
+
+            context.Update(client);
+
+            await context.SaveChangesAsync();
+        }       
+    }
+
+    public async Task SaveDetailAngkut(IzinAngkut detail) {
+        if (detail.IzinAngkutId == 0) {
             await context.AddAsync(detail);
         } else {
-            DetailAngkut data = await context.DetailAngkuts.FindAsync(detail.DetailAngkutId);
+            IzinAngkut data = await context.IzinAngkuts.FindAsync(detail.IzinAngkutId);
 
             if (data is not null) {
                 data.JmlAngkutan = detail.JmlAngkutan;
                 data.NoIzinUsaha = detail.NoIzinUsaha;
                 data.TglTerbitIzin = detail.TglTerbitIzin;
-                data.TglAkhirIzin = detail.TglAkhirIzin;
-                data.NIB = detail.NIB;
+                data.TglAkhirIzin = detail.TglAkhirIzin;                
 
                 context.Update(data);
             }
@@ -62,17 +77,16 @@ public class ClientService : IClient {
         await context.SaveChangesAsync();
     }
 
-    public async Task SaveDetailOlah(DetailOlah detail) {
-        if (detail.DetailOlahId == 0) {
+    public async Task SaveDetailOlah(IzinOlah detail) {
+        if (detail.IzinOlahId == 0) {
             await context.AddAsync(detail);
         } else {
-            DetailAngkut data = await context.DetailAngkuts.FindAsync(detail.DetailOlahId);
+            IzinAngkut data = await context.IzinAngkuts.FindAsync(detail.IzinOlahId);
 
             if (data is not null) {                
                 data.NoIzinUsaha = detail.NoIzinUsaha;
                 data.TglTerbitIzin = detail.TglTerbitIzin;
-                data.TglAkhirIzin = detail.TglAkhirIzin;
-                data.NIB = detail.NIB;
+                data.TglAkhirIzin = detail.TglAkhirIzin;                
 
                 context.Update(data);
             }

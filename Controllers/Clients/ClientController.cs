@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Repository;
 using Simoja.Helpers;
 using Simoja.Entity;
 using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Simoja.Controllers;
 
 [Authorize]
 public class ClientController : Controller {
-    private IClient repo;
+    private readonly IClient repo;
 
     public ClientController(IClient cRepo) {
         repo = cRepo;
@@ -78,28 +78,26 @@ public class ClientController : Controller {
             .Select(cli => cli.ClientId)
             .FirstOrDefaultAsync();
 
-        DetailAngkut detail = await repo.DetailAngkuts.Where(ang => ang.ClientId == curClient).FirstOrDefaultAsync();
+        IzinAngkut detail = await repo.IzinAngkuts.Where(ang => ang.ClientId == curClient).FirstOrDefaultAsync();
 
-        if (detail != null) {
-            return View(detail);
-        }
+        //if (detail != null) {
+        //    return View(detail);
+        //}
 
         return View(new RegAngkutModel {
-            DetailAngkut = new DetailAngkut {
-                DokumenIzinPath = "/upload",
-                NIBPath = "/upload"
-            },
-            TglAwal = DateTime.Now.ToString("dd/MM/yyyy"),
-            TglAkhir = DateTime.Now.ToString("dd/MM/yyyy")
+            DetailAngkut = new IzinAngkut {
+                DokumenIzinPath = "/upload"                
+            }
         });
     }
 
     [HttpGet("/clients/register/pengolahan")]
+    [Authorize(Roles = "SimojaOlah")]
     public IActionResult RegisterOlah() {
         return View(new RegOlahModel{
-            DetailOlah = new DetailOlah(),
-            TglAwal = DateTime.Now.ToString("dd/MM/yyyy"),
-            TglAkhir = DateTime.Now.ToString("dd/MM/yyyy")
+            IzinOlah = new IzinOlah(),
+            TglAwal = String.Empty,
+            TglAkhir = String.Empty
         });
     }
 
@@ -109,13 +107,13 @@ public class ClientController : Controller {
             .Select(ci => ci.ClientId)
             .FirstOrDefaultAsync();
 
-        DetailKawasan detail = await repo.DetailKawasans.Where(o => o.ClientId == curClient).FirstOrDefaultAsync();
+        IzinlKawasan detail = await repo.IzinKawasans.Where(o => o.ClientId == curClient).FirstOrDefaultAsync();
 
         if (detail is not null) {
             return View(detail);
         }
 
-        return View(new DetailKawasan());
+        return View(new IzinlKawasan());
     }
 
     // Upload Function
@@ -492,7 +490,7 @@ public class ClientController : Controller {
         if (ModelState.IsValid) {
             await repo.SaveDetailAngkut(model.DetailAngkut);
 
-            return RedirectToAction("Waiting");
+            return Json(Result.Success());
         }
 
         return View("~/Views/Client/RegisterAngkut.cshtml", model);
@@ -503,16 +501,15 @@ public class ClientController : Controller {
     public async Task<IActionResult> SaveDetailOlah(RegOlahModel model) {
         Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        model.DetailOlah.ClientId = client.ClientId;
-        model.DetailOlah.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin";
-        model.DetailOlah.NIBPath = "/upload/" + client.ClientGuid + "/nib";
-        model.DetailOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
-        model.DetailOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+        model.IzinOlah.ClientId = client.ClientId;
+        model.IzinOlah.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin";        
+        model.IzinOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        model.IzinOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
         if (ModelState.IsValid) {
-            await repo.SaveDetailOlah(model.DetailOlah);
+            await repo.SaveDetailOlah(model.IzinOlah);
 
-            return RedirectToAction("Waiting");
+            return Json(Result.Success());
         }
 
         return View("~/Views/Client/RegisterOlah.cshtml", model);

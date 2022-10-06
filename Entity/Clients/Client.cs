@@ -55,6 +55,11 @@ public class Client {
     [MaxLength(15)]
     public string? NoHpPIC { get; set; }
 
+    [MaxLength(150)]
+    public string? NIB { get; set; }
+
+    public int? FlagId { get; set; }
+
     #nullable enable
     public DateTime? CreatedAt { get; set ;} = DateTime.Now;
 
@@ -63,11 +68,13 @@ public class Client {
     #nullable disable
     public Kelurahan Kelurahan { get; set; }
 
-    public DetailAngkut DetailAngkut { get; set; }
+    public IzinAngkut IzinAngkut { get; set; }
 
-    public DetailOlah DetailOlah { get; set; }
+    public IzinOlah IzinOlah { get; set; }
 
-    public DetailKawasan DetailKawasan { get; set; }
+    public IzinlKawasan IzinKawasan { get; set; }
+
+    public Flag Flag { get; set; }
 
     public List<Kendaraan> Kendaraans { get; set; }
 

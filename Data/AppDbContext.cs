@@ -23,15 +23,17 @@ public class AppDbContext : DbContext {
 
     public DbSet<Client> Clients { get; set; }
 
-    public DbSet<DetailAngkut> DetailAngkuts { get; set; }
+    public DbSet<IzinAngkut> IzinAngkuts { get; set; }
 
-    public DbSet<DetailOlah> DetailOlahs { get; set; }
+    public DbSet<IzinOlah> IzinOlahs { get; set; }
 
-    public DbSet<DetailKawasan> DetailKawasans { get; set; }
+    public DbSet<IzinlKawasan> IzinKawasans { get; set; }
 
     public DbSet<JenisKendaraan> JenisKendaraans { get; set; }
 
     public DbSet<Kendaraan> Kendaraans { get; set; }
 
     public DbSet<LokasiAngkut> LokasiAngkuts { get; set; }
+
+    public DbSet<Flag> Statuses { get; set; }
 }

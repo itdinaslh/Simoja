@@ -36,7 +36,7 @@ public class JasaAngkutController : Controller {
             .FirstOrDefaultAsync();
 
         #nullable disable
-        var detail = await clientRepo.DetailAngkuts
+        var detail = await clientRepo.IzinAngkuts
             .Where(d => d.ClientId == thisClient.ClientId)
             .Select(d => new {
                 d.JmlAngkutan
