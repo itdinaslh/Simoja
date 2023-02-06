@@ -25,10 +25,11 @@ public class IzinAngkut {
     public DateOnly TglAkhirIzin { get; set; }
     
     #nullable enable
-    public string? DokumenIzinPath { get; set; }    
-    
-    #nullable enable
-    public string? NIBPath { get; set; }
+    public string? DokumenIzinPath { get; set; }
+
+#nullable enable
+
+    public Guid? UniqueId { get; set; } = Guid.NewGuid();
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 

@@ -72,6 +72,7 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/register/pengangkutan")]
+    [Authorize(Roles = "SimojaAngkut")]
     public async Task<IActionResult> RegisterAngkut() {
         #nullable disable
         int curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
@@ -80,12 +81,8 @@ public class ClientController : Controller {
 
         IzinAngkut detail = await repo.IzinAngkuts.Where(ang => ang.ClientId == curClient).FirstOrDefaultAsync();
 
-        //if (detail != null) {
-        //    return View(detail);
-        //}
-
         return View(new RegAngkutModel {
-            DetailAngkut = new IzinAngkut {
+            IzinAngkut = new IzinAngkut {
                 DokumenIzinPath = "/upload"                
             }
         });
@@ -102,6 +99,7 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/register/usaha-kegiatan")]
+    [Authorize(Roles = "SimojaUsaha")]
     public async Task<IActionResult> RegisterUsaha() {
         int curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
             .Select(ci => ci.ClientId)
@@ -119,18 +117,18 @@ public class ClientController : Controller {
     // Upload Function
 
     [HttpPost("/clients/upload/izin")]
-    public async Task<IActionResult> UploadIzin(List<IFormFile> files) {
+    public async Task<IActionResult> UploadIzin(List<IFormFile> files, string id) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/izin");            
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/izin/" + id);            
 
             //create folder if not exist
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);            
 
             //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
             string fileNameWithPath = Path.Combine(path, fileName);            
@@ -251,10 +249,10 @@ public class ClientController : Controller {
     // Get Folder Contents For Dropzone Preview
 
     [HttpGet("/clients/dokumen/izin")]
-    public async Task<JsonResult> GetFolderIzinContents() {
+    public async Task<JsonResult> GetFolderIzinContents(string id) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/izin";
+        var folderPath = "wwwroot/upload/" + c.ClientGuid + "/izin/" + id;
 
         if (!Directory.Exists(folderPath))
             return new JsonResult("Folder not exists!") { StatusCode = (int)HttpStatusCode.NotFound };
@@ -402,10 +400,10 @@ public class ClientController : Controller {
 
     // Dropzone Delete Function
     [HttpGet("/clients/dokumen/izin/delete")]
-    public async Task<JsonResult> DeleteFileIzin(string file) {
+    public async Task<JsonResult> DeleteFileIzin(string id, string file) {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/izin/" + file);
+        var filePath = Path.Combine("wwwroot/upload/" + c.ClientGuid + "/izin/" + id + "/" + file);
 
         try {
             System.IO.File.Delete(filePath);
@@ -478,17 +476,16 @@ public class ClientController : Controller {
 
     [HttpPost("/clients/register/angkut/save")]
     // [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveDetailAngkut(RegAngkutModel model) {
+    public async Task<IActionResult> SaveIzinAngkut(RegAngkutModel model) {
         Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        model.DetailAngkut.ClientId = client.ClientId;
-        model.DetailAngkut.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin";
-        model.DetailAngkut.NIBPath = "/upload/" + client.ClientGuid + "/nib";
-        model.DetailAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
-        model.DetailAngkut.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+        model.IzinAngkut.ClientId = client.ClientId;
+        model.IzinAngkut.DokumenIzinPath = "/upload/" + client.ClientGuid + "/izin/" + model.IzinAngkut.UniqueId ;        
+        model.IzinAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        model.IzinAngkut.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
         if (ModelState.IsValid) {
-            await repo.SaveDetailAngkut(model.DetailAngkut);
+            await repo.SaveIzinAngkut(model.IzinAngkut);
 
             return Json(Result.Success());
         }
@@ -507,7 +504,7 @@ public class ClientController : Controller {
         model.IzinOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
         if (ModelState.IsValid) {
-            await repo.SaveDetailOlah(model.IzinOlah);
+            await repo.SaveIzinOlah(model.IzinOlah);
 
             return Json(Result.Success());
         }

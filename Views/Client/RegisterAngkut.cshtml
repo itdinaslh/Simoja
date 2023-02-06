@@ -22,15 +22,16 @@
             <div class="panel-container show">
                 <div class="panel-content">
                     <form id="clientform" action="/clients/register/angkut/save" method="post">
-                        <input type="hidden" asp-for="DetailAngkut.IzinAngkutId" >
+                        <input type="hidden" asp-for="IzinAngkut.IzinAngkutId" >
+                        <input type="hidden" asp-for="IzinAngkut.UniqueId" class="myUID" />
                         <div asp-validation-summary="All"></div>
                         <div class="form-group">
                             <label for="">No. Izin Usaha yang diterbitkan oleh PTSP *</label>
-                            <input type="text" asp-for="DetailAngkut.NoIzinUsaha" class="form-control datainput" required autocomplete="off">
+                            <input type="text" asp-for="IzinAngkut.NoIzinUsaha" class="form-control datainput" required autocomplete="off">
                         </div>
                         <div class="form-group">                            
                             <label for="">Jumlah Kendaraan Berizin</label>
-                            <input type="number" asp-for="DetailAngkut.JmlAngkutan" id="txtJmlAngkut" class="form-control" autocomplete="off">
+                            <input type="number" asp-for="IzinAngkut.JmlAngkutan" id="txtJmlAngkut" class="form-control" autocomplete="off">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
@@ -113,13 +114,17 @@
                 </div>
             </div>
         </div>
+        <div class="text-right">
+            <button id="nextBtn" class="btn btn-danger">Berikutnya</button>
+        </div>
     </div>
 </div>
 
 @section scripts {
+    <script src="~/lib/uuid/uuid.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
     <script src="~/js/formplugins/dropzone/dropzone.js"></script>
-    <script src="~/js/pages/auth/regclient.js"></script>
+    <script src="~/js/pages/auth/regangkut.js"></script>
 }

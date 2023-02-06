@@ -58,7 +58,7 @@ public class ClientService : IClient {
         }       
     }
 
-    public async Task SaveDetailAngkut(IzinAngkut detail) {
+    public async Task SaveIzinAngkut(IzinAngkut detail) {
         if (detail.IzinAngkutId == 0) {
             await context.AddAsync(detail);
         } else {
@@ -77,7 +77,7 @@ public class ClientService : IClient {
         await context.SaveChangesAsync();
     }
 
-    public async Task SaveDetailOlah(IzinOlah detail) {
+    public async Task SaveIzinOlah(IzinOlah detail) {
         if (detail.IzinOlahId == 0) {
             await context.AddAsync(detail);
         } else {
