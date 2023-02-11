@@ -21,7 +21,7 @@ public class HomeController : Controller
     [HttpGet("/dashboard")]
     public async Task<IActionResult> Index()
     {
-        if (User.IsInRole("SysAdmin") || User.IsInRole("SimojaAdmin")) {
+        if (User.IsInRole("SysAdmin") || User.IsInRole("PkmAdmin")) {
             return View();
         }
 
@@ -29,16 +29,16 @@ public class HomeController : Controller
 
         var thisClient = await repo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId,
-                c.JenisUsahaId,
+                c.ClientID,
+                c.JenisUsahaID,
                 c.IsVerified
             })
             .FirstOrDefaultAsync();
 
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
-        } else if (thisClient.JenisUsahaId == 1) {            
-            var data = await repo.IzinAngkuts.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+        } else if (thisClient.JenisUsahaID == 1) {            
+            var data = await repo.IzinAngkuts.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
                     return RedirectToAction("Dashboard", "JasaAngkut");
@@ -47,9 +47,9 @@ public class HomeController : Controller
             } else {
                 return RedirectToAction("RegisterAngkut", "Client");
             }
-        } else if (thisClient.JenisUsahaId == 2) {
-            var data = await repo.IzinOlahs.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
-            if (data is not null) {
+        } else if (thisClient.JenisUsahaID == 2) {
+            var data = await repo.IzinOlahs.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
+            if (data is not null) { 
                 if (thisClient.IsVerified)
                     return RedirectToAction("IndexOlah");
 
@@ -58,7 +58,7 @@ public class HomeController : Controller
                 return RedirectToAction("RegisterOlah", "Client");
             }
         } else {
-            var data = await repo.IzinKawasans.Where(d => d.ClientId == thisClient.ClientId).FirstOrDefaultAsync();
+            var data = await repo.IzinKawasans.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
             if (data is not null) {
                 if (thisClient.IsVerified)
                     return RedirectToAction("IndexUsaha");

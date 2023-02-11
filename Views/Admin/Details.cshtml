@@ -31,7 +31,7 @@
             </div>
             <div class="panel-container show">
                 <form action="/admin/jasa/details/update" id="frmUpdate" method="post">
-                    <input type="hidden" asp-for="Client!.ClientId" id="theID">
+                    <input type="hidden" asp-for="Client!.ClientID" id="theID">
                     <div class="panel-content">
                         <div class="form-group">
                             <label for="">Nama Perusahaan</label>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Jenis Usaha</label>
-                            <select asp-for="Client!.JenisUsahaId" id="JenisUsaha" class="form-control" required autocomplete="off">
+                            <select asp-for="Client!.JenisUsahaID" id="JenisUsaha" class="form-control" required autocomplete="off">
                                 <option value="1">Pengangkutan Sampah</option>
                                 <option value="2">Pengolahan Sampah</option>
                             </select>

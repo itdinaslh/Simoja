@@ -42,7 +42,7 @@ namespace Simoja.Controllers.api.clients
             int recordsTotal = 0;
 
             var init = clientRepo.IzinOlahs
-                .Where(k => k.ClientId == thisClient.ClientId);
+                .Where(k => k.ClientID == thisClient.ClientID);
 
             if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
             {
@@ -60,7 +60,7 @@ namespace Simoja.Controllers.api.clients
 
             var result = await init
                 .Select(c => new {
-                    izinOlahId = c.IzinOlahId,
+                    izinOlahId = c.IzinOlahID,
                     noIzinUsaha = c.NoIzinUsaha,                    
                     tglAkhirIzin = c.TglAkhirIzin.ToString("dd/MM/yyyy")
                 })

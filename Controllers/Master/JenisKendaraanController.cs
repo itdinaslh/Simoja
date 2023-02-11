@@ -25,7 +25,7 @@ public class JenisKendaraanController : Controller {
 
     [HttpGet("/master/kendaraan/jenis/edit")]
     public async Task<IActionResult> Edit(int jenisId) => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", 
-        await repo.JenisKendaraans.FirstOrDefaultAsync(j => j.JenisKendaraanId == jenisId)
+        await repo.JenisKendaraans.FirstOrDefaultAsync(j => j.JenisKendaraanID == jenisId)
     );
 
     [HttpPost("/master/kendaraan/jenis/save")]

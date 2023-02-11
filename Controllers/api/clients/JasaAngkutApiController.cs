@@ -26,7 +26,7 @@ public class JasaAngkutApiController : Controller {
         
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId
+                c.ClientID
             })
             .FirstOrDefaultAsync();
 
@@ -41,7 +41,7 @@ public class JasaAngkutApiController : Controller {
         int recordsTotal = 0;
 
         var init = repo.Kendaraans
-            .Where(k => k.ClientId == thisClient.ClientId);
+            .Where(k => k.ClientID == thisClient.ClientID);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -58,8 +58,8 @@ public class JasaAngkutApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                kendaraanId = c.KendaraanId,
-                uniqueId = c.UniqueId,
+                kendaraanId = c.KendaraanID,
+                uniqueId = c.UniqueID,
                 noPolisi = c.NoPolisi,
                 noPintu = c.NoPintu,
                 jenis = c.JenisKendaraan.NamaJenis,
@@ -83,7 +83,7 @@ public class JasaAngkutApiController : Controller {
         
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId
+                c.ClientID
             })
             .FirstOrDefaultAsync();
 
@@ -98,7 +98,7 @@ public class JasaAngkutApiController : Controller {
         int recordsTotal = 0;
 
         var init = lokasiRepo.LokasiAngkuts
-            .Where(k => k.ClientId == thisClient.ClientId);
+            .Where(k => k.ClientID == thisClient.ClientID);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -114,8 +114,8 @@ public class JasaAngkutApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                lokasiAngkutId = c.LokasiAngkutId,
-                uniqueId = c.UniqueId,
+                lokasiAngkutID = c.LokasiAngkutID,
+                uniqueID = c.UniqueID,
                 namaLokasi = c.NamaLokasi,
                 kabupaten = c.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
                 kecamatan = c.Kelurahan.Kecamatan.NamaKecamatan,
@@ -151,7 +151,7 @@ public class JasaAngkutApiController : Controller {
         int recordsTotal = 0;
 
         var init = clientRepo.IzinAngkuts
-            .Where(k => k.ClientId == thisClient.ClientId);
+            .Where(k => k.ClientID == thisClient.ClientID);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -167,7 +167,7 @@ public class JasaAngkutApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                izinAngkutId = c.IzinAngkutId,
+                izinAngkutId = c.IzinAngkutID,
                 noIzinUsaha = c.NoIzinUsaha,
                 jmlAngkutan = c.JmlAngkutan,
                 tglAkhirIzin = c.TglAkhirIzin.ToString("dd/MM/yyyy")

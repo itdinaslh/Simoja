@@ -53,7 +53,7 @@ public class JenisKendaraanApiController : Controller {
             .Where(j => !String.IsNullOrEmpty(term) ?
                 j.NamaJenis.ToLower().Contains(term.ToLower()) : true            
             ).Select(jen => new {
-                id = jen.JenisKendaraanId,
+                id = jen.JenisKendaraanID,
                 namaJenis = jen.NamaJenis
             }).Take(10).ToListAsync();
 

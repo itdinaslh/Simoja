@@ -2,9 +2,9 @@
 
 <form action="/master/kendaraan/jenis/save" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="JenisKendaraanId" />
+    <input type="hidden" asp-for="JenisKendaraanID" />
     <div class="modal-header bg-primary-700 bg-success-gradient">
-        @if (Model.JenisKendaraanId == 0)
+        @if (Model.JenisKendaraanID == 0)
         {
             <h4 class="modal-title">Tambah Jenis kendaraan</h4>
         }

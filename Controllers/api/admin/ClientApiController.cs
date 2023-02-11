@@ -30,7 +30,7 @@ public class ClientApiController : Controller {
         int recordsTotal = 0;
 
         var init = clientRepo.Clients
-            .Where(c => c.JenisUsahaId != 3 && c.IsVerified == false);
+            .Where(c => c.JenisUsahaID != 3 && c.IsVerified == false);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -44,13 +44,12 @@ public class ClientApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                clientId = c.ClientId,
+                clientId = c.ClientID,
                 clientName = c.ClientName,
-                jenisId = c.JenisUsahaId,
-                jenisUsaha = c.JenisUsahaId == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
+                jenisId = c.JenisUsahaID,
+                jenisUsaha = c.JenisUsahaID == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
                 email = c.UserId,
-                telp = c.Telp,
-                clientGuid = c.ClientGuid
+                telp = c.Telp                
             })
             .Skip(skip)
             .Take(pageSize)

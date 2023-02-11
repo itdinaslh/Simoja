@@ -21,7 +21,7 @@
                     <form id="clientform" asp-action="Register" asp-controller="Client" method="post">
                         <div class="form-row">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="ClientId" />
+                            <input type="hidden" asp-for="ClientID" />
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Nama Badan Usaha / Penyedia Jasa *</label>
                                 <input type="text" asp-for="ClientName" class="form-control" value="@(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())" readonly required autocomplete="off">

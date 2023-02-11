@@ -19,14 +19,14 @@ function loadTable() {
             method: 'POST'
         },
         columns: [
-            {data:'jenisKendaraanId', name:'jenisKendaraanId'},
+            {data:'jenisKendaraanID', name:'jenisKendaraanID'},
             {data:'globalId', name:'globalId'},
             {data:'namaJenis', name:'namaJenis'},
             {
                 "render": function (data, type, row)
                 {
                     return "<button class='btn btn-sm btn-outline-success mr-2 showMe' style='width:100%;' data-href='/master/kendaraan/jenis/edit/?jenisId="
-                    + row.jenisKendaraanId + "'><i class='fal fa-edit'></i> Edit</button>";
+                    + row.jenisKendaraanID + "'><i class='fal fa-edit'></i> Edit</button>";
                 }
             }
         ],

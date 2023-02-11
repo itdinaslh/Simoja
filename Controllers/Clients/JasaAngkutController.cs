@@ -31,19 +31,19 @@ public class JasaAngkutController : Controller {
 
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId
+                c.ClientID
             })
             .FirstOrDefaultAsync();
 
         #nullable disable
         var detail = await clientRepo.IzinAngkuts
-            .Where(d => d.ClientId == thisClient.ClientId)
+            .Where(d => d.ClientID == thisClient.ClientID)
             .Select(d => new {
                 d.JmlAngkutan
             }).FirstOrDefaultAsync();
 
         int jumlah = await vehicle.Kendaraans
-            .Where(k => k.ClientId == thisClient.ClientId)
+            .Where(k => k.ClientID == thisClient.ClientID)
             .CountAsync();
 
         bool isForbid = true;
@@ -70,7 +70,7 @@ public class JasaAngkutController : Controller {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/stnk/" + id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/stnk/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -96,7 +96,7 @@ public class JasaAngkutController : Controller {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/kir/" + id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/kir/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -122,7 +122,7 @@ public class JasaAngkutController : Controller {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/foto-kendaraan/" + id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/foto-kendaraan/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -147,30 +147,29 @@ public class JasaAngkutController : Controller {
         var client = await clientRepo.Clients
             .Where(c => c.UserId == User.Identity.Name)
             .Select(c => new {
-                c.ClientId,
-                c.ClientGuid             
+                c.ClientID                             
             })
             .FirstOrDefaultAsync();
 
         Guid uid = Guid.NewGuid();
 
         var kendaraan = await vehicle.Kendaraans
-            .Where(v => v.KendaraanId == model.Kendaraan.KendaraanId)
+            .Where(v => v.KendaraanID == model.Kendaraan.KendaraanID)
             .FirstOrDefaultAsync();
 
         if (kendaraan is not null) {
-            uid = kendaraan.UniqueId;
+            uid = kendaraan.UniqueID;
         } else {
             uid = model.UID;
         }
 
-        model.Kendaraan.ClientId = client.ClientId;
-        model.Kendaraan.DokumenSTNK = "/upload/" + client.ClientGuid + "/stnk/" + uid;
-        model.Kendaraan.DokumenKIR = "/upload/" + client.ClientGuid + "/kir/" + uid;
-        model.Kendaraan.FotoKendaraan = "/upload/" + client.ClientGuid + "/foto-kendaraan" + uid;
+        model.Kendaraan.ClientID = client.ClientID;
+        model.Kendaraan.DokumenSTNK = "/upload/" + client.ClientID + "/stnk/" + uid;
+        model.Kendaraan.DokumenKIR = "/upload/" + client.ClientID + "/kir/" + uid;
+        model.Kendaraan.FotoKendaraan = "/upload/" + client.ClientID + "/foto-kendaraan" + uid;
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
-        model.Kendaraan.UniqueId = uid;
+        model.Kendaraan.UniqueID = uid;
 
         if (ModelState.IsValid) {
             await vehicle.SaveKendaraanAsync(model.Kendaraan);
@@ -191,7 +190,7 @@ public class JasaAngkutController : Controller {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientGuid + "/lokasi-angkut/" + id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/lokasi-angkut/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))
@@ -227,28 +226,27 @@ public class JasaAngkutController : Controller {
 
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
-                c.ClientId,
-                c.ClientGuid
+                c.ClientID                
             }).FirstOrDefaultAsync();
 
         Guid uid = Guid.Empty;
 
         var lokasi = await lokasiRepo.LokasiAngkuts
-            .Where(l => l.LokasiAngkutId == model.LokasiAngkut.LokasiAngkutId)
+            .Where(l => l.LokasiAngkutID == model.LokasiAngkut.LokasiAngkutID)
             .FirstOrDefaultAsync();
 
         if (lokasi is not null) {
-            uid = model.LokasiAngkut.UniqueId;
+            uid = model.LokasiAngkut.UniqueID;
         } else {
             uid = model.UID;
         }
 
-        model.LokasiAngkut.ClientId = thisClient.ClientId;        
-        model.LokasiAngkut.DokumenPath = "/upload/" + thisClient.ClientGuid + "/lokasi-angkut/" + uid;
+        model.LokasiAngkut.ClientID = thisClient.ClientID;        
+        model.LokasiAngkut.DokumenPath = "/upload/" + thisClient.ClientID + "/lokasi-angkut/" + uid;
         model.LokasiAngkut.TglAwalKontrak = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
         model.LokasiAngkut.TglAkhirKontrak = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
-        model.LokasiAngkut.UniqueId = uid;
+        model.LokasiAngkut.UniqueID = uid;
 
         if (ModelState.IsValid) {
             await lokasiRepo.SaveLokasiAngkutAsync(model.LokasiAngkut);

@@ -25,7 +25,7 @@ public class AdminController : Controller {
     [HttpGet("/admin/jasa/details")]
     public async Task<IActionResult> Details(int type, Guid theID)
     {
-        Client? client = await repo.Clients.Where(c => c.ClientGuid == theID)
+        Client? client = await repo.Clients.Where(c => c.ClientID == theID)
             .Include(k => k.Kelurahan.Kecamatan.Kabupaten)
             .FirstOrDefaultAsync();
 
@@ -59,9 +59,9 @@ public class AdminController : Controller {
     }
 
     [HttpPost("/admin/clients/verifikasi")]
-    public async Task<IActionResult> VerifyCLient(int theID)
+    public async Task<IActionResult> VerifyCLient(Guid theID)
     {
-        Client? client = await repo.Clients.Where(c => c.ClientId == theID).FirstOrDefaultAsync();
+        Client? client = await repo.Clients.Where(c => c.ClientID == theID).FirstOrDefaultAsync();
 
         if (client is not null)
         {
