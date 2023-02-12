@@ -10,6 +10,8 @@ public class AddressService : IAddressRepo {
 
     public AddressService(AppDbContext ctx) => context = ctx;
 
+    public IQueryable<Provinsi> Provinsis => context.Provinsis;
+
     public IQueryable<Kabupaten> Kabupatens => context.Kabupatens;
 
     public IQueryable<Kecamatan> Kecamatans => context.Kecamatans;

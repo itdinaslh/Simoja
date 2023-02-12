@@ -84,6 +84,6 @@ public class HomeController : Controller
     [HttpGet("/dashboard/usaha-kegiatan")]
     public IActionResult IndexUsaha() {
         return View();
-    }
+    }   
 
 }

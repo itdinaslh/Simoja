@@ -8,13 +8,25 @@
 
   <ItemGroup>
     <Compile Remove="Views\Admin\JasaAngkut\**" />
+    <Compile Remove="wwwroot\dist\**" />
     <Content Remove="Views\Admin\JasaAngkut\**" />
+    <Content Remove="wwwroot\dist\**" />
     <EmbeddedResource Remove="Views\Admin\JasaAngkut\**" />
+    <EmbeddedResource Remove="wwwroot\dist\**" />
     <None Remove="Views\Admin\JasaAngkut\**" />
+    <None Remove="wwwroot\dist\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Client\Register.cshtml.bak" />
   </ItemGroup>
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="wwwroot\css\fab.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Client\Register.cshtml.bak" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\pages\registration\" />
     <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 

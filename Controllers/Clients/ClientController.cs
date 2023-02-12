@@ -30,7 +30,7 @@ public class ClientController : Controller {
         Client client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID.ToString() == uid);
 
         if (client == null)
-            return View();
+            return View(new Client());
 
         if (User.IsInRole("PkmAngkut"))
             return RedirectToAction("RegisterAngkut");
@@ -44,18 +44,18 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/register")]
-    public async Task<IActionResult> Register(Client client) {
+    public async Task<IActionResult> Register(Client client) {        
         if(ModelState.IsValid) {
             int theID = 1;
             string action = "";
 
-            if (User.IsInRole("SimojaAngkut")) {
+            if (User.IsInRole("PkmAngkut")) {
                 theID = 1;
                 action = "RegisterAngkut";
-            } else if (User.IsInRole("SimojaOlah")) {
+            } else if (User.IsInRole("PkmOlah")) {
                 theID = 2;
                 action = "RegisterOlah";
-            } else {
+            } else if (User.IsInRole("PkmAngkutOlah")) {
                 theID = 3;
                 action = "RegisterUsaha";
             }
@@ -65,7 +65,7 @@ public class ClientController : Controller {
             try {
                 await repo.SaveClientAsync(client);                
             } catch {
-                return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };               
+                return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
             }
 
             return RedirectToAction(action);
@@ -92,7 +92,7 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/register/pengolahan")]
-    [Authorize(Roles = "SimojaOlah")]
+    [Authorize(Roles = "PkmOlah")]
     public IActionResult RegisterOlah() {
         return View(new RegOlahModel{
             IzinOlah = new IzinOlah(),
@@ -102,7 +102,7 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/register/usaha-kegiatan")]
-    [Authorize(Roles = "SimojaUsaha")]
+    [Authorize(Roles = "PkmUsaha")]
     public async Task<IActionResult> RegisterUsaha() {
         Guid curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
             .Select(ci => ci.ClientID)

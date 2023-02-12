@@ -1,0 +1,100 @@
+@model Simoja.Entity.Client
+
+@{
+    Layout = "_RegNew";
+    ViewBag.Title = "Pendaftaran";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />    
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Data Perusahaan</h2>                
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">                    
+                    <form id="clientform" asp-action="Register" asp-controller="Client" method="post">
+                        <div class="form-row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="ClientID" />
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Nama Badan Usaha / Penyedia Jasa *</label>
+                                <input type="text" asp-for="ClientName" class="form-control" value="@(((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "given_name").Select(c => c.Value).SingleOrDefault())" readonly required autocomplete="off">
+                                <span asp-validation-for="ClientName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Email</label>
+                                <input type="text" value="@(User.Identity?.Name)" asp-for="UserId" readonly class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <hr style="border-top: 1px dotted grey;">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Telp *</label>
+                                <input type="text" asp-for="Telp" class="form-control" autofocus required autocomplete="off" >
+                                <span asp-validation-for="Telp" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">No. Fax</label>
+                                <input type="text" asp-for="Fax" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kota / Kabupaten Administrasi *</label>
+                                <select name="idKota" id="cbIdKota" class="form-control" required></select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kecamatan *</label>
+                                <select name="idKecamatan" id="cbIdKecamatan" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Kelurahan *</label>
+                                <select asp-for="KelurahanID" id="cbIdKelurahan" class="form-control" required></select>
+                                <span asp-validation-for="KelurahanID" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Alamat *</label>
+                                <input type="text" asp-for="Alamat" class="form-control" required autocomplete="off" >
+                                <span asp-validation-for="Alamat" class="text-danger"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Nama Penanggung Jawab</label>
+                                <input type="text" asp-for="PenanggungJawab" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Nama PIC</label>
+                                <input type="text" asp-for="PIC" class="form-control" autocomplete="off" >
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">No HP PIC</label>
+                                <input type="text" asp-for="NoHpPIC" class="form-control" autocomplete="off" >
+                            </div>
+                        </div>
+
+                        <hr style="border-top: 1px dotted grey;">
+
+                        <div class="form-group text-right">
+                            <button type="submit" class="btn btn-success">Berikutnya</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>     
+    <script src="~/js/address.js"></script>    
+}

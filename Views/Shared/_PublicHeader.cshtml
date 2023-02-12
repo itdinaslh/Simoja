@@ -54,7 +54,7 @@
 							</li>
                             
 							<li>
-								<a href="https://localhost:6001/Identity/Account/RegisterPKM">Daftar PKM</a>
+								<a asp-controller="Account" asp-action="Register">Daftar PKM</a>
                             </li>
                             <li class="{{Request::path() == 'login' ? 'active' : ''}}">
                                 <a href="/login">Login</a>
