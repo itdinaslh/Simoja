@@ -44,21 +44,46 @@ public class Client {
 
     public int? JenisUsahaID { get; set; }
 
-    [MaxLength(75)]
-    public string? PenanggungJawab { get; set; }
+#nullable disable
 
     [MaxLength(75)]
-    public string? PIC { get; set; }
+    public string PenanggungJawab { get; set; }
+
+    [Required(ErrorMessage = "NIK / No KTP Penanggung Jawab wajib diisi")]
+    [Display(Name = "NIK / No KTP")]
+    [Range(0, 9999999999999999, ErrorMessage = "Masukan format NIK dengan benar")]
+    [StringLength(16, MinimumLength = 16, ErrorMessage = "NIK harus 16 karakter")]
+    [MaxLength(16)]
+    public string NIK { get; set; }
+
+    [Required(ErrorMessage = "No. NPWP Penanggung Jawab wajib diisi")]
+    [MaxLength(30)]
+    public string NPWP { get; set; }
+
+    [MaxLength(75)]
+    [Required(ErrorMessage = "Nama PIC wajib diisi")]
+    public string PIC { get; set; }
 
     [MaxLength(15)]
-    public string? NoHpPIC { get; set; }
+    [Required(ErrorMessage = "No. HP PIC wajib diisi")]
+    public string NoHpPIC { get; set; }
+
+    [MaxLength(255)]
+    public string DokumenKTP { get; set; }
+
+    [MaxLength(255)]
+    public string DokumenNPWP { get; set; }
+
+#nullable enable
 
     [MaxLength(150)]
     public string? NIB { get; set; }
 
+    [MaxLength(255)]
+    public string? DokumenNIB { get; set; }
+
     public int? FlagID { get; set; }
 
-    #nullable enable
     public DateTime? CreatedAt { get; set ;} = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;

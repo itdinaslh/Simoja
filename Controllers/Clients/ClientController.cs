@@ -30,7 +30,10 @@ public class ClientController : Controller {
         Client client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID.ToString() == uid);
 
         if (client == null)
-            return View(new Client());
+            return View(new RegisterVM
+            {
+                Client = new Client()
+            });
 
         if (User.IsInRole("PkmAngkut"))
             return RedirectToAction("RegisterAngkut");
@@ -44,6 +47,7 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/register")]
+    [Authorize(Roles = "PkmAngkut, PkmOlah, PkmAngkutOlah, PkmUsaha")]
     public async Task<IActionResult> Register(Client client) {        
         if(ModelState.IsValid) {
             int theID = 1;
