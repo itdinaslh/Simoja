@@ -2,23 +2,23 @@
     document.querySelector('.select2-search__field').focus();
 });
 
-$('#sKabupaten').select2({
+$('.sKabupaten').select2({
     placeholder: 'Pilih Kabupaten...',
     allowClear: true
 });
 
-$('#sKecamatan').select2({
+$('.sKecamatan').select2({
     placeholder: 'Pilih Kecamatan...',
     allowClear: true
 });
 
-$('#sKelurahan').select2({
+$('.sKelurahan').select2({
     placeholder: 'Pilih Kelurahan...',
     allowClear: true
 });
 
 function PopulateProvinsi() {
-    $('#sProvinsi').select2({
+    $('.sProvinsi').select2({
         placeholder: 'Pilih Provinsi...',
         allowClear: true,
         ajax: {
@@ -43,15 +43,15 @@ function PopulateProvinsi() {
             cache: true
         }
     }).on('change', function () {
-        $('#sKabupaten').val(null).trigger('change');
-        var theID = $('#sProvinsi option:selected').val();
+        $('.sKabupaten').val(null).trigger('change');
+        var theID = $('.sProvinsi option:selected').val();
         PopulateKabupaten(theID);
-        $('#sKabupaten').select2('focus');
+        $('.sKabupaten').select2('focus');
     });
 }
 
 function PopulateKabupaten(provID) {
-    $('#sKabupaten').select2({
+    $('.sKabupaten').select2({
         placeholder: 'Pilih Kota/Kabupaten...',
         allowClear: true,
         ajax: {
@@ -76,15 +76,15 @@ function PopulateKabupaten(provID) {
             cache: true
         }
     }).on('change', function () {
-        $('#sKecamatan').val(null).trigger('change');
-        var theID = $('#sKabupaten option:selected').val();
+        $('.sKecamatan').val(null).trigger('change');
+        var theID = $('.sKabupaten option:selected').val();
         PopulateKecamatan(theID);
-        $('#sKecamatan').select2('focus');
+        $('.sKecamatan').select2('focus');
     });
 }
 
 function PopulateKecamatan(kab) {
-    $('#sKecamatan').select2({
+    $('.sKecamatan').select2({
         placeholder: 'Pilih Kecamatan...',
         allowClear: true,
         ajax: {
@@ -109,15 +109,15 @@ function PopulateKecamatan(kab) {
             cache: true
         }
     }).on('change', function () {
-        $('#sKelurahan').val(null).trigger('change');
-        var theID = $('#sKecamatan option:selected').val();
+        $('.sKelurahan').val(null).trigger('change');
+        var theID = $('.sKecamatan option:selected').val();
         PopulateKelurahan(theID);
-        $('#sKelurahan').select2('focus');
+        $('.sKelurahan').select2('focus');
     });
 }
 
 function PopulateKelurahan(kec) {
-    $('#sKelurahan').select2({
+    $('.sKelurahan').select2({
         placeholder: 'Pilih Kelurahan...',
         allowClear: true,
         ajax: {

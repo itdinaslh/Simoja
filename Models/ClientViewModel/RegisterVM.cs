@@ -9,6 +9,15 @@ public class RegisterVM
 
     public Client Client { get; set; }
 
+    [Required(ErrorMessage = "Harap pilih provinsi")]
+    public string ProvinsiID { get; set; }
+
+    [Required(ErrorMessage = "Harap pilih kota/kabupaten")]
+    public string KabupatenID { get; set; }
+
+    [Required(ErrorMessage = "Harap pilih kecamatan")]
+    public string KecamatanID { get; set; }
+
     [Required(ErrorMessage = "File KTP penanggung jawab wajib diupload")]
     public IFormFile FileKTP { get; set; }
 

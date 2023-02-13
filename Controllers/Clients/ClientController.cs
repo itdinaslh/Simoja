@@ -48,8 +48,10 @@ public class ClientController : Controller {
 
     [HttpPost("/clients/register")]
     [Authorize(Roles = "PkmAngkut, PkmOlah, PkmAngkutOlah, PkmUsaha")]
-    public async Task<IActionResult> Register(Client client) {        
-        if(ModelState.IsValid) {
+    public async Task<IActionResult> Register(RegisterVM model) {
+        string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
+        model.Client.ClientID = Guid.Parse(uid);
+        if (ModelState.IsValid) {
             int theID = 1;
             string action = "";
 
@@ -64,10 +66,10 @@ public class ClientController : Controller {
                 action = "RegisterUsaha";
             }
 
-            client.JenisUsahaID = theID;
+            model.Client.JenisUsahaID = theID;
 
             try {
-                await repo.SaveClientAsync(client);                
+                await repo.SaveClientAsync(model.Client);                
             } catch {
                 return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
             }
@@ -75,7 +77,7 @@ public class ClientController : Controller {
             return RedirectToAction(action);
         }
 
-        return View(client);
+        return View(model);
     }
 
     [HttpGet("/clients/register/pengangkutan")]

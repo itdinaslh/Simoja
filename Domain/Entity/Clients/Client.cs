@@ -5,7 +5,7 @@ namespace Simoja.Entity;
 
 [Table("Clients")]
 public class Client {
-    [Key]
+    [Key]    
     public Guid ClientID { get; set; } = Guid.Empty;    
 
     #nullable disable
@@ -14,8 +14,7 @@ public class Client {
     public string ClientName { get; set; }
 
     public bool IsVerified { get; set; } = false;
-
-    [Required]
+    
     public string UserId { get; set; }
 
     [MaxLength(15)]
@@ -30,9 +29,11 @@ public class Client {
 
     #nullable disable
     [MaxLength(15)]
+    [Required(ErrorMessage = "Harap pilih kelurahan")]
     public string KelurahanID { get; set; }
     
     [MaxLength(150)]
+    [Required(ErrorMessage = "Alamat wajib diisi")]
     public string Alamat { get; set;}
 
     #nullable enable
@@ -47,6 +48,7 @@ public class Client {
 #nullable disable
 
     [MaxLength(75)]
+    [Required(ErrorMessage = "Penanggung jawab wajib diisi")]
     public string PenanggungJawab { get; set; }
 
     [Required(ErrorMessage = "NIK / No KTP Penanggung Jawab wajib diisi")]
@@ -74,10 +76,11 @@ public class Client {
     [MaxLength(255)]
     public string DokumenNPWP { get; set; }
 
-#nullable enable
-
     [MaxLength(150)]
-    public string? NIB { get; set; }
+    [Required(ErrorMessage = "No NIB wajib diisi")]
+    public string NIB { get; set; }
+
+#nullable enable
 
     [MaxLength(255)]
     public string? DokumenNIB { get; set; }

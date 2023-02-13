@@ -55,14 +55,14 @@
                                         <div class="row">
                                             <div class="col-md-12 mb-2">
                                                 <h2>Informasi Akun</h2>
-                                                <div asp-validation-summary="All" class="text-danger"></div>
+                                                @*<div asp-validation-summary="All" class="text-danger"></div>*@
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Email Login <span class="text-danger">*</span></label>
-                                                    <input type="text" asp-for="Client.UserId" class="form-control" value="@User.Identity!.Name" readonly placeholder="Email Login" required />
+                                                    <input type="text" asp-for="Client.UserId" class="form-control" value="@User.Identity!.Name" readonly placeholder="Email Login" required />                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -77,6 +77,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">No Telp <span class="text-danger">*</span></label>
                                                     <input asp-for="Client.Telp" class="form-control" placeholder="No Telp" required />
+                                                    <span asp-validation-for="Client.Telp" class="text-danger"></span>
                                                 </div>
                                             </div>                                            
                                             <div class="col-md-4">
@@ -89,6 +90,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Nomor Induk Berusaha (NIB) <span class="text-danger">*</span></label>
                                                     <input asp-for="Client.NIB" class="form-control" placeholder="NIB" required />
+                                                    <span asp-validation-for="Client.NIB" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,13 +98,15 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Provinsi <span class="text-danger">*</span></label>
-                                                    <select id="sProvinsi" class="form-control" required></select>
+                                                    <select asp-for="ProvinsiID" class="form-control sProvinsi" required></select>
+                                                    <span asp-validation-for="ProvinsiID" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Kota / Kabupaten <span class="text-danger">*</span></label>
-                                                    <select id="sKabupaten" class="form-control" required></select>
+                                                    <select asp-for="KabupatenID" class="form-control sKabupaten" required></select>
+                                                    <span asp-validation-for="KabupatenID" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -110,13 +114,15 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Kecamatan <span class="text-danger">*</span></label>
-                                                    <select id="sKecamatan" class="form-control" required></select>
+                                                    <select asp-for="KecamatanID" class="form-control sKecamatan" required></select>
+                                                    <span asp-validation-for="KecamatanID" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Kelurahan <span class="text-danger">*</span></label>
-                                                    <select asp-for="Client.KelurahanID" id="sKelurahan" class="form-control" required></select>
+                                                    <select asp-for="Client.KelurahanID" class="form-control sKelurahan" required></select>
+                                                    <span asp-validation-for="Client.KelurahanID" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -125,6 +131,7 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Alamat <span class="text-danger">*</span></label>
                                                     <textarea asp-for="Client.Alamat" class="form-control" rows="3"></textarea>
+                                                    <span asp-validation-for="Client.Alamat" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -139,18 +146,21 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Nama Penanggung Jawab <span class="text-danger">*</span></label>
                                                     <input asp-for="Client.PenanggungJawab" class="form-control" placeholder="Penanggung Jawab" required />
+                                                    <span asp-validation-for="Client.PenanggungJawab" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nama PIC <span class="text-danger">*</span></label>
                                                     <input asp-for="Client.PIC" class="form-control" placeholder="Nama PIC" required />
+                                                    <span asp-validation-for="Client.PIC" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">Telepon PIC <span class="text-danger">*</span></label>
                                                     <input asp-for="Client.NoHpPIC" class="form-control" placeholder="Telepon PIC" required />
+                                                    <span asp-validation-for="Client.NoHpPIC" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -159,12 +169,14 @@
                                                 <div class="mb-3">
                                                     <label class="form-label">Upload KTP (Penanggung Jawab) <span class="text-danger">*</span></label>
                                                     <input type="file" asp-for="FileKTP" class="form-control" accept="application/pdf, image/*" required />
+                                                    <span asp-validation-for="FileKTP" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">Upload NPWP (Penanggung Jawab) <span class="text-danger">*</span></label>
                                                     <input type="file" asp-for="FileNPWP" class="form-control" accept="application/pdf, image/*" required />
+                                                    <span asp-validation-for="FileNPWP" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
