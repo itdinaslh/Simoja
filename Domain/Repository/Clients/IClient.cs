@@ -1,4 +1,5 @@
 using Simoja.Entity;
+using Simoja.Models;
 
 namespace Simoja.Repository;
 
@@ -13,7 +14,9 @@ public interface IClient {
 
     IQueryable<IzinlKawasan> IzinKawasans { get; }
 
-    Task SaveClientAsync(Client client);
+    Task SaveClientAsync(RegisterVM client);
+
+    Task UpdateClientAsync(Client client);
 
     Task SaveIzinAngkut(IzinAngkut detail);
 

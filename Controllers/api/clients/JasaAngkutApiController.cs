@@ -9,7 +9,6 @@ namespace Simoja.Controllers.api;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "SimojaAngkut, SimojaAdmin, SysAdmin")]
 public class JasaAngkutApiController : Controller {
     private readonly IKendaraan repo;
     private readonly IClient clientRepo;
@@ -133,6 +132,7 @@ public class JasaAngkutApiController : Controller {
     }
 
     [HttpPost("/api/clients/jasa/pengangkutan/izin/list")]
+    [Authorize(Roles = "SysAdmin, PkmAngkut, PkmAngkutOlah")]
     public async Task<IActionResult> ListIzinAngkut()
     {
         string currentUser = User.Identity.Name;

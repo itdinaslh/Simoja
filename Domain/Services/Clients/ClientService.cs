@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Simoja.Data;
 using Simoja.Entity;
+using Simoja.Models;
 using Simoja.Repository;
 
 namespace Simoja.Services;
@@ -18,28 +19,32 @@ public class ClientService : IClient {
 
     public IQueryable<IzinlKawasan> IzinKawasans => context.IzinKawasans;
 
-    public async Task SaveClientAsync(Client client) {
+    public async Task SaveClientAsync(RegisterVM model) {
         #nullable disable
-        if (client.ClientID == Guid.Empty) {            
-            await context.AddAsync(client);
-        } else {
-            Client cli = await context.Clients.FindAsync(client.ClientID);
-            cli.ClientName = client.ClientName;
-            cli.Telp = client.Telp;
-            cli.Fax = client.Fax;
-            cli.KelurahanID = client.KelurahanID;
-            cli.Alamat = client.Alamat;
-            cli.Latitude = client.Latitude;
-            cli.Longitude = client.Longitude;
-            cli.PenanggungJawab = client.PenanggungJawab;
-            cli.IsVerified = client.IsVerified;
-            cli.PIC = client.PIC;
-            cli.NoHpPIC = client.NoHpPIC;
-            cli.NIB = client.NIB;
-            cli.UpdatedAt = DateTime.Now;
+        
+        await context.AddAsync(model.Client);
 
-            context.Update(cli);
-        }
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateClientAsync(Client client)
+    {
+        Client cli = await context.Clients.FindAsync(client.ClientID);
+        cli.ClientName = client.ClientName;
+        cli.Telp = client.Telp;
+        cli.Fax = client.Fax;
+        cli.KelurahanID = client.KelurahanID;
+        cli.Alamat = client.Alamat;
+        cli.Latitude = client.Latitude;
+        cli.Longitude = client.Longitude;
+        cli.PenanggungJawab = client.PenanggungJawab;
+        cli.IsVerified = client.IsVerified;
+        cli.PIC = client.PIC;
+        cli.NoHpPIC = client.NoHpPIC;
+        cli.NIB = client.NIB;
+        cli.UpdatedAt = DateTime.Now;
+
+        context.Update(cli);
 
         await context.SaveChangesAsync();
     }

@@ -50,7 +50,7 @@ public class AdminController : Controller {
     {
         if (ModelState.IsValid)
         {
-            await repo.SaveClientAsync(model.Client!);
+            await repo.UpdateClientAsync(model.Client!);
 
             return Json(Result.Success());
         }        

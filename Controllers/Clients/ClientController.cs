@@ -32,7 +32,10 @@ public class ClientController : Controller {
         if (client == null)
             return View(new RegisterVM
             {
-                Client = new Client()
+                Client = new Client
+                {
+                    ClientID = Guid.Parse(uid)
+                }
             });
 
         if (User.IsInRole("PkmAngkut"))
@@ -50,27 +53,57 @@ public class ClientController : Controller {
     [Authorize(Roles = "PkmAngkut, PkmOlah, PkmAngkutOlah, PkmUsaha")]
     public async Task<IActionResult> Register(RegisterVM model) {
         string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
-        model.Client.ClientID = Guid.Parse(uid);
-        if (ModelState.IsValid) {
+
+        //model.Client.ClientID = Guid.Parse(uid);
+
+        if (ModelState.IsValid)
+        {
+
             int theID = 1;
             string action = "";
 
-            if (User.IsInRole("PkmAngkut")) {
+            if (User.IsInRole("PkmAngkut"))
+            {
                 theID = 1;
                 action = "RegisterAngkut";
-            } else if (User.IsInRole("PkmOlah")) {
+            }
+            else if (User.IsInRole("PkmOlah"))
+            {
                 theID = 2;
                 action = "RegisterOlah";
-            } else if (User.IsInRole("PkmAngkutOlah")) {
+            }
+            else if (User.IsInRole("PkmAngkutOlah"))
+            {
                 theID = 3;
+                action = "RegisterAngkutOlah";
+            }
+            else
+            {
+                theID = 4;
                 action = "RegisterUsaha";
             }
 
             model.Client.JenisUsahaID = theID;
 
-            try {
-                await repo.SaveClientAsync(model.Client);                
-            } catch {
+            string fileNameKTP = await Upload.KTP(model.FileKTP, uid);
+            string fileNameNPWP = await Upload.NPWP(model.FileNPWP, uid);
+            string fileNameNIB = "";
+
+            if (model.FileNIB is not null)
+            {
+                fileNameNIB = await Upload.NIB(model.FileNIB, uid);
+            }
+
+            model.Client.DokumenKTP = fileNameKTP;
+            model.Client.DokumenNIB = fileNameNIB;
+            model.Client.DokumenNPWP = fileNameNPWP;
+            
+            try
+            {
+                await repo.SaveClientAsync(model);
+            }
+            catch
+            {
                 return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
             }
 
@@ -78,6 +111,8 @@ public class ClientController : Controller {
         }
 
         return View(model);
+
+
     }
 
     [HttpGet("/clients/register/pengangkutan")]
