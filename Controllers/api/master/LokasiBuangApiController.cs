@@ -9,20 +9,20 @@ namespace Simoja.Controllers.api;
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class LokasiIzinApiController : ControllerBase
+public class LokasiBuangApiController : ControllerBase
 {
-    private readonly ILokasiIzin repo;
+    private readonly ILokasiBuang repo;
 
-    public LokasiIzinApiController(ILokasiIzin repo) { this.repo = repo; }
+    public LokasiBuangApiController(ILokasiBuang repo) { this.repo = repo; }
 
-    [HttpGet("/api/master/lokasi-izin/search")]
+    [HttpGet("/api/master/lokasi-buang/search")]
     public async Task<IActionResult> Searc(string? term)
     {
-        var data = await repo.LokasiIzins
+        var data = await repo.LokasiBuangs
             .Where(j => !String.IsNullOrEmpty(term) ?
                 j.NamaLokasi.ToLower().Contains(term.ToLower()) : true
             ).Select(jen => new {
-                id = jen.LokasiIzinID,
+                id = jen.LokasiBuangID,
                 data = jen.NamaLokasi
             }).ToListAsync();
 

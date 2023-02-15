@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Simoja.Entity;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Simoja.Domain.Entity;
@@ -14,4 +15,6 @@ public class LokasiBuang
 
     [MaxLength(50)]
     public string NamaLokasi { get; set; }
+
+    public List<IzinAngkut> IzinAngkuts { get; set; }
 }

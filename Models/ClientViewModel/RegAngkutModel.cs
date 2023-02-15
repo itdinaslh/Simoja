@@ -9,4 +9,6 @@ public class RegAngkutModel {
     public string TglAwal { get; set; }
 
     public string TglAkhir { get; set; }
+
+    public IFormFile FileIzin { get; set; }
 }

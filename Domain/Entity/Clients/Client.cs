@@ -94,11 +94,11 @@ public class Client {
     #nullable disable
     public Kelurahan Kelurahan { get; set; }
 
-    public IzinAngkut IzinAngkut { get; set; }
+    public List<IzinAngkut> IzinAngkuts { get; set; }
 
-    public IzinOlah IzinOlah { get; set; }
+    public List<IzinOlah> IzinOlahs { get; set; }
 
-    public IzinlKawasan IzinKawasan { get; set; }
+    public List<IzinlKawasan> IzinKawasans { get; set; }
 
     public Flag Flag { get; set; }
 

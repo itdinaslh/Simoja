@@ -1,3 +1,4 @@
+using Simoja.Domain.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -5,10 +6,12 @@ namespace Simoja.Entity;
 
 [Table("IzinAngkut")]
 public class IzinAngkut {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int IzinAngkutID { get; set; }
+    [Key]
+    public Guid IzinAngkutID { get; set; }
 
     public Guid ClientID { get; set; }
+
+    public Guid UniqueID { get; set; }
 
     [Required(ErrorMessage = "Jumlah Angkutan Wajib Diisi!")]
     public int JmlAngkutan { get; set; }
@@ -25,11 +28,14 @@ public class IzinAngkut {
     public DateOnly TglAkhirIzin { get; set; }
     
     #nullable enable
-    public string? DokumenIzinPath { get; set; }
+    public string? DokumenIzin { get; set; }
+
+    [Required(ErrorMessage = "Harap pilih lokasi terbit izin")]
+    public int LokasiIzinID { get; set; }
 
 #nullable enable
 
-    public Guid? UniqueID { get; set; } = Guid.NewGuid();
+    public int? LokasiBuangID { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
@@ -37,5 +43,9 @@ public class IzinAngkut {
 
     #nullable disable
     public Client Client { get; set; }
+
+    public LokasiIzin LokasiIzin { get; set; }
+
+    public LokasiBuang LokasiBuang { get; set; }
     
 }   

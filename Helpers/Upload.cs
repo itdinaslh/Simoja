@@ -97,4 +97,35 @@ public static class Upload
 
         return fileNameNib;
     }
+
+    public static async Task<string> IzinAngkut(IFormFile file, string userid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"pkm/clients/" + userid);
+
+        string izinPath = path + "/izin-angkut";
+        string extIzin = Path.GetExtension(file.FileName);
+        string fileNameIzin = FileName.GenerateRandomString().ToLower() + extIzin;
+
+        if (!Directory.Exists(izinPath))
+        {
+            Directory.CreateDirectory(izinPath);
+        }
+
+        using (FileStream stream = new(Path.Combine(izinPath, fileNameIzin), FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        if (!extIzin.Contains("pdf"))
+        {
+            Image image = Image.Load(file.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
+
+            image.Save(izinPath + "/" + "thumbnail-" + fileNameIzin);
+        }
+
+        return fileNameIzin;
+    }
 }

@@ -131,7 +131,7 @@ public class ClientController : Controller {
             {
                 IzinAngkut = new IzinAngkut
                 {
-                    DokumenIzinPath = "/upload"
+                    DokumenIzin = "/upload"
                 }
             });
         }
@@ -152,13 +152,13 @@ public class ClientController : Controller {
     [HttpGet("/clients/register/usaha-kegiatan")]
     [Authorize(Roles = "PkmUsaha")]
     public async Task<IActionResult> RegisterUsaha() {
-        Guid curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
+        Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
             .Select(ci => ci.ClientID)
             .FirstOrDefaultAsync();
 
-        IzinlKawasan detail = await repo.IzinKawasans.Where(o => o.ClientID == curClient).FirstOrDefaultAsync();
+        IzinlKawasan? detail = await repo.IzinKawasans.Where(o => o.ClientID == curClient).FirstOrDefaultAsync();
 
-        if (detail is not null) {
+        if (curClient is not null) {
             return View(detail);
         }
 
@@ -166,27 +166,28 @@ public class ClientController : Controller {
     }
 
     // Upload Function
-
+#nullable disable
     [HttpPost("/clients/upload/izin")]
-    public async Task<IActionResult> UploadIzin(List<IFormFile> files, string id) {
+    public async Task<IActionResult> UploadIzin(List<IFormFile> files, string id)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/izin/" + id);            
+        foreach (var file in files)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/izin/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);
 
             //get file extension
             FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
+            string fileNameWithPath = Path.Combine(path, fileName);
 
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
         }
 
@@ -194,25 +195,26 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/upload/nib")]
-    public async Task<IActionResult> UploadNIB(List<IFormFile> files) {
+    public async Task<IActionResult> UploadNIB(List<IFormFile> files)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID  + "/nib");            
+        foreach (var file in files)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/nib");
 
             //create folder if not exist
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);
 
             //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
+            string fileNameWithPath = Path.Combine(path, fileName);
 
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
         }
 
@@ -220,25 +222,26 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/upload/wadah")]
-    public async Task<IActionResult> UploadWadah(List<IFormFile> files) {
+    public async Task<IActionResult> UploadWadah(List<IFormFile> files)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID  + "/wadah");            
+        foreach (var file in files)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/wadah");
 
             //create folder if not exist
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);
 
             //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
+            string fileNameWithPath = Path.Combine(path, fileName);
 
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
         }
 
@@ -246,25 +249,26 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/upload/tps")]
-    public async Task<IActionResult> UploadTPS(List<IFormFile> files) {
+    public async Task<IActionResult> UploadTPS(List<IFormFile> files)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID  + "/tps");            
+        foreach (var file in files)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/tps");
 
             //create folder if not exist
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);
 
             //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
+            string fileNameWithPath = Path.Combine(path, fileName);
 
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
         }
 
@@ -272,25 +276,26 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/upload/pengolahan")]
-    public async Task<IActionResult> UploadPengolahan(List<IFormFile> files) {
+    public async Task<IActionResult> UploadPengolahan(List<IFormFile> files)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID  + "/pengolahan");            
+        foreach (var file in files)
+        {
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/pengolahan");
 
             //create folder if not exist
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+                Directory.CreateDirectory(path);
 
             //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
+            string fileNameWithPath = Path.Combine(path, fileName);
 
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
+            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
+            await file.CopyToAsync(stream);
 
         }
 
@@ -300,7 +305,8 @@ public class ClientController : Controller {
     // Get Folder Contents For Dropzone Preview
 
     [HttpGet("/clients/dokumen/izin")]
-    public async Task<JsonResult> GetFolderIzinContents(string id) {
+    public async Task<JsonResult> GetFolderIzinContents(string id)
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/izin/" + id;
@@ -330,7 +336,8 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/dokumen/nib")]
-    public async Task<JsonResult> GetFolderNIBContents() {
+    public async Task<JsonResult> GetFolderNIBContents()
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/nib";
@@ -360,7 +367,8 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/dokumen/wadah")]
-    public async Task<JsonResult> GetFolderWadahContents() {
+    public async Task<JsonResult> GetFolderWadahContents()
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/wadah";
@@ -390,7 +398,8 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/dokumen/tps")]
-    public async Task<JsonResult> GetFolderTPSContents() {
+    public async Task<JsonResult> GetFolderTPSContents()
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/tps";
@@ -420,7 +429,8 @@ public class ClientController : Controller {
     }
 
     [HttpGet("/clients/dokumen/pengolahan")]
-    public async Task<JsonResult> GetFolderPengolahanContents() {
+    public async Task<JsonResult> GetFolderPengolahanContents()
+    {
         Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/pengolahan";
@@ -530,10 +540,11 @@ public class ClientController : Controller {
     public async Task<IActionResult> SaveIzinAngkut(RegAngkutModel model) {
         Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        model.IzinAngkut.ClientID = client.ClientID;
-        model.IzinAngkut.DokumenIzinPath = "/upload/" + client.ClientID + "/izin/" + model.IzinAngkut.UniqueID ;        
+        model.IzinAngkut.ClientID = client.ClientID;              
         model.IzinAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
         model.IzinAngkut.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+        model.IzinAngkut.DokumenIzin = await Upload.IzinAngkut(model.FileIzin, client.ClientID.ToString());
+        model.IzinAngkut.UniqueID = Guid.NewGuid();
 
         if (ModelState.IsValid) {
             await repo.SaveIzinAngkut(model.IzinAngkut);

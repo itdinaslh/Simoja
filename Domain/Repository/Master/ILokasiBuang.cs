@@ -1,6 +1,6 @@
 ﻿using Simoja.Domain.Entity;
 
-namespace Simoja.Domain.Repository;
+namespace Simoja.Repository;
 
 public interface ILokasiBuang
 {

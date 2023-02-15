@@ -64,7 +64,7 @@ public class ClientService : IClient {
     }
 
     public async Task SaveIzinAngkut(IzinAngkut detail) {
-        if (detail.IzinAngkutID == 0) {
+        if (detail.IzinAngkutID == Guid.Empty) {
             await context.AddAsync(detail);
         } else {
             IzinAngkut data = await context.IzinAngkuts.FindAsync(detail.IzinAngkutID);

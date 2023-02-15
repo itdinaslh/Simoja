@@ -12,8 +12,8 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230214235034_CreateLokasIzin")]
-    partial class CreateLokasIzin
+    [Migration("20230215211216_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,23 @@ namespace Simoja.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
+                {
+                    b.Property<int>("LokasiBuangID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LokasiBuangID"));
+
+                    b.Property<string>("NamaLokasi")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("LokasiBuangID");
+
+                    b.ToTable("LokasiBuang");
+                });
 
             modelBuilder.Entity("Simoja.Domain.Entity.LokasiIzin", b =>
                 {
@@ -167,11 +184,9 @@ namespace Simoja.Migrations
 
             modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
                 {
-                    b.Property<int>("IzinAngkutID")
+                    b.Property<Guid>("IzinAngkutID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IzinAngkutID"));
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("ClientID")
                         .HasColumnType("uuid");
@@ -179,10 +194,16 @@ namespace Simoja.Migrations
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("DokumenIzinPath")
+                    b.Property<string>("DokumenIzin")
                         .HasColumnType("text");
 
                     b.Property<int>("JmlAngkutan")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("LokasiBuangID")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("LokasiIzinID")
                         .HasColumnType("integer");
 
                     b.Property<string>("NoIzinUsaha")
@@ -196,7 +217,7 @@ namespace Simoja.Migrations
                     b.Property<DateOnly>("TglTerbitIzin")
                         .HasColumnType("date");
 
-                    b.Property<Guid?>("UniqueID")
+                    b.Property<Guid>("UniqueID")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime?>("UpdatedAt")
@@ -204,8 +225,11 @@ namespace Simoja.Migrations
 
                     b.HasKey("IzinAngkutID");
 
-                    b.HasIndex("ClientID")
-                        .IsUnique();
+                    b.HasIndex("ClientID");
+
+                    b.HasIndex("LokasiBuangID");
+
+                    b.HasIndex("LokasiIzinID");
 
                     b.ToTable("IzinAngkut");
                 });
@@ -299,8 +323,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("IzinKawasanID");
 
-                    b.HasIndex("ClientID")
-                        .IsUnique();
+                    b.HasIndex("ClientID");
 
                     b.HasIndex("JenisKegiatanID");
 
@@ -342,8 +365,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("IzinOlahID");
 
-                    b.HasIndex("ClientID")
-                        .IsUnique();
+                    b.HasIndex("ClientID");
 
                     b.ToTable("IzinOlah");
                 });
@@ -714,19 +736,33 @@ namespace Simoja.Migrations
             modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
                 {
                     b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithOne("IzinAngkut")
-                        .HasForeignKey("Simoja.Entity.IzinAngkut", "ClientID")
+                        .WithMany("IzinAngkuts")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Simoja.Domain.Entity.LokasiBuang", "LokasiBuang")
+                        .WithMany("IzinAngkuts")
+                        .HasForeignKey("LokasiBuangID");
+
+                    b.HasOne("Simoja.Domain.Entity.LokasiIzin", "LokasiIzin")
+                        .WithMany("IzinAngkuts")
+                        .HasForeignKey("LokasiIzinID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("LokasiBuang");
+
+                    b.Navigation("LokasiIzin");
                 });
 
             modelBuilder.Entity("Simoja.Entity.IzinlKawasan", b =>
                 {
                     b.HasOne("Simoja.Entity.Client", null)
-                        .WithOne("IzinKawasan")
-                        .HasForeignKey("Simoja.Entity.IzinlKawasan", "ClientID")
+                        .WithMany("IzinKawasans")
+                        .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -756,8 +792,8 @@ namespace Simoja.Migrations
             modelBuilder.Entity("Simoja.Entity.IzinOlah", b =>
                 {
                     b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithOne("IzinOlah")
-                        .HasForeignKey("Simoja.Entity.IzinOlah", "ClientID")
+                        .WithMany("IzinOlahs")
+                        .HasForeignKey("ClientID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -829,13 +865,23 @@ namespace Simoja.Migrations
                     b.Navigation("Kelurahan");
                 });
 
+            modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
+                {
+                    b.Navigation("IzinAngkuts");
+                });
+
+            modelBuilder.Entity("Simoja.Domain.Entity.LokasiIzin", b =>
+                {
+                    b.Navigation("IzinAngkuts");
+                });
+
             modelBuilder.Entity("Simoja.Entity.Client", b =>
                 {
-                    b.Navigation("IzinAngkut");
+                    b.Navigation("IzinAngkuts");
 
-                    b.Navigation("IzinKawasan");
+                    b.Navigation("IzinKawasans");
 
-                    b.Navigation("IzinOlah");
+                    b.Navigation("IzinOlahs");
 
                     b.Navigation("Kendaraans");
 

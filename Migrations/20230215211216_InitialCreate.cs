@@ -55,6 +55,32 @@ namespace Simoja.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LokasiBuang",
+                columns: table => new
+                {
+                    LokasiBuangID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NamaLokasi = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LokasiBuang", x => x.LokasiBuangID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LokasiIzin",
+                columns: table => new
+                {
+                    LokasiIzinID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NamaLokasi = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LokasiIzin", x => x.LokasiIzinID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PihakAngkut",
                 columns: table => new
                 {
@@ -166,18 +192,23 @@ namespace Simoja.Migrations
                     ClientID = table.Column<Guid>(type: "uuid", nullable: false),
                     ClientName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     IsVerified = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<string>(type: "text", nullable: true),
                     Telp = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
                     Fax = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
-                    KelurahanID = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
-                    Alamat = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    KelurahanID = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    Alamat = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
                     Latitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Longitude = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     JenisUsahaID = table.Column<int>(type: "integer", nullable: true),
-                    PenanggungJawab = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: true),
-                    PIC = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: true),
-                    NoHpPIC = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: true),
-                    NIB = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
+                    PenanggungJawab = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false),
+                    NIK = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
+                    NPWP = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    PIC = table.Column<string>(type: "character varying(75)", maxLength: 75, nullable: false),
+                    NoHpPIC = table.Column<string>(type: "character varying(15)", maxLength: 15, nullable: false),
+                    DokumenKTP = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    DokumenNPWP = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
+                    NIB = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    DokumenNIB = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: true),
                     FlagID = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -194,22 +225,24 @@ namespace Simoja.Migrations
                         name: "FK_Clients_Kelurahan_KelurahanID",
                         column: x => x.KelurahanID,
                         principalTable: "Kelurahan",
-                        principalColumn: "KelurahanID");
+                        principalColumn: "KelurahanID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "IzinAngkut",
                 columns: table => new
                 {
-                    IzinAngkutID = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IzinAngkutID = table.Column<Guid>(type: "uuid", nullable: false),
                     ClientID = table.Column<Guid>(type: "uuid", nullable: false),
+                    UniqueID = table.Column<Guid>(type: "uuid", nullable: false),
                     JmlAngkutan = table.Column<int>(type: "integer", nullable: false),
                     NoIzinUsaha = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     TglTerbitIzin = table.Column<DateOnly>(type: "date", nullable: false),
                     TglAkhirIzin = table.Column<DateOnly>(type: "date", nullable: false),
-                    DokumenIzinPath = table.Column<string>(type: "text", nullable: true),
-                    UniqueID = table.Column<Guid>(type: "uuid", nullable: true),
+                    DokumenIzin = table.Column<string>(type: "text", nullable: true),
+                    LokasiIzinID = table.Column<int>(type: "integer", nullable: false),
+                    LokasiBuangID = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -221,6 +254,17 @@ namespace Simoja.Migrations
                         column: x => x.ClientID,
                         principalTable: "Clients",
                         principalColumn: "ClientID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_IzinAngkut_LokasiBuang_LokasiBuangID",
+                        column: x => x.LokasiBuangID,
+                        principalTable: "LokasiBuang",
+                        principalColumn: "LokasiBuangID");
+                    table.ForeignKey(
+                        name: "FK_IzinAngkut_LokasiIzin_LokasiIzinID",
+                        column: x => x.LokasiIzinID,
+                        principalTable: "LokasiIzin",
+                        principalColumn: "LokasiIzinID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -391,14 +435,22 @@ namespace Simoja.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_IzinAngkut_ClientID",
                 table: "IzinAngkut",
-                column: "ClientID",
-                unique: true);
+                column: "ClientID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IzinAngkut_LokasiBuangID",
+                table: "IzinAngkut",
+                column: "LokasiBuangID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_IzinAngkut_LokasiIzinID",
+                table: "IzinAngkut",
+                column: "LokasiIzinID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IzinKawasan_ClientID",
                 table: "IzinKawasan",
-                column: "ClientID",
-                unique: true);
+                column: "ClientID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IzinKawasan_JenisKegiatanID",
@@ -418,8 +470,7 @@ namespace Simoja.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_IzinOlah_ClientID",
                 table: "IzinOlah",
-                column: "ClientID",
-                unique: true);
+                column: "ClientID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JenisKendaraan_GlobalId",
@@ -491,6 +542,12 @@ namespace Simoja.Migrations
 
             migrationBuilder.DropTable(
                 name: "LokasiAngkut");
+
+            migrationBuilder.DropTable(
+                name: "LokasiBuang");
+
+            migrationBuilder.DropTable(
+                name: "LokasiIzin");
 
             migrationBuilder.DropTable(
                 name: "JenisKegiatan");

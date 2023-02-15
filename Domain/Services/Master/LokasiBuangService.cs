@@ -1,8 +1,8 @@
 ﻿using Simoja.Data;
 using Simoja.Domain.Entity;
-using Simoja.Domain.Repository;
+using Simoja.Repository;
 
-namespace Simoja.Domain.Services;
+namespace Simoja.Services;
 
 public class LokasiBuangService : ILokasiBuang
 {

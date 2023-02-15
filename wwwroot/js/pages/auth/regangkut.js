@@ -4,7 +4,59 @@
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         orientation: 'bottom'
-    });    
+    });
+
+    $('.sTerbitIzin').select2({
+        placeholder: 'Pilih Lokasi Izin...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/lokasi-izin/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+
+    $('.sLokasiBuang').select2({
+        placeholder: 'Pilih Lokasi Pembuangan...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/lokasi-buang/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
 });
 
 //$(document).on('click', '#nextBtn', function () {
@@ -58,17 +110,19 @@
 
 $('#clientform').submit(function (e) {
     e.preventDefault();
+
+    var formdata = new FormData($('#clientform')[0]);
+
     $.ajax({
         url: this.action,
         method: this.method,
-        data: $(this).serialize(),
+        data: formdata,
+        processData: false,
+        contentType: false,
         success: function (result) {
             if (result.success) {
                 loadTable();
-                ClearField();
-                NewUID();
-                $('.dz-preview').empty();
-                $('.dz-message').show();
+                ClearField();               
             }
         }
     });
@@ -105,6 +159,8 @@ function loadTable() {
 function ClearField() {
     $('.datainput').val('');
     $('#txtJmlAngkut').val(0);
+    $('.s2').val(null).trigger('change');
+    $(".dokumen").val(null);
 }
 
 //function NewUID() {
