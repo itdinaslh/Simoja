@@ -2,19 +2,18 @@
 
 @{
     Layout = "_RegNew";
-    ViewBag.Title = "Jasa Angkutan";
+    ViewBag.Title = "Registrasi Jasa Angkutan";
 }
 
 @section styles {
     <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
     <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
-    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
-    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />    
     <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
 }
 
 <div class="row">
-    <div class="col-xl-4">
+    <div class="col-xl-5">
         <div id="panel-1" class="panel">
             <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
                 <h2>Perizinan &amp; Data</h2>
@@ -25,13 +24,25 @@
                         <input type="hidden" asp-for="IzinAngkut.IzinAngkutID" >
                         <input type="hidden" asp-for="IzinAngkut.UniqueID" class="myUID" />
                         <div asp-validation-summary="All"></div>
-                        <div class="form-group">
-                            <label for="">No. Izin Usaha yang diterbitkan oleh PTSP *</label>
-                            <input type="text" asp-for="IzinAngkut.NoIzinUsaha" class="form-control datainput" required autocomplete="off">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="">No. Izin Usaha yang diterbitkan oleh PTSP *</label>
+                                <input type="text" asp-for="IzinAngkut.NoIzinUsaha" class="form-control datainput" required autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Lokasi Terbit Izin</label>
+                                <select class="form-control"></select>
+                            </div>
                         </div>
-                        <div class="form-group">                            
-                            <label for="">Jumlah Kendaraan Berizin</label>
-                            <input type="number" asp-for="IzinAngkut.JmlAngkutan" id="txtJmlAngkut" class="form-control" autocomplete="off">
+                        <div class="form-row">
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label>Lokasi Pembuangan</label>
+                                <select class="form-control"></select>
+                            </div>
+                            <div class="form-group col-md-6 col-xs-12">
+                                <label for="">Jumlah Kendaraan Berizin</label>
+                                <input type="number" asp-for="IzinAngkut.JmlAngkutan" id="txtJmlAngkut" class="form-control" autocomplete="off">
+                            </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
@@ -62,26 +73,16 @@
                             </div>*@
                         </div>
                         <hr style="border-top: 1px dotted grey;">
-
-                        <div class="form-row">
-                            <div class="form-grop col-md-12 col-xs-12">
-                                <label for="">Upload Dokumen Izin</label>
-                                <div id="fileIzin" class="dropzone needsclick">
-                                    <div class="dz-message needsclick">
-                                        <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
-                                        <span>Drop file disini atau Klik Untuk Upload.</span>
-                                    </div>
+                        
+                        <div class="form-group">
+                            <label>Upload Dokumen Izin</label>
+                            <div class="input-group">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" accept="application/pdf, image/*" />
+                                    <label class="custom-file-label">Pilih File</label>
                                 </div>
                             </div>
-                            @*<div class="form-grop col-md-6 col-xs-12">
-                                <label for="">Upload NIB</label>
-                                <div id="fileNIB" class="dropzone needsclick">
-                                    <div class="dz-message needsclick">
-                                        <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
-                                        <span>Drop file disini atau Klik Untuk Upload.</span>
-                                    </div>
-                                </div>
-                            </div>*@
+                            
                         </div>
 
                         <hr style="border-top: 1px dotted grey;">
@@ -94,7 +95,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-8">
+    <div class="col-xl-7">
         <div id="panel-2" class="panel">
             <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
                 <h2>Daftar Perizinan</h2>
@@ -124,7 +125,6 @@
     <script src="~/lib/uuid/uuid.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
-    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-    <script src="~/js/formplugins/dropzone/dropzone.js"></script>
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>    
     <script src="~/js/pages/auth/regangkut.js"></script>
 }

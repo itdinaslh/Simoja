@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230214235034_CreateLokasIzin")]
+    partial class CreateLokasIzin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,23 +23,6 @@ namespace Simoja.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
-                {
-                    b.Property<int>("LokasiBuangID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LokasiBuangID"));
-
-                    b.Property<string>("NamaLokasi")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("LokasiBuangID");
-
-                    b.ToTable("LokasiBuang");
-                });
 
             modelBuilder.Entity("Simoja.Domain.Entity.LokasiIzin", b =>
                 {

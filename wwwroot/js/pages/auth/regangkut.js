@@ -7,54 +7,54 @@
     });    
 });
 
-$(document).on('click', '#nextBtn', function () {
-    NewUID();
-});
+//$(document).on('click', '#nextBtn', function () {
+//    NewUID();
+//});
 
-$("#fileIzin").dropzone({
-    addRemoveLinks: true,
-    paramName: "files",
-    url: "/clients/upload/izin/?id=" + $('.myUID').val(),
-    init: function () {
-        //var myDropzone = this;
-        //$.getJSON('/clients/dokumen/izin/?id=' + $('.myUID').val()).done(function (data) {
-        //    //Call the action method to load the images from the server
+//$("#fileIzin").dropzone({
+//    addRemoveLinks: true,
+//    paramName: "files",
+//    url: "/clients/upload/izin/?id=" + $('.myUID').val(),
+//    init: function () {
+//        //var myDropzone = this;
+//        //$.getJSON('/clients/dokumen/izin/?id=' + $('.myUID').val()).done(function (data) {
+//        //    //Call the action method to load the images from the server
 
-        //    if (data !== null && data.length > 0) {
+//        //    if (data !== null && data.length > 0) {
 
-        //        $.each(data, function (index, item) {
-        //            //// Create the mock file:
-        //            var mockFile = {
-        //                name: item.name,
-        //                size: item.fileSize,
-        //                filePath: item.filePath
-        //            };
+//        //        $.each(data, function (index, item) {
+//        //            //// Create the mock file:
+//        //            var mockFile = {
+//        //                name: item.name,
+//        //                size: item.fileSize,
+//        //                filePath: item.filePath
+//        //            };
 
-        //            // Call the default addedfile event handler
-        //            myDropzone.emit("addedfile", mockFile);
+//        //            // Call the default addedfile event handler
+//        //            myDropzone.emit("addedfile", mockFile);
 
-        //            // And optionally show the thumbnail of the file:
-        //            myDropzone.emit("thumbnail", mockFile, item.filePath);
+//        //            // And optionally show the thumbnail of the file:
+//        //            myDropzone.emit("thumbnail", mockFile, item.filePath);
 
-        //            // Make sure there is no progress bar ober tha image
-        //            myDropzone.emit("complete", mockFile);
+//        //            // Make sure there is no progress bar ober tha image
+//        //            myDropzone.emit("complete", mockFile);
 
-        //            // subtract loaded files from max files count to keep upload limit
-        //            //myDropzone.options.maxFiles -= 1;
-        //        });
-        //    }
-        //});
-    },
-    removedfile: function removedfile(file) {
-        $.getJSON("/clients/dokumen/izin/delete/?id=" + $('.myUID').val() + "&file=" + file.name).done(function (result) {
-            console.log("delete: " + result);
-            if (result === true) {
-                var _ref;
-                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
-            }
-        });
-    }
-});
+//        //            // subtract loaded files from max files count to keep upload limit
+//        //            //myDropzone.options.maxFiles -= 1;
+//        //        });
+//        //    }
+//        //});
+//    },
+//    removedfile: function removedfile(file) {
+//        $.getJSON("/clients/dokumen/izin/delete/?id=" + $('.myUID').val() + "&file=" + file.name).done(function (result) {
+//            console.log("delete: " + result);
+//            if (result === true) {
+//                var _ref;
+//                return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+//            }
+//        });
+//    }
+//});
 
 $('#clientform').submit(function (e) {
     e.preventDefault();
@@ -107,8 +107,8 @@ function ClearField() {
     $('#txtJmlAngkut').val(0);
 }
 
-function NewUID() {
-    var uid = UUID.generate();
+//function NewUID() {
+//    var uid = UUID.generate();
 
-    $('.myUID').val(uid);
-}
+//    $('.myUID').val(uid);
+//}

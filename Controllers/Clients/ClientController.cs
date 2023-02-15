@@ -118,18 +118,25 @@ public class ClientController : Controller {
     [HttpGet("/clients/register/pengangkutan")]
     [Authorize(Roles = "PkmAngkut")]
     public async Task<IActionResult> RegisterAngkut() {
-        #nullable disable
-        Guid curClient = await repo.Clients.Where(c => c.UserId == User.Identity.Name.ToString())
+        #nullable enable
+        Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
             .Select(cli => cli.ClientID)
             .FirstOrDefaultAsync();
 
-        IzinAngkut detail = await repo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
+        IzinAngkut? detail = await repo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
 
-        return View(new RegAngkutModel {
-            IzinAngkut = new IzinAngkut {
-                DokumenIzinPath = "/upload"                
-            }
-        });
+        if (curClient != null)
+        {
+            return View(new RegAngkutModel
+            {
+                IzinAngkut = new IzinAngkut
+                {
+                    DokumenIzinPath = "/upload"
+                }
+            });
+        }
+
+        return NotFound();
     }
 
     [HttpGet("/clients/register/pengolahan")]
