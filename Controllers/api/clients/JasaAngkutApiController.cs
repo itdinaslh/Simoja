@@ -13,9 +13,10 @@ public class JasaAngkutApiController : Controller {
     private readonly IKendaraan repo;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
+    private readonly IIzinAngkut izinRepo;
 
     public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo, IIzinAngkut iRepo) {
-        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo;
+        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo; izinRepo = iRepo;
     }
 
     [HttpPost("/api/clients/jasa/pengangkutan/kendaraan/list")]
@@ -180,4 +181,10 @@ public class JasaAngkutApiController : Controller {
         
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/clients/total-izin")]
+    public async Task<IActionResult> GetTotalIzin()
+    {
+        return NotFound();
+    } 
 }

@@ -161,6 +161,7 @@ function ClearField() {
     $('#txtJmlAngkut').val(0);
     $('.s2').val(null).trigger('change');
     $(".dokumen").val(null);
+    $(".jmlAngkut").val(0);
 }
 
 //function NewUID() {
