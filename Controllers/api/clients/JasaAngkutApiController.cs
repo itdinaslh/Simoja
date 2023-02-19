@@ -182,9 +182,9 @@ public class JasaAngkutApiController : Controller {
         return Ok(jsonData);
     }
 
-    [HttpGet("/api/clients/total-izin")]
-    public async Task<IActionResult> GetTotalIzin()
-    {
-        return NotFound();
-    } 
+    //[HttpGet("/api/clients/total-izin")]
+    //public async Task<IActionResult> GetTotalIzin()
+    //{
+    //    return NotFound();
+    //} 
 }

@@ -15,21 +15,21 @@ function loadTable() {
             url: '/api/admin/jasa/unverified',
             method: 'POST'
         },
-        columns: [
-            {data:'clientId', name:'clientId'},
+        columns: [            
             {data:'clientName', name:'clientName'},
             {data:'jenisUsaha', name:'jenisUsaha'},
             {data:'email', name:'email'},
-            {data:'telp', name:'telp'},            
+            { data: 'telp', name: 'telp' },
+            { data: 'createdAt', name: 'createdAt' },
             {
                 "render": function (data, type, row)
                 {
                     return "<a class='btn btn-sm btn-outline-success mr-2 verify' href='/admin/jasa/details/?type=" + row.jenisId + "&theID="
-                    + row.clientGuid + "'><i class='fal fa-edit'></i> Cek Data</a>";
+                        + row.clientId + "'><i class='fal fa-edit'></i> Cek Data</a>";
                 }
             }
         ],
-        order: [[0, "desc"]]
+        order: [[4, "desc"]]
     });
 }
 
