@@ -50,7 +50,7 @@ public class ClientController : Controller {
     }
 
     [HttpPost("/clients/register")]
-    [Authorize(Roles = "PkmAngkut, PkmOlah, PkmAngkutOlah, PkmUsaha")]
+    [Authorize(Roles = "PkmAngkut, PkmOlah, PkmUsaha")]
     public async Task<IActionResult> Register(RegisterVM model) {
         string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
 
@@ -71,15 +71,10 @@ public class ClientController : Controller {
             {
                 theID = 2;
                 action = "RegisterOlah";
-            }
-            else if (User.IsInRole("PkmAngkutOlah"))
-            {
-                theID = 3;
-                action = "RegisterAngkutOlah";
-            }
+            }           
             else
             {
-                theID = 4;
+                theID = 3;
                 action = "RegisterUsaha";
             }
 
@@ -96,12 +91,12 @@ public class ClientController : Controller {
 
             model.Client.DokumenKTP = fileNameKTP;
             model.Client.DokumenNIB = fileNameNIB;
-            model.Client.DokumenNPWP = fileNameNPWP;
-            
+            model.Client.DokumenNPWP = fileNameNPWP;			
+
             try
             {
-                await repo.SaveClientAsync(model);
-            }
+				await repo.SaveClientAsync(model);
+			}
             catch
             {
                 return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };

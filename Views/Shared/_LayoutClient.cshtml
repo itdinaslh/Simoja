@@ -71,10 +71,10 @@
             <div class="page-inner">
                 <!-- Left Sidebar -->
                 @{
-                    if (User.IsInRole("SimojaAngkut")) {
+                    if (User.IsInRole("PkmAngkut")) {
                         <partial name="_SidebarAngkutan" />
                     }
-                    else if (User.IsInRole("SimojaOlah")) {
+                    else if (User.IsInRole("PkmOlah")) {
                         <partial name="_SidebarOlah" />
                     } else {
                         <partial name="_SidebarUsaha" />

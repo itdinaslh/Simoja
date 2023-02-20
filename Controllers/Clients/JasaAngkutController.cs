@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Simoja.Controllers;
 
-[Authorize(Roles = "SimojaAngkut")]
+[Authorize(Roles = "PkmAngkut")]
 public class JasaAngkutController : Controller {
     private IKendaraan vehicle;
     private IClient clientRepo;
