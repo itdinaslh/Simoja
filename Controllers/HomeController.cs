@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Repository;
 using Simoja.Entity;
+using Simoja.Helpers;
 
 namespace Simoja.Controllers;
 
@@ -84,6 +85,12 @@ public class HomeController : Controller
     [HttpGet("/dashboard/usaha-kegiatan")]
     public IActionResult IndexUsaha() {
         return View();
-    }   
+    }
+
+    [HttpGet("/home/nomor")]
+    public string GetNomor(long urut)
+    {
+        return RegHelper.NoRegistrasi(urut, "JA", DateTime.Now);
+    }
 
 }

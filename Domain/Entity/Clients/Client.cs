@@ -1,3 +1,4 @@
+using Simoja.Domain.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -80,6 +81,9 @@ public class Client {
     [Required(ErrorMessage = "No NIB wajib diisi")]
     public string NIB { get; set; }
 
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public long NoUrut { get; set; }
+
 #nullable enable
 
     [MaxLength(255)]
@@ -101,6 +105,8 @@ public class Client {
     public List<IzinlKawasan> IzinKawasans { get; set; }
 
     public Flag Flag { get; set; }
+
+    public JenisUsaha JenisUsaha { get; set; }
 
     public List<Kendaraan> Kendaraans { get; set; }
 

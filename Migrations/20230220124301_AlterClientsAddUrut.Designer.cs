@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230220124301_AlterClientsAddUrut")]
+    partial class AlterClientsAddUrut
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,27 +23,6 @@ namespace Simoja.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("Simoja.Domain.Entity.JenisUsaha", b =>
-                {
-                    b.Property<int>("JenisUsahaID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("JenisUsahaID"));
-
-                    b.Property<string>("NamaJenis")
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("Prefix")
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.HasKey("JenisUsahaID");
-
-                    b.ToTable("JenisUsaha");
-                });
 
             modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
                 {
@@ -154,11 +135,11 @@ namespace Simoja.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
-                    b.Property<long>("NoUrut")
+                    b.Property<int>("NoUrut")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("NoUrut"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NoUrut"));
 
                     b.Property<string>("PIC")
                         .IsRequired()
@@ -184,8 +165,6 @@ namespace Simoja.Migrations
                     b.HasKey("ClientID");
 
                     b.HasIndex("FlagID");
-
-                    b.HasIndex("JenisUsahaID");
 
                     b.HasIndex("KelurahanID");
 
@@ -757,10 +736,6 @@ namespace Simoja.Migrations
                         .WithMany()
                         .HasForeignKey("FlagID");
 
-                    b.HasOne("Simoja.Domain.Entity.JenisUsaha", "JenisUsaha")
-                        .WithMany("Clients")
-                        .HasForeignKey("JenisUsahaID");
-
                     b.HasOne("Simoja.Entity.Kelurahan", "Kelurahan")
                         .WithMany("Clients")
                         .HasForeignKey("KelurahanID")
@@ -768,8 +743,6 @@ namespace Simoja.Migrations
                         .IsRequired();
 
                     b.Navigation("Flag");
-
-                    b.Navigation("JenisUsaha");
 
                     b.Navigation("Kelurahan");
                 });
@@ -912,11 +885,6 @@ namespace Simoja.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Kelurahan");
-                });
-
-            modelBuilder.Entity("Simoja.Domain.Entity.JenisUsaha", b =>
-                {
-                    b.Navigation("Clients");
                 });
 
             modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
