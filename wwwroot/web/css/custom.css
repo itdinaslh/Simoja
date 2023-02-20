@@ -1,0 +1,32 @@
+.w-50-sm {
+	width: 50% !important;
+}
+
+.w-75-sm {
+	width: 75% !important;
+}
+
+#content p,
+#content ul,
+#content ol {
+	font-size: 1.2rem !important;
+	line-height: 32px !important;
+}
+
+#content ol li {
+	margin-bottom: 1.5em !important;
+}
+
+#content ul li {
+	margin-bottom: .5em !important;
+}
+
+@media only screen and (max-width: 600px) {
+	.w-50-sm {
+		width: 90% !important;
+	}
+
+	.w-75-sm {
+		width: 90% !important;
+	}
+}
