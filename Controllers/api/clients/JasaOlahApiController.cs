@@ -23,7 +23,7 @@ namespace Simoja.Controllers.api.clients
 #nullable disable
 
         [HttpPost("/api/clients/jasa/pengolahan/izin/list")]
-        [Authorize(Roles = "SimojaOlah")]
+        [Authorize(Roles = "PkmOlah")]
         public async Task<IActionResult> ListIzinOlah()
         {
             string currentUser = User.Identity.Name;

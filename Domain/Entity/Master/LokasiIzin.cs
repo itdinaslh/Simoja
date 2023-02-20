@@ -16,4 +16,6 @@ public class LokasiIzin
     public string NamaLokasi { get; set; }
 
     public List<IzinAngkut> IzinAngkuts { get; set; }
+
+    public List<IzinOlah> IzinOlahs { get; set; }
 }

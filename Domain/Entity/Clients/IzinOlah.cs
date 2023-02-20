@@ -1,3 +1,4 @@
+using Simoja.Domain.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,9 +23,15 @@ public class IzinOlah {
     public DateOnly TglAkhirIzin { get; set; }
 
     #nullable enable
-    public string? DokumenIzinPath { get; set; }    
+    public string? DokumenIzin { get; set; }
 
-    #nullable enable   
+    [Required(ErrorMessage = "Harap pilih lokasi terbit izin")]
+    public int LokasiIzinID { get; set; }
+
+    [Required(ErrorMessage = "Harap isi jumlah teknologi yang berizin")]
+    public int JumlahTeknologi { get; set; }
+
+#nullable enable
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
@@ -32,4 +39,6 @@ public class IzinOlah {
 
     #nullable disable
     public Client Client { get; set; }
+
+    public LokasiIzin LokasiIzin { get; set; }
 }   

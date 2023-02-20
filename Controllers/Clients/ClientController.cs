@@ -557,11 +557,11 @@ public class ClientController : Controller {
 
     [HttpPost("/clients/register/olah/save")]
     // [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveDetailOlah(RegOlahModel model) {
+    public async Task<IActionResult> SaveIzinOlah(RegOlahModel model) {
         Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         model.IzinOlah.ClientID = client.ClientID;
-        model.IzinOlah.DokumenIzinPath = "/upload/" + client.ClientID + "/izin";        
+        model.IzinOlah.DokumenIzin = "/upload/" + client.ClientID + "/izin";        
         model.IzinOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
         model.IzinOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
