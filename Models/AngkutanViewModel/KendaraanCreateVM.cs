@@ -8,9 +8,9 @@ public class KendaraanCreateVM {
     public Kendaraan Kendaraan { get; set; }
 
     [Required]
-    public string TglBerlakuSTNK { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
+    public string TglBerlakuSTNK { get; set; }
 
-    public string TglBerlakuKIR { get; set; } = DateTime.Now.ToString("dd/MM/yyyy");
+    public string TglBerlakuKIR { get; set; }
 
     public Guid UID { get; set; } = Guid.NewGuid();
 

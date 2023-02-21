@@ -25,22 +25,28 @@
                     <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard</span>
                 </a>
             </li>
-            <li class="{{Request::path() == 'clients/profile' ? 'active' : ''}}">
-                <a href="/clients/profile" title="Profile" data-filter-tags="Profile">
+            <li class='@(ViewBag.Title == "Profile" ? "active" : "")'>
+                <a asp-action="Profile" asp-controller="Home" title="Profile" data-filter-tags="Profile">
                     <i class="fal fa-user"></i>
                     <span class="nav-link-text" data-i18n="nav.profile">Profile</span>
                 </a>
             </li>
             <li class="nav-title">Data</li>
+            <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
+                <a asp-controller="JasaAngkut" asp-action="Kendaraan" title="Data Kendaraan" data-filter-tags="data kendaraan">
+                    <i class="fal fa-truck"></i>
+                    <span class="nav-link-text" data-i18n="nav.data_kendaraan"> Data Kendaraan</span>
+                </a>
+            </li>
             <li class='@(ViewBag.Parent == "Perizinan" ? "active open" : "")'>
                 <a href="#" title="Data" data-filter-tags="data">
-                    <i class="fal fa-clipboard"></i>
-                    <span class="nav-link-text" data-i18n="nav.data">Data</span>
+                    <i class="fal fa-database"></i>
+                    <span class="nav-link-text" data-i18n="nav.data">Data Perizinan</span>
                 </a>
                 <ul>
-                    <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
-                        <a asp-controller="JasaAngkut" asp-action="Kendaraan" title="Data Perizinan" data-filter-tags="data perizinan">
-                            <span class="nav-link-text" data-i18n="nav.data_perizinan"> Data Perizinan</span>
+                    <li class='@(ViewBag.Title == "Izin PTSP" ? "active" : "")'>
+                        <a asp-controller="JasaAngkut" asp-action="Izin" title="Izin PTSP" data-filter-tags="izin ptsp">
+                            <span class="nav-link-text" data-i18n="nav.izin_ptsp"> Izin PTSP</span>
                         </a>
                     </li>
                     <li class='@(ViewBag.Title == "Lokasi Angkut" ? "active" : "")'>
@@ -50,23 +56,20 @@
                     </li>
                 </ul>
             </li>
-            <li class="{{Request::is('clients/jasa/laporan/*') ? 'active open' : ''}}">
-                <a href="#" title="Data" data-filter-tags="data">
-                    <i class="fal fa-clipboard"></i>
-                    <span class="nav-link-text" data-i18n="nav.data">Laporan</span>
+            
+            <li class="nav-title">Laporan</li>
+
+            <li class="{{Request::path() == 'clients/jasa/laporan/harian' ? 'active' : ''}}">
+                <a href="/clients/jasa/laporan/harian" title="Laporan Harian" data-filter-tags="laporan harian">
+                    <i class="fal fa-file-alt"></i>
+                    <span class="nav-link-text" data-i18n="nav.laporan_harian"> Laporan Harian</span>
                 </a>
-                <ul>
-                    <li class="{{Request::path() == 'clients/jasa/laporan/harian' ? 'active' : ''}}">
-                        <a href="/clients/jasa/laporan/harian" title="Laporan Harian" data-filter-tags="laporan harian">
-                            <span class="nav-link-text" data-i18n="nav.pelaporan"> Input Laporan Harian</span>
-                        </a>
-                    </li>
-                    <li class="{{Request::path() == 'clients/jasa/laporan/bulanan' ? 'active' : ''}}">
-                        <a href="/clients/jasa/laporan/bulanan" title="Laporan Bulanan" data-filter-tags="laporan bulanan">
-                            <span class="nav-link-text" data-i18n="nav.laporan_bulanan"> Laporan Bulanan</span>
-                        </a>
-                    </li>
-                </ul>
+            </li>
+            <li class="{{Request::path() == 'clients/jasa/laporan/bulanan' ? 'active' : ''}}">
+                <a href="/clients/jasa/laporan/bulanan" title="Laporan Bulanan" data-filter-tags="laporan bulanan">
+                    <i class="fal fa-file"></i>
+                    <span class="nav-link-text" data-i18n="nav.laporan_bulanan"> Laporan Bulanan</span>
+                </a>
             </li>
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>

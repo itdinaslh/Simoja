@@ -47,5 +47,7 @@ public class IzinAngkut {
     public LokasiIzin LokasiIzin { get; set; }
 
     public LokasiBuang LokasiBuang { get; set; }
+
+    public ICollection<Kendaraan> Kendaraans { get; set; }
     
 }   

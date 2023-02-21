@@ -11,9 +11,9 @@ namespace Simoja.Controllers;
 
 [Authorize(Roles = "PkmAngkut")]
 public class JasaAngkutController : Controller {
-    private IKendaraan vehicle;
-    private IClient clientRepo;
-    private ILokasiAngkut lokasiRepo;
+    private readonly IKendaraan vehicle;
+    private readonly IClient clientRepo;
+    private readonly ILokasiAngkut lokasiRepo;
     
     public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo) {
         vehicle = kRepo; clientRepo = cRepo;
@@ -62,6 +62,19 @@ public class JasaAngkutController : Controller {
     public IActionResult KendaraanCreate() {
         return View(new KendaraanCreateVM {
             Kendaraan = new Kendaraan()            
+        });
+    }
+
+    [HttpGet("/clients/jasa/kendaraan/details")]
+    public async Task<IActionResult> KendaraanDetails(Guid id)
+    {
+        Kendaraan truk = await vehicle.Kendaraans
+            .Include(j => j.JenisKendaraan)
+            .FirstOrDefaultAsync(x => x.UniqueID == id);
+
+        return View(new KendaraanDetailVM
+        {
+            Kendaraan = truk
         });
     }
 

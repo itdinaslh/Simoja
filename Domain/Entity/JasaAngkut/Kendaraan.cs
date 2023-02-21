@@ -50,4 +50,6 @@ public class Kendaraan {
     public Client Client { get; set; }
 
     public JenisKendaraan JenisKendaraan { get; set; }
+
+    public ICollection<IzinAngkut> IzinAngkuts { get; set; }
 }

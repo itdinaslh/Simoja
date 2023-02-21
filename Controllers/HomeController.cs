@@ -12,7 +12,7 @@ namespace Simoja.Controllers;
 [Authorize]
 public class HomeController : Controller
 {
-    private IClient repo;    
+    private readonly IClient repo;    
 
     public HomeController(IClient cRepo)
     {
@@ -87,10 +87,28 @@ public class HomeController : Controller
         return View();
     }
 
-    [HttpGet("/home/nomor")]
-    public string GetNomor(long urut)
+    [HttpGet("/clients/profile")]
+    public async Task<IActionResult> Profile()
     {
-        return RegHelper.NoRegistrasi(urut, "JA", DateTime.Now);
+        Client? client = await repo.Clients
+            .Include(j => j.JenisUsaha)
+            .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
+            .FirstOrDefaultAsync(x => x.UserId == User.Identity!.Name);
+
+        if (client is not null)
+        {
+            return View(new ProfileVM
+            {
+                Client = client,                
+                NamaKelurahan = client.Kelurahan.NamaKelurahan,
+                KecamatanID = client.Kelurahan.KecamatanID,
+                NamaKecamatan = client.Kelurahan.Kecamatan.NamaKecamatan,
+                KabupatenID = client.Kelurahan.Kecamatan.KabupatenID,
+                NamaKabupaten = client.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten
+            });
+        }            
+
+        return NotFound();
     }
 
 }
