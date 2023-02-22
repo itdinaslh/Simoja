@@ -14,6 +14,7 @@ public class JasaAngkutController : Controller {
     private readonly IKendaraan vehicle;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
+    private readonly IIzinAngkut izinRepo;
     
     public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo) {
         vehicle = kRepo; clientRepo = cRepo;
@@ -25,9 +26,26 @@ public class JasaAngkutController : Controller {
         return View();
     }
 
-    public IActionResult Perizinan()
+    [HttpGet("/clients/jasa/pengangkutan/izin")]
+    public async Task<IActionResult> Perizinan()
     {
-        return View();
+        Guid? curClient = await clientRepo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
+            .Select(cli => cli.ClientID)
+            .FirstOrDefaultAsync();        
+
+        if (curClient != null)
+        {
+            //IzinAngkut? detail = await izinRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
+            return View(new RegAngkutModel
+            {
+                IzinAngkut = new IzinAngkut
+                {
+                    DokumenIzin = "/upload"
+                }
+            });
+        }
+
+        return NotFound();
     }
 
     [HttpGet("/clients/jasa/pengangkutan/kendaraan")]
