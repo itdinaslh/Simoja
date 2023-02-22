@@ -25,6 +25,11 @@ public class JasaAngkutController : Controller {
         return View();
     }
 
+    public IActionResult Perizinan()
+    {
+        return View();
+    }
+
     [HttpGet("/clients/jasa/pengangkutan/kendaraan")]
     public async Task<IActionResult> Kendaraan() {
         string? currentUser = User.Identity?.Name;
@@ -48,11 +53,14 @@ public class JasaAngkutController : Controller {
 
         bool isForbid = true;
 
-        if (jumlah < detail.JmlAngkutan)
-            isForbid = false;
+        if (detail != null)
+        {
+			if (jumlah < detail.JmlAngkutan)
+				isForbid = false;
+		}        
 
         return View(new KendaraanIndexVM {
-            KendaranBerizin = detail.JmlAngkutan,
+            KendaranBerizin = detail is not null ? detail.JmlAngkutan : 0,
             KendaraanDiinput = jumlah,
             Forbid = isForbid
         });

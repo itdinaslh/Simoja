@@ -57,7 +57,13 @@
 							<a class="menu-link" asp-controller="Account" asp-action="Register"><div>Daftar</div></a>
 						</li>
 						<li class="menu-item">
-							<a class="menu-link" asp-controller="Authorization" asp-action="LogIn"><div>Masuk</div></a>
+							@if (User.Identity!.IsAuthenticated)
+							{
+								<a class="menu-link" asp-controller="Home" asp-action="Index"><div>Dashboard</div></a>
+							} else
+							{
+								<a class="menu-link" asp-controller="Authorization" asp-action="LogIn"><div>Masuk</div></a>
+							}							
 						</li>
 					</ul>
 

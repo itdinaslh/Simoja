@@ -38,37 +38,13 @@ public class HomeController : Controller
 
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
-        } else if (thisClient.JenisUsahaID == 1) {            
-            var data = await repo.IzinAngkuts.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
-            if (data is not null) {
-                if (thisClient.IsVerified)
-                    return RedirectToAction("Dashboard", "JasaAngkut");
-
-                return RedirectToAction("Waiting", "Client");                
-            } else {
-                return RedirectToAction("RegisterAngkut", "Client");
-            }
-        } else if (thisClient.JenisUsahaID == 2) {
-            var data = await repo.IzinOlahs.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
-            if (data is not null) { 
-                if (thisClient.IsVerified)
-                    return RedirectToAction("IndexOlah");
-
-                return RedirectToAction("Waiting", "Client");                
-            } else {
-                return RedirectToAction("RegisterOlah", "Client");
-            }
-        } else {
-            var data = await repo.IzinKawasans.Where(d => d.ClientID == thisClient.ClientID).FirstOrDefaultAsync();
-            if (data is not null) {
-                if (thisClient.IsVerified)
-                    return RedirectToAction("IndexUsaha");
-
-                return RedirectToAction("Waiting", "Client");                
-            } else {
-                return RedirectToAction("RegisterUsaha", "Client");
-            }
-        }        
+        } else if (thisClient.JenisUsahaID == 1) {
+			return RedirectToAction("Dashboard", "JasaAngkut");
+		} else if (thisClient.JenisUsahaID == 2) {
+			return RedirectToAction("IndexOlah");
+		} else {
+			return RedirectToAction("IndexUsaha");
+		}        
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
