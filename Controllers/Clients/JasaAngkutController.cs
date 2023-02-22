@@ -16,9 +16,10 @@ public class JasaAngkutController : Controller {
     private readonly ILokasiAngkut lokasiRepo;
     private readonly IIzinAngkut izinRepo;
     
-    public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo) {
+    public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo, IIzinAngkut izinAngkutRepo) {
         vehicle = kRepo; clientRepo = cRepo;
         lokasiRepo = locRepo;
+        izinRepo = izinAngkutRepo;
     }
 
     [HttpGet("/dashboard/pengangkutan")]
@@ -35,7 +36,7 @@ public class JasaAngkutController : Controller {
 
         if (curClient != null)
         {
-            //IzinAngkut? detail = await izinRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
+            IzinAngkut? detail = await izinRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
             return View(new RegAngkutModel
             {
                 IzinAngkut = new IzinAngkut
