@@ -18,14 +18,14 @@
         
         <ul id="js-nav-menu" class="nav-menu">
             <li class="nav-title">Dashboard</li>
-            <li class="{{Request::path() == 'dashboard' ? 'active' : ''}}">
-                <a href="/dashboard" title="Dashboard" data-filter-tags="Dashboard">
+            <li class='@(ViewBag.Title == "Dashboard" ? "active" : "")'>
+                <a asp-action="Index" asp-controller="Home" title="Dashboard" data-filter-tags="Dashboard">
                     <i class="fal fa-home"></i>
                     <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard Penyedia Jasa</span>
                 </a>
             </li>
-            <li class="{{Request::path() == 'dashboardusaha' ? 'active' : ''}}">
-                <a href="/dashboardusaha" title="Dashboard" data-filter-tags="Dashboard">
+            <li class='@(ViewBag.Title == "Dashboard Usaha Kegiatan" ? "active" : "")'>
+                <a asp-action="IndexUSaha" asp-controller="Home" title="Dashboard" data-filter-tags="Dashboard">
                     <i class="fal fa-home"></i>
                     <span class="nav-link-text" data-i18n="nav.dashboard">Dashboard Usaha / Kegiatan</span>
                 </a>
@@ -79,13 +79,13 @@
                             <span class="nav-link-text" data-i18n="nav.verifikasi_jasa">Verifikasi</span>
                         </a>
                     </li>
-                    <li class="{{Request::is('admin/data/jasa/angkutan/*') ? 'active' : ''}}">
-                        <a href="{{ url('/admin/data/jasa/angkutan/index') }}" title="Jasa Angkutan" data-filter-tags="jasa angkutan">
+                    <li class='@(ViewBag.Title == "Jasa Angkutan Terverifikasi" ? "active" : "")'>
+                        <a asp-action="IndexAngkutan" asp-controller="Admin" title="Jasa Angkutan" data-filter-tags="jasa angkutan">
                             <span class="nav-link-text" data-i18n="nav.jasa_angkutan">Jasa Pengangkutan</span>
                         </a>
                     </li>
-                    <li class="{{Request::is('admin/data/jasa/pengolahan/*') ? 'active' : ''}}">
-                        <a href="{{ url('/admin/data/jasa/pengolahan/index') }}" title="Jasa Pengolahan" data-filter-tags="jasa pengolahan">
+                    <li class='@(ViewBag.Title == "Jasa Pengolahan Terverifikasi" ? "active" : "")'>
+                        <a asp-action="IndexOlah" asp-controller="Admin" title="Jasa Pengolahan" data-filter-tags="jasa pengolahan">
                             <span class="nav-link-text" data-i18n="nav.jasa_angkutan">Jasa Pengolahan</span>
                         </a>
                     </li>

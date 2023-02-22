@@ -9,7 +9,7 @@ using System.Net;
 
 namespace Simoja.Controllers;
 
-[Authorize(Roles = "SimojaAdmin, SysAdmin")]
+[Authorize(Roles = "PkmAdmin, SysAdmin")]
 public class AdminController : Controller {
     private IClient repo;
 
@@ -73,5 +73,17 @@ public class AdminController : Controller {
         }
 
         return Json(Result.Failed());
+    }
+
+    [HttpGet("/admin/data/jasa/pengangkutan")]
+    public IActionResult IndexAngkutan()
+    {
+        return View("~/Views/Admin/Angkutan/Index.cshtml");
+    }
+
+    [HttpGet("/admin/data/jasa/pengolahan")]
+    public IActionResult IndexOlah()
+    {
+        return View("~/Views/Admin/Pengolahan/Index.cshtml");
     }
 }
