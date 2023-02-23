@@ -39,7 +39,7 @@
 
 						<div class="form-result"></div>
 
-						<form class="mb-0" id="template-contactform" name="template-contactform" method="post">
+						<form class="mb-0" id="form-kontak" name="template-contactform">
 
 							<div class="form-process">
 								<div class="css3-spinner">
@@ -94,7 +94,13 @@
 								</div>
 
 								<div class="col-12 form-group">
-									<button class="button button-3d m-0" type="submit" id="template-contactform-submit" name="template-contactform-submit" value="submit">Kirim Pesan</button>
+									<div class="g-recaptcha" data-sitekey="6Le1TackAAAAACyDZaXJ-yONpVpThpBi7lfKgySB"></div>
+								</div>
+
+								<div class="col-12 form-group">
+									<button class="button button-3d m-0">
+										Kirim Pesan
+									</button>
 								</div>
 							</div>
 
@@ -160,3 +166,5 @@
 		</div>
 	</div>
 </section><!-- #content end -->
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
