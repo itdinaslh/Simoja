@@ -128,4 +128,29 @@ public static class Upload
 
         return fileNameIzin;
     }
+
+    public static async Task STNK(List<IFormFile> files, Guid clientID, string id)
+    {
+		foreach (var file in files)
+		{
+			string wwwPath = Uploads.Path;
+			string path = Path.Combine(wwwPath, @"pkm/clients/" + clientID.ToString() + "/stnk/" + id);
+
+			//create folder if not exist
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
+			//get file extension
+			FileInfo fileInfo = new FileInfo(file.FileName);
+			string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+			string fileNameWithPath = Path.Combine(path, fileName);
+
+			using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+
+		}
+	}
 }

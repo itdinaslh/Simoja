@@ -109,24 +109,7 @@ public class JasaAngkutController : Controller {
     public async Task<IActionResult> UploadSTNK(List<IFormFile> files, string id) {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/stnk/" + id);
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
-
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);            
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
-
-        }
+        await Upload.STNK(files, c.ClientID, id);
 
         return Json(Result.Success());
     }
