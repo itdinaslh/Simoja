@@ -11,10 +11,14 @@ namespace Simoja.Controllers;
 
 [Authorize(Roles = "PkmAdmin, SysAdmin")]
 public class AdminController : Controller {
-    private IClient repo;
+    private readonly IClient repo;
+    private readonly IKendaraan vRepo;
 
-    public AdminController(IClient cRepo) {
+
+    public AdminController(IClient cRepo, IKendaraan vRepo)
+    {
         repo = cRepo;
+        this.vRepo = vRepo;
     }
 
     [HttpGet("/admin/data/jasa/verifikasi")]
@@ -76,9 +80,13 @@ public class AdminController : Controller {
     }
 
     [HttpGet("/admin/data/jasa/pengangkutan")]
-    public IActionResult IndexAngkutan()
+    public async Task<IActionResult> IndexAngkutan()
     {
-        return View("~/Views/Admin/Angkutan/Index.cshtml");
+        int countVehicle = await vRepo.Kendaraans.CountAsync();
+
+        IndexAngkutanVM model = new() { TotalKendaraan = countVehicle };
+
+        return View("~/Views/Admin/Angkutan/Index.cshtml", model);
     }
 
     [HttpGet("/admin/data/jasa/pengolahan")]

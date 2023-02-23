@@ -9,7 +9,7 @@ public static class Upload
     {
         string wwwPath = Uploads.Path;
 
-        string path = Path.Combine(wwwPath, @"pkm/clients/" + userid);
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
 
         string ktpPath = path + "/ktp";
         string extKtp = Path.GetExtension(file.FileName);
@@ -40,7 +40,7 @@ public static class Upload
     {
         string wwwPath = Uploads.Path;
 
-        string path = Path.Combine(wwwPath, @"pkm/clients/" + userid);
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
 
         string npwpPath = path + "/npwp";
         string extNpwp = Path.GetExtension(file.FileName);
@@ -71,7 +71,7 @@ public static class Upload
     {
         string wwwPath = Uploads.Path;
 
-        string path = Path.Combine(wwwPath, @"pkm/clients/" + userid);
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
 
         string nibPath = path + "/nib";
         string extNib = Path.GetExtension(file.FileName);
@@ -102,7 +102,7 @@ public static class Upload
     {
         string wwwPath = Uploads.Path;
 
-        string path = Path.Combine(wwwPath, @"pkm/clients/" + userid);
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
 
         string izinPath = path + "/izin-angkut";
         string extIzin = Path.GetExtension(file.FileName);
@@ -134,7 +134,7 @@ public static class Upload
 		foreach (var file in files)
 		{
 			string wwwPath = Uploads.Path;
-			string path = Path.Combine(wwwPath, @"pkm/clients/" + clientID.ToString() + "/stnk/" + id);
+			string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/stnk/" + id);
 
 			//create folder if not exist
 			if (!Directory.Exists(path))
@@ -153,4 +153,79 @@ public static class Upload
 
 		}
 	}
+
+	public static async Task KIR(List<IFormFile> files, Guid clientID, string id)
+	{
+		foreach (var file in files)
+		{
+			string wwwPath = Uploads.Path;
+			string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/kir/" + id);
+
+			//create folder if not exist
+			if (!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+
+			//get file extension
+			FileInfo fileInfo = new FileInfo(file.FileName);
+			string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+			string fileNameWithPath = Path.Combine(path, fileName);
+
+			using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+			{
+				await file.CopyToAsync(stream);
+			}
+
+		}
+	}
+
+    public static async Task FotoKendaraan(List<IFormFile> files, Guid clientID, string id)
+    {
+        foreach (var file in files)
+        {
+            string wwwPath = Uploads.Path;
+            string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/kendaraan/" + id);
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+    }
+
+    public static async Task UjiEmisi(List<IFormFile> files, Guid clientID, string id)
+    {
+        foreach (var file in files)
+        {
+            string wwwPath = Uploads.Path;
+            string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/ujiemisi/" + id);
+
+            //create folder if not exist
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
+
+            //get file extension
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(path, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+        }
+    }
 }

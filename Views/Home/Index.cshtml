@@ -3,14 +3,59 @@
     ViewBag.Title = "Dashboard";
 }
 
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/css/statistics/c3/c3.css">
+    <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <style>
+        .myblack {
+            color: black;
+        }
+    </style>
+}
+
 <div class="row">
-    <div class="card">
-        <div class="card-body">
-            <p>
-                @foreach (var claim in Context.User.Claims) {
-                    <div>@claim.Type: <b>@claim.Value</b></div>
-                }
-            </p>
+    <div class="col-sm-3 col-xl-3">
+        <div class="p-3 bg-info-700 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="display-4 d-block l-h-n m-0 fw-500 ">
+                    2
+                    <small class="m-0 l-h-n">Jumlah Kendaraan</small>
+                </h3>
+            </div>
+            <i class="fal fa-truck position-absolute pos-right pos-bottom opacity-15 mb-n5 mr-n6" style="font-size: 8rem;"></i>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+        <div class="p-3 bg-danger-900 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="display-4 d-block l-h-n m-0 fw-500 ">
+                    2
+                    <small class="m-0 l-h-n">Jumlah Usaha / Kegiatan</small>
+                </h3>
+            </div>
+            <i class="fal fa-align-left position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+        <div class="p-3 bg-warning-900 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="display-4 d-block l-h-n m-0 fw-500 ">
+                    5
+                    <small class="m-0 l-h-n">Jasa Angkutan Terverifikasi</small>
+                </h3>
+            </div>
+            <i class="fal fa-database position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
+        </div>
+    </div>
+    <div class="col-sm-3 col-xl-3">
+        <div class="p-3 bg-success-700 rounded overflow-hidden position-relative text-white mb-g">
+            <div class="">
+                <h3 class="display-4 d-block l-h-n m-0 fw-500 ">
+                    3
+                    <small class="m-0 l-h-n">Jasa Pengolahan Terverifikasi</small>
+                </h3>
+            </div>
+            <i class="fal fa-align-left position-absolute pos-right pos-bottom opacity-15 mb-n1 mr-n4" style="font-size: 6rem;"></i>
         </div>
     </div>
 </div>

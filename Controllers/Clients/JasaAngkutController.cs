@@ -118,24 +118,7 @@ public class JasaAngkutController : Controller {
     public async Task<IActionResult> UploadKIR(List<IFormFile> files, string id) {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/kir/" + id);
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
-
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);            
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
-
-        }
+        await Upload.KIR(files, c.ClientID, id);
 
         return Json(Result.Success());
     }
@@ -144,23 +127,17 @@ public class JasaAngkutController : Controller {
     public async Task<IActionResult> UploadFotoKendaraan(List<IFormFile> files, string id) {
         Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/foto-kendaraan/" + id);
+        await Upload.FotoKendaraan(files, c.ClientID, id);
 
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);            
+        return Json(Result.Success());
+    }
 
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+    [HttpPost("/clients/pengangkutan/upload/uji-emisi")]
+    public async Task<IActionResult> UploadUjiEmisi(List<IFormFile> files, string id)
+    {
+        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-            string fileNameWithPath = Path.Combine(path, fileName);            
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create)) {
-                await file.CopyToAsync(stream);
-            }
-        }
+        await Upload.UjiEmisi(files, c.ClientID, id);
 
         return Json(Result.Success());
     }
@@ -187,9 +164,10 @@ public class JasaAngkutController : Controller {
         }
 
         model.Kendaraan.ClientID = client.ClientID;
-        model.Kendaraan.DokumenSTNK = "/upload/" + client.ClientID + "/stnk/" + uid;
-        model.Kendaraan.DokumenKIR = "/upload/" + client.ClientID + "/kir/" + uid;
-        model.Kendaraan.FotoKendaraan = "/upload/" + client.ClientID + "/foto-kendaraan" + uid;
+        model.Kendaraan.DokumenSTNK = "/stnk/" + uid;
+        model.Kendaraan.DokumenKIR = "/kir/" + uid;
+        model.Kendaraan.FotoKendaraan = "/kendaraan/" + uid;
+        model.Kendaraan.BuktiUjiEmisi = "/ujiemisi/" + uid;
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
         model.Kendaraan.UniqueID = uid;

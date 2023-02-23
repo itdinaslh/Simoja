@@ -42,6 +42,8 @@ public class Kendaraan {
     
     public string? FotoKendaraan { get; set; }
 
+    public string? BuktiUjiEmisi { get; set; }
+
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
