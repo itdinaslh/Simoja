@@ -79,7 +79,7 @@
                             <span class="nav-link-text" data-i18n="nav.verifikasi_jasa">Verifikasi</span>
                         </a>
                     </li>
-                    <li class='@(ViewBag.Title == "Jasa Angkutan Terverifikasi" ? "active" : "")'>
+                    <li class='@(ViewBag.Title == "Jasa Angkutan Terverifikasi" || ViewBag.Category == "Pengangkutan" ? "active" : "")'>
                         <a asp-action="IndexAngkutan" asp-controller="Admin" title="Jasa Angkutan" data-filter-tags="jasa angkutan">
                             <span class="nav-link-text" data-i18n="nav.jasa_angkutan">Jasa Pengangkutan</span>
                         </a>

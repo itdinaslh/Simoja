@@ -21,13 +21,20 @@ public class AdminAngkutController : Controller
     [Authorize(Roles = "SysAdmin, PkmAdmin")]
     public async Task<IActionResult> Details(Guid theID)
     {
-        Client? data = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == theID);
+        Client? data = await repo.Clients
+            .Include(x => x.Kelurahan.Kecamatan.Kabupaten)
+            .Include(u => u.JenisUsaha)
+            .FirstOrDefaultAsync(x => x.ClientID == theID);
 
         if (data is not null)
         {
             return View("~/Views/Admin/Angkutan/Details.cshtml", new DetailAngkutanVM
             {
-                Client = data
+                Client = data,
+                NamaKabupaten = data.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                NamaKecamatan = data.Kelurahan.Kecamatan.NamaKecamatan,
+                NamaKelurahan = data.Kelurahan.NamaKelurahan,
+                NamaJenisUsaha = data.JenisUsaha.NamaJenis
             });
         }
 
