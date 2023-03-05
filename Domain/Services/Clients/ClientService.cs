@@ -99,4 +99,18 @@ public class ClientService : IClient {
 
         await context.SaveChangesAsync();
     }
+
+    public async Task VerifikasiClient(Client client)
+    {
+        Client? data = await context.Clients.FindAsync(client.ClientID);
+
+        if (data is not null)
+        {
+            data.IsVerified = true;
+
+            context.Update(data);
+
+            await context.SaveChangesAsync();
+        }
+    }
 }

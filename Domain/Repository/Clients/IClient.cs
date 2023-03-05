@@ -21,4 +21,6 @@ public interface IClient {
     Task SaveIzinAngkut(IzinAngkut detail);
 
     Task SaveIzinOlah(IzinOlah olah);
+
+    Task VerifikasiClient(Client client);
 }

@@ -1,0 +1,123 @@
+﻿@model DetailAngkutanVM
+
+@{
+    ViewBag.Main = "Penyedia Jasa";
+    ViewBag.Category = "Pengangkutan";
+    ViewBag.Title = "Detail Jasa Angkutan";
+    ViewBag.Parent = "Penyedia Jasa";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/lightbox/dist/lightbox.css">
+    <style>
+        .myimg {
+            height: 75px;
+            width: 75px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div id="panel-data" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Data Perusahaan</h2>
+            </div>
+            <div class="panel-container show">
+                <form action="/admin/jasa/details/update" id="frmUpdateData" method="post">
+                    <input type="hidden" id="theID" name="theID" value="{{$data->UserID}}">
+                    <input type="hidden" name="myclientid" id="clientid" value="@Model.Client!.ClientID">
+                    <div class="panel-content">
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Nama Perusahaan</label>
+                                <input asp-for="Client!.ClientName" class="form-control" required autofocus autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Email</label>
+                                <input type="text" name="useremail" id="useremail" class="form-control" value="@Model.Client.UserId" readonly autofocus autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Jenis Usaha</label>
+                                <select name="comtype" id="comtype" class="form-control" required autocomplete="off">
+                                    <option value="{{$data->IdJenisUsaha}}">{{$data->NamaJenis}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Alamat</label>
+                                <input asp-for="Client!.Alamat" class="form-control" required autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Kota / Kabupaten *</label>
+                                <select name="kota" id="cbIdKota" class="form-control" required autocomplete="off">
+                                    <option value="{{$data->IdKota}}">{{$data->NamaKota}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Kecamatan</label>
+                                <select name="kec" id="cbIdKecamatan" class="form-control" required autocomplete="off">
+                                    <option value="{{$data->IdKecamatan}}">{{$data->NamaKecamatan}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Kelurahan</label>
+                                <select name="kel" id="cbIdKelurahan" class="form-control" required autocomplete="off">
+                                    <option value="{{$data->IdKelurahan}}">{{$data->NamaKelurahan}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Telp</label>
+                                <input asp-for="Client!.Telp" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Fax</label>
+                                <input asp-for="Client!.Fax" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Penanggung Jawab</label>
+                                <input asp-for="Client!.PenanggungJawab" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">PIC</label>
+                                <input asp-for="Client!.PIC" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">No HP PIC</label>
+                                <input asp-for="Client!.NoHpPIC" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">No Induk Berusaha</label>
+                                <input asp-for="Client!.NIB" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Latitude</label>
+                                <input asp-for="Client!.Latitude" class="form-control" autocomplete="off">
+                            </div>
+                            <div class="form-group col-md-4 col-xs-12">
+                                <label for="">Longitude</label>
+                                <input asp-for="Client!.Longitude" class="form-control" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group text-right">
+                            <button class="btn btn-success" type="submit">Update Data</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

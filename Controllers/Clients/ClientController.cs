@@ -160,6 +160,25 @@ public class ClientController : Controller {
         return View(new IzinlKawasan());
     }
 
+    // Verifikasi Client
+
+    [HttpPost("/api/admin/clients/verifikasi")]    
+    public async Task<IActionResult> Verifikasi()
+    {
+        var data = Request.Form["theID"].FirstOrDefault();
+
+        Client? client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == Guid.Parse(data!));
+
+        if (client is not null)
+        {
+            await repo.VerifikasiClient(client);
+
+            return Json(Result.Success());
+        }
+
+        return NotFound();
+    }
+
     // Upload Function
 #nullable disable
     [HttpPost("/clients/upload/izin")]

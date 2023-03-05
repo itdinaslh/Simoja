@@ -5,6 +5,7 @@
     ViewBag.Category = "Penyedia Jasa";
     ViewBag.Parent = "Penyedia Jasa";
     ViewBag.Title = "Detail Penyedia Jasa";
+    ViewBag.SubCategory = "Belum Verifikasi";
 }
 
 @section styles {
@@ -55,13 +56,13 @@
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Kota / Kabupaten *</label>
-                                <select id="cbIdKota" class="form-control" required autocomplete="off">
+                                <select id="cbIdKota" class="form-control sKabupaten" required autocomplete="off">
                                     <option value="@Model.KabupatenId">@Model.NamaKabupaten</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Kecamatan</label>
-                                <select name="kec" id="cbIdKecamatan" class="form-control" required autocomplete="off">
+                                <select name="kec" id="cbIdKecamatan" class="form-control sKecamatan" required autocomplete="off">
                                     <option value="@Model.KecamatanId">@Model.NamaKecamatan</option>
                                 </select>
                             </div>
@@ -69,7 +70,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Kelurahan</label>
-                                <select asp-for="Client!.KelurahanID" id="cbIdKelurahan" class="form-control" required autocomplete="off" >
+                                <select asp-for="Client!.KelurahanID" id="cbIdKelurahan" class="form-control sKelurahan" required autocomplete="off">
                                     <option value="@Model.Client!.KelurahanID">@Model.NamaKelurahan</option>
                                 </select>
                             </div>
@@ -171,6 +172,6 @@
     <script src="~/lib/sweetalert//sweetalert2.all.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-    <script src="~/js/address.js"></script>
+    <script src="~/pages/address/populate.js"></script>
     <script src="~/js/pages/admin/jasa/detailjasa.js"></script>
 }

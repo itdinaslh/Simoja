@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    PopulateKota();
+    PopulateKabupaten('31');
 
     PopulateJenis();
 
     var idkota = $('#cbIdKota option:selected').val();
     var idkecamatan = $('#cbIdKecamatan option:selected').val();
 
-    loadKecamatan(idkota);
-    loadKelurahan(idkecamatan);
+    PopulateKecamatan(idkota);
+    PopulateKelurahan(idkecamatan);
 
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -20,7 +20,7 @@ function PopulateJenis() {
 }
 
 $(document).on('click', '#btnVerify', function() {
-    var id = $('#theID').val();
+    var id = $('#theID').val();    
     Swal.fire(
     {
         title: "Yakin Verifikasi?",
@@ -32,7 +32,7 @@ $(document).on('click', '#btnVerify', function() {
         if (result.value)
         {
             $.ajax({
-                url: '/admin/clients/verifikasi',
+                url: '/api/admin/clients/verifikasi',
                 method: 'POST',
                 data: {
                     theID: id
@@ -40,6 +40,7 @@ $(document).on('click', '#btnVerify', function() {
                 success: function(result) {
                     if (result.success) {
                         showSuccessMessage();
+                        window.location.href = '/admin/data/jasa/pengangkutan';
                     } else {
                         alert('Gagal Verifikasi!');
                     }

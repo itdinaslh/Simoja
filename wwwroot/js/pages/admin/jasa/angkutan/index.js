@@ -23,7 +23,7 @@ function loadTable() {
             {
                 "render": function (data, type, row)
                 {
-                    return "<a class='btn btn-sm btn-outline-success mr-2 verify' href='/admin/data/jasa/angkutan/details/"
+                    return "<a class='btn btn-sm btn-outline-success mr-2 verify' href='/admin/data/jasa/angkutan/details/?theID="
                     + row.clientID + "'><i class='fal fa-edit'></i></a>";
                 }
             }
