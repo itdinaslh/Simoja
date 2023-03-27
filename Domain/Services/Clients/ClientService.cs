@@ -102,6 +102,7 @@ public class ClientService : IClient {
 
     public async Task VerifikasiClient(Client client)
     {
+#nullable enable
         Client? data = await context.Clients.FindAsync(client.ClientID);
 
         if (data is not null)
