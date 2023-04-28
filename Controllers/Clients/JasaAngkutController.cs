@@ -59,12 +59,10 @@ public class JasaAngkutController : Controller {
             })
             .FirstOrDefaultAsync();
 
-        #nullable disable
+#nullable disable
         var detail = await clientRepo.IzinAngkuts
             .Where(d => d.ClientID == thisClient.ClientID)
-            .Select(d => new {
-                d.JmlAngkutan
-            }).FirstOrDefaultAsync();
+            .SumAsync(i => i.JmlAngkutan);
 
         int jumlah = await vehicle.Kendaraans
             .Where(k => k.ClientID == thisClient.ClientID)
@@ -72,14 +70,11 @@ public class JasaAngkutController : Controller {
 
         bool isForbid = true;
 
-        if (detail != null)
-        {
-			if (jumlah < detail.JmlAngkutan)
-				isForbid = false;
-		}        
+        if (jumlah < detail)
+            isForbid = false;
 
         return View(new KendaraanIndexVM {
-            KendaranBerizin = detail is not null ? detail.JmlAngkutan : 0,
+            KendaranBerizin = detail,
             KendaraanDiinput = jumlah,
             Forbid = isForbid
         });
@@ -101,7 +96,9 @@ public class JasaAngkutController : Controller {
 
         return View(new KendaraanDetailVM
         {
-            Kendaraan = truk
+            Kendaraan = truk,
+            MasaBerlakuSTNK = truk.TglSTNK.ToString("dd/MM/yyyy"),
+            MasaBerlakuKIR = truk.TglKIR.ToString("dd/MM/yyyy")
         });
     }
 

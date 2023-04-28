@@ -9,7 +9,7 @@ namespace Simoja.Controllers.api;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "SysAdmin, SimojaAdmin")]
+//[Authorize(Roles = "SysAdmin, SimojaAdmin")]
 public class JenisKegiatanApiController : Controller {
     private IJenisKegiatan repo;
 
@@ -53,8 +53,8 @@ public class JenisKegiatanApiController : Controller {
                 j.NamaKegiatan.ToLower().Contains(term.ToLower()) : true            
             ).Select(jen => new {
                 id = jen.JenisKegiatanID,
-                namaKegiatan = jen.NamaKegiatan
-            }).Take(5).ToListAsync();
+                data = jen.NamaKegiatan
+            }).ToListAsync();
 
         return Ok(data);
     }

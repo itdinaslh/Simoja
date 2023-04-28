@@ -169,6 +169,7 @@ public class ClientController : Controller {
 
         Client? client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == Guid.Parse(data!));
 
+
         if (client is not null)
         {
             await repo.VerifikasiClient(client);

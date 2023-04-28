@@ -53,7 +53,7 @@ public class StatusKelolaApiController : Controller {
             ).Select(jen => new {
                 id = jen.StatusKelolaID,
                 namaStatus = jen.NamaStatus
-            }).Take(5).ToListAsync();
+            }).ToListAsync();
 
         return Ok(data);
     }
