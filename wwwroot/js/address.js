@@ -17,29 +17,59 @@ $('#cbIdKecamatan').on('change', function() {
 function PopulateKota() {
     $('#cbIdKota').select2({
         placeholder: 'Pilih Kota / Kabupaten...',
-            ajax: {
-                url: '/api/address/kabupaten/search',
-                contentType: "application/json; charset=utf-8",
-                data: function(params) {
-                    var query = {
-                        term: params.term,
-                    };
-                    
-                    return query;
-                },                
-                delay: 100,
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {
-                                text: item.namaKabupaten,
-                                id: item.id
-                            }
-                        })
-                    }
-                },
-                cache: true
-            }
+        ajax: {
+            url: '/api/address/kabupaten/search',
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+
+                return query;
+            },
+            delay: 100,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.namaKabupaten,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
+}
+
+function PopulateKotaDefault() {
+    $('#cbIdKota').select2({
+        placeholder: 'Pilih Kota / Kabupaten...',
+        dropdownPosition: 'below',
+        ajax: {
+            url: '/api/address/kabupaten/search/?provID=31',
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+
+                return query;
+            },
+            delay: 100,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
     });
 }
 
@@ -47,7 +77,7 @@ function loadKecamatan(theID) {
     $('#cbIdKecamatan').select2({
         placeholder: 'Pilih Kecamatan...',
         ajax: {
-            url: '/api/address/kecamatan/search/?theID=' + theID,
+            url: '/api/address/kecamatan/search/?kab=' + theID,
             data: function(params) {
                 var query = {
                     term: params.term,
@@ -60,7 +90,7 @@ function loadKecamatan(theID) {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.namaKecamatan,
+                            text: item.data,
                             id: item.id
                         }
                     })
@@ -75,7 +105,7 @@ function loadKelurahan(theID) {
     $('#cbIdKelurahan').select2({
         placeholder: 'Pilih Kelurahan...',
         ajax: {
-            url: '/api/address/kelurahan/search/?theID=' + theID,
+            url: '/api/address/kelurahan/search/?kec=' + theID,
             data: function(params) {
                 var query = {
                     term: params.term,
@@ -88,7 +118,7 @@ function loadKelurahan(theID) {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.namaKelurahan,
+                            text: item.data,
                             id: item.id
                         }
                     })
