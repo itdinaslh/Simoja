@@ -33,7 +33,7 @@
             </li>
             <li class="nav-title">Data</li>
             <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
-                <a asp-controller="JasaAngkut" asp-action="Kendaraan" title="Data Kendaraan" data-filter-tags="data kendaraan">
+                <a asp-controller="KendaraanAngkut" asp-action="Kendaraan" title="Data Kendaraan" data-filter-tags="data kendaraan">
                     <i class="fal fa-truck"></i>
                     <span class="nav-link-text" data-i18n="nav.data_kendaraan"> Data Kendaraan</span>
                 </a>
@@ -45,7 +45,7 @@
                 </a>
                 <ul>
                     <li class='@(ViewBag.Title == "Daftar Izin PTSP" ? "active" : "")'>
-                        <a asp-controller="JasaAngkut" asp-action="Perizinan" title="Izin PTSP" data-filter-tags="izin ptsp">
+                        <a asp-controller="IzinAngkut" asp-action="Perizinan" title="Izin PTSP" data-filter-tags="izin ptsp">
                             <span class="nav-link-text" data-i18n="nav.izin_ptsp"> Izin PTSP</span>
                         </a>
                     </li>

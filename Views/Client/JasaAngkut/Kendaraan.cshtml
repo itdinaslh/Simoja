@@ -10,6 +10,9 @@
 @section styles {
     <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
     <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
 }
 
 <div id='myModal' class='modal fade in' data-keyboard="false" data-backdrop="static">
@@ -48,7 +51,7 @@
 <div class="row">
     <div class="col-xl-12">
         @if (!Model.Forbid) {
-            <a class="btn btn-success" style="margin-bottom:20px;" asp-action="KendaraanCreate" asp-controller="JasaAngkut">Tambah Kendaraan</a>
+            <a class="btn btn-success showMe" style="margin-bottom:20px;" data-href="/clients/jasa/pengangkutan/kendaraan/create">Tambah Kendaraan</a>
         }
 
         <div id="panel-1" class="panel">
@@ -81,5 +84,5 @@
     <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
     <script src="~/js/modalForm.js"></script>
-    <script src="~/js/pages/jasa/angkutan/kendaraan.js"></script>
+    <script src="~/pages/angkutan/kendaraan.js"></script>
 }

@@ -14,97 +14,35 @@ public class JasaAngkutController : Controller {
     private readonly IKendaraan vehicle;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
-    private readonly IIzinAngkut izinRepo;
     
-    public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo, IIzinAngkut izinAngkutRepo) {
+    public JasaAngkutController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut locRepo) {
         vehicle = kRepo; clientRepo = cRepo;
         lokasiRepo = locRepo;
-        izinRepo = izinAngkutRepo;
     }
 
     [HttpGet("/dashboard/pengangkutan")]
     public IActionResult Dashboard() {
         return View();
-    }
-
-    [HttpGet("/clients/jasa/pengangkutan/izin")]
-    public async Task<IActionResult> Perizinan()
-    {
-        Guid? curClient = await clientRepo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
-            .Select(cli => cli.ClientID)
-            .FirstOrDefaultAsync();        
-
-        if (curClient != null)
-        {
-            IzinAngkut? detail = await izinRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
-            return View(new RegAngkutModel
-            {
-                IzinAngkut = new IzinAngkut
-                {
-                    DokumenIzin = "/upload"
-                }
-            });
-        }
-
-        return NotFound();
-    }
-
-    [HttpGet("/clients/jasa/pengangkutan/kendaraan")]
-    public async Task<IActionResult> Kendaraan() {
-        string? currentUser = User.Identity?.Name;
-
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
-            .Select(c => new {
-                c.ClientID
-            })
-            .FirstOrDefaultAsync();
-
-#nullable disable
-        var detail = await clientRepo.IzinAngkuts
-            .Where(d => d.ClientID == thisClient.ClientID)
-            .SumAsync(i => i.JmlAngkutan);
-
-        int jumlah = await vehicle.Kendaraans
-            .Where(k => k.ClientID == thisClient.ClientID)
-            .CountAsync();
-
-        bool isForbid = true;
-
-        if (jumlah < detail)
-            isForbid = false;
-
-        return View(new KendaraanIndexVM {
-            KendaranBerizin = detail,
-            KendaraanDiinput = jumlah,
-            Forbid = isForbid
-        });
-    }
-
-    [HttpGet("/clients/jasa/pengangkutan/kendaraan/create")]
-    public IActionResult KendaraanCreate() {
-        return View(new KendaraanCreateVM {
-            Kendaraan = new Kendaraan()            
-        });
-    }
+    }    
 
     [HttpGet("/clients/jasa/kendaraan/details")]
     public async Task<IActionResult> KendaraanDetails(Guid id)
     {
-        Kendaraan truk = await vehicle.Kendaraans
+        Kendaraan? truk = await vehicle.Kendaraans
             .Include(j => j.JenisKendaraan)
             .FirstOrDefaultAsync(x => x.UniqueID == id);
 
         return View(new KendaraanDetailVM
         {
             Kendaraan = truk,
-            MasaBerlakuSTNK = truk.TglSTNK.ToString("dd/MM/yyyy"),
+            MasaBerlakuSTNK = truk!.TglSTNK.ToString("dd/MM/yyyy"),
             MasaBerlakuKIR = truk.TglKIR.ToString("dd/MM/yyyy")
         });
     }
 
     [HttpPost("/clients/pengangkutan/upload/stnk")]
     public async Task<IActionResult> UploadSTNK(List<IFormFile> files, string id) {
-        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         await Upload.STNK(files, c.ClientID, id);
 
@@ -113,18 +51,18 @@ public class JasaAngkutController : Controller {
 
     [HttpPost("/clients/pengangkutan/upload/kir")]
     public async Task<IActionResult> UploadKIR(List<IFormFile> files, string id) {
-        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        await Upload.KIR(files, c.ClientID, id);
+        await Upload.KIR(files, c!.ClientID, id);
 
         return Json(Result.Success());
     }
 
     [HttpPost("/clients/pengangkutan/upload/foto-kendaraan")]
     public async Task<IActionResult> UploadFotoKendaraan(List<IFormFile> files, string id) {
-        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        await Upload.FotoKendaraan(files, c.ClientID, id);
+        await Upload.FotoKendaraan(files, c!.ClientID, id);
 
         return Json(Result.Success());
     }
@@ -132,7 +70,7 @@ public class JasaAngkutController : Controller {
     [HttpPost("/clients/pengangkutan/upload/uji-emisi")]
     public async Task<IActionResult> UploadUjiEmisi(List<IFormFile> files, string id)
     {
-        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity!.Name).FirstOrDefaultAsync();
 
         await Upload.UjiEmisi(files, c.ClientID, id);
 
@@ -142,7 +80,7 @@ public class JasaAngkutController : Controller {
     [HttpPost("/clients/jasa/angkutan/kendaraan/store")]
     public async Task<IActionResult> SaveKendaraan(KendaraanCreateVM model) {
         var client = await clientRepo.Clients
-            .Where(c => c.UserId == User.Identity.Name)
+            .Where(c => c.UserId == User.Identity!.Name)
             .Select(c => new {
                 c.ClientID                             
             })
@@ -160,7 +98,7 @@ public class JasaAngkutController : Controller {
             uid = model.UID;
         }
 
-        model.Kendaraan.ClientID = client.ClientID;
+        model.Kendaraan.ClientID = client!.ClientID;
         model.Kendaraan.DokumenSTNK = "/stnk/" + uid;
         model.Kendaraan.DokumenKIR = "/kir/" + uid;
         model.Kendaraan.FotoKendaraan = "/kendaraan/" + uid;
@@ -185,10 +123,10 @@ public class JasaAngkutController : Controller {
 
     [HttpPost("/clients/pengangkutan/upload/lokasi-angkut")]
     public async Task<IActionResult> UploadLokasi(List<IFormFile> files, string id) {
-        Client c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files) {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/lokasi-angkut/" + id);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c!.ClientID + "/lokasi-angkut/" + id);
 
             //create folder if not exist
             if (!Directory.Exists(path))

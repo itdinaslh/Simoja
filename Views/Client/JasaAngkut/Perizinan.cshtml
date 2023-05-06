@@ -24,9 +24,10 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
-                    <form id="clientform" asp-controller="Client" asp-action="SaveIzinAngkut" method="post" enctype="multipart/form-data">
+                    <form id="clientform" asp-controller="IzinAngkut" asp-action="SaveIzinAngkut" method="post" enctype="multipart/form-data">
                         <input type="hidden" asp-for="IzinAngkut.IzinAngkutID">
                         <div asp-validation-summary="All"></div>
+                        @Html.AntiForgeryToken()
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="">No. Izin Usaha yang diterbitkan oleh PTSP <span class="text-danger">*</span></label>

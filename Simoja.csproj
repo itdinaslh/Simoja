@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Controllers\Clients\JasaOlah\" />
     <Folder Include="wwwroot\pages\registration\" />
     <Folder Include="wwwroot\upload\" />
     <Folder Include="wwwroot\web\js\" />

@@ -548,27 +548,7 @@ public class ClientController : Controller {
         }
 
         return new JsonResult(true) { StatusCode = (int)HttpStatusCode.OK };
-    }
-
-    [HttpPost("/clients/register/angkut/save")]
-    // [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveIzinAngkut(RegAngkutModel model) {
-        Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
-
-        model.IzinAngkut.ClientID = client.ClientID;              
-        model.IzinAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
-        model.IzinAngkut.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
-        model.IzinAngkut.DokumenIzin = await Upload.IzinAngkut(model.FileIzin, client.ClientID.ToString());
-        model.IzinAngkut.UniqueID = Guid.NewGuid();
-
-        if (ModelState.IsValid) {
-            await repo.SaveIzinAngkut(model.IzinAngkut);
-
-            return Json(Result.Success());
-        }
-
-        return View("~/Views/Client/RegisterAngkut.cshtml", model);
-    }
+    }    
 
     [HttpPost("/clients/register/olah/save")]
     // [ValidateAntiForgeryToken]

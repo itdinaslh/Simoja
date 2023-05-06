@@ -22,7 +22,7 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
-                    <form id="clientform" action="/clients/jasa/angkutan/kendaraan/store" method="post">
+                    <form id="clientform" asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post">
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="UID" asp-for="UID" />                      
                         <input type="hidden" id="stnkadded" />
