@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Clients\JasaOlah\**" />
     <Compile Remove="Views\Admin\JasaAngkut\**" />
     <Compile Remove="wwwroot\dist\**" />
+    <Content Remove="Controllers\Clients\JasaOlah\**" />
     <Content Remove="Views\Admin\JasaAngkut\**" />
     <Content Remove="wwwroot\dist\**" />
+    <EmbeddedResource Remove="Controllers\Clients\JasaOlah\**" />
     <EmbeddedResource Remove="Views\Admin\JasaAngkut\**" />
     <EmbeddedResource Remove="wwwroot\dist\**" />
+    <None Remove="Controllers\Clients\JasaOlah\**" />
     <None Remove="Views\Admin\JasaAngkut\**" />
     <None Remove="wwwroot\dist\**" />
   </ItemGroup>
@@ -48,7 +52,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Clients\JasaOlah\" />
     <Folder Include="wwwroot\pages\registration\" />
     <Folder Include="wwwroot\upload\" />
     <Folder Include="wwwroot\web\js\" />

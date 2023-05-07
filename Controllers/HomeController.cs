@@ -38,7 +38,7 @@ public class HomeController : Controller
 
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
-        } else if (thisClient.JenisUsahaID == 1) {
+        } else if (User.IsInRole("PkmAngkut")) {
 			return RedirectToAction("Dashboard", "JasaAngkut");
 		} else if (thisClient.JenisUsahaID == 2) {
 			return RedirectToAction("IndexOlah");

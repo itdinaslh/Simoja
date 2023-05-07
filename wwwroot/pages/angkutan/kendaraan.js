@@ -31,14 +31,14 @@ function loadTable() {
             {data:'jenis', name:'jenis', searchable: false},
             {data:'tahunPembuatan', name:'tahunPembuatan'},
             {data:'tglSTNK', name:'tglSTNK', searchable: false, orderable: false},
-            {data:'tglKIR', name:'tglKIR'},
-            {
-                "render": function (data, type, row)
-                {
-                    return "<a class='btn btn-sm btn-outline-success mr-2' href='/clients/jasa/kendaraan/details/?id="
-                    + row.uniqueId + "'><i class='fal fa-edit'></i> Data Kendaraan</a>";
-                }
-            }
+            {data:'tglKIR', name:'tglKIR'}
+            //{
+            //    "render": function (data, type, row)
+            //    {
+            //        return "<a class='btn btn-sm btn-outline-success mr-2' href='/clients/jasa/kendaraan/details/?id="
+            //        + row.uniqueId + "'><i class='fal fa-edit'></i> Data Kendaraan</a>";
+            //    }
+            //}
         ],
         order: [[0, "desc"]]
     });
@@ -47,6 +47,7 @@ function loadTable() {
 function PopulateJenisKendaraan() {
     $('#vehicleType').select2({
         placeholder: 'Pilih Jenis Kendaraan...',
+        dropdownParent: $('#myModal'),
         ajax: {
             url: '/api/master/kendaraan/jenis/search',
             data: function (params) {
@@ -61,7 +62,7 @@ function PopulateJenisKendaraan() {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.NamaJenis,
+                            text: item.namaJenis,
                             id: item.id
                         }
                     })
