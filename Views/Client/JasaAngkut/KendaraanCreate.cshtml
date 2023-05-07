@@ -10,8 +10,40 @@
             <input type="text" class="form-control" placeholder="Isi No. Polisi" autocomplete="off" autofocus />            
         </div>
         <div class="form-group">
+            <label for="">No Pintu <span class="text-danger">*</span></label>
+            <input type="text" id="doorID" class="form-control" placeholder="Masukan No. Pintu" required autocomplete="off">            
+        </div>
+        <div class="form-group">
             <label for="">Jenis Kendaraan *</label>
             <select id="vehicleType" class="form-control" required></select>            
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4 col-xs-12">
+                <label for="">Masa Berlaku STNK <span class="text-danger">*</span></label>
+                <div class="input-group flex-nowrap">
+                    <input type="text" id="tglSTNK" class="form-control datepicker" required autocomplete="off">
+                    <div class="input-group-append">
+                        <span class="input-group-text fs-xl">
+                            <i class="fal fa-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-xs-12">
+                <label for="">Masa Berlaku KIR <span class="text-danger">*</span></label>
+                <div class="input-group flex-nowrap">
+                    <input type="text" id="tglKIR" class="form-control datepicker" required autocomplete="off">
+                    <div class="input-group-append">
+                        <span class="input-group-text fs-xl">
+                            <i class="fal fa-calendar"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-4 col-xs-12">
+                <label for="">Tahun Pembuatan <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" required autocomplete="off" />
+            </div>
         </div>
     </div>
 </form>

@@ -1,6 +1,15 @@
-$(document).ready(function() {
-    loadTable();
-})
+$(document).ready(function () {
+    loadTable();    
+});
+
+$(document).on('shown.bs.modal', '#myModal', function () {
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom'
+    });
+
+    PopulateJenisKendaraan();
+});
 
 function loadTable() {
     $('#tblKendaraan').DataTable().destroy();
@@ -8,7 +17,8 @@ function loadTable() {
         serverSide: true,
         processing: true,
         responsive: true,        
-        lengthMenu:[5,10,20],
+        lengthMenu: [5, 10, 20],
+        dropdownParent: $("#myModal"),
         pagingType: "simple_numbers",
         ajax: {
             url: '/api/clients/jasa/pengangkutan/kendaraan/list',
@@ -51,7 +61,7 @@ function PopulateJenisKendaraan() {
                 return {
                     results: $.map(data, function (item) {
                         return {
-                            text: item.namaJenis,
+                            text: item.NamaJenis,
                             id: item.id
                         }
                     })
