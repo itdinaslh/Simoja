@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Simoja.Entity;
 using Simoja.Models;
 using Simoja.Repository;
+using Simoja.Helpers;
 
 namespace Simoja.Controllers;
 
@@ -19,7 +20,7 @@ public class KendaraanAngkutController : Controller
         this.clientRepo = clientRepo;
     }
 
-    [HttpGet("/clients/jasa/pengangkutan/kendaraan")]
+    [HttpGet("/clients/pengangkutan/kendaraan")]
     public async Task<IActionResult> Kendaraan()
     {
         string? currentUser = User.Identity!.Name;
@@ -48,12 +49,18 @@ public class KendaraanAngkutController : Controller
         });
     }
 
-    [HttpGet("/clients/jasa/pengangkutan/kendaraan/create")]
+    [HttpGet("/clients/pengangkutan/kendaraan/create")]
     public IActionResult Create()
     {
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", new KendaraanCreateVM
         {
             Kendaraan = new Kendaraan()
         });
+    }
+
+    [HttpPost("/clients/pengangkutan/kendaraan/store")]
+    public async Task<IActionResult> StoreKendaraan(KendaraanCreateVM model)
+    {
+        return Json(Result.Success());
     }
 }

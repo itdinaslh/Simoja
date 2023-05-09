@@ -1,4 +1,4 @@
-﻿<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan">
+﻿<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" class="FormCreate">
     @Html.AntiForgeryToken()
     <div class="modal-header bg-primary-700 bg-success-gradient">
         <h4 class="modal-title">Tambah Kendaraan</h4>
@@ -7,14 +7,14 @@
     <div class="modal-body">
         <div class="form-group">
             <label>No Polisi <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" placeholder="Isi No. Polisi" autocomplete="off" autofocus />            
+            <input type="text" class="form-control" placeholder="Isi No. Polisi" required autocomplete="off" autofocus />            
         </div>
         <div class="form-group">
             <label for="">No Pintu <span class="text-danger">*</span></label>
-            <input type="text" id="doorID" class="form-control" placeholder="Masukan No. Pintu" required autocomplete="off">            
+            <input type="text" class="form-control" placeholder="Masukan No. Pintu" required autocomplete="off">            
         </div>
         <div class="form-group">
-            <label for="">Jenis Kendaraan *</label>
+            <label for="">Jenis Kendaraan <span class="text-danger">*</span></label>
             <select id="vehicleType" class="form-control" required></select>            
         </div>
         <div class="form-row">
@@ -46,19 +46,19 @@
             </div>
         </div>
         <div class="form-group">
-            <label>Upload Dokumen STNK</label>
+            <label>Upload Dokumen STNK <span class="text-danger">*</span></label>
             <input type="file" class="form-control" accept="application/pdf, image/*" placeholder="Pilih dokumen STNK" />
         </div>
         <div class="form-group">
-            <label>Upload Dokumen KIR</label>
+            <label>Upload Dokumen KIR <span class="text-danger">*</span></label>
             <input type="file" class="form-control" accept="application/pdf, image/*" placeholder="Pilih dokumen KIR" />
         </div>
         <div class="form-group">
-            <label>Upload Bukti Uji Emisi</label>
+            <label>Upload Bukti Uji Emisi <span class="text-danger">*</span></label>
             <input type="file" class="form-control" accept="application/pdf, image/*" placeholder="Pilih dokumen Uji Emisi" />
         </div>
         <div class="form-group">
-            <label>Upload Foto Kendaraan</label>
+            <label>Upload Foto Kendaraan <span class="text-danger">*</span></label>
             <input type="file" class="form-control" accept="image/*" placeholder="Pilih Foto Kendaraan" />
         </div>
     </div>

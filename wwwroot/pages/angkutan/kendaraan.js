@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    loadTable();    
+    loadTable();
 });
 
 $(document).on('shown.bs.modal', '#myModal', function () {
@@ -69,6 +69,17 @@ function PopulateJenisKendaraan() {
                 }
             },
             cache: true
+        }
+    });
+}
+
+function ValidateKendaraan() {
+    $('.FormCreate').validate({
+        rules: {
+            NoPolisi: "required"
+        },
+        messages: {
+            NoPolisi: 'Isi No Polisi...'
         }
     });
 }
