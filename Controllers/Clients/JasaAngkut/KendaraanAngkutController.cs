@@ -61,6 +61,18 @@ public class KendaraanAngkutController : Controller
     [HttpPost("/clients/pengangkutan/kendaraan/store")]
     public async Task<IActionResult> StoreKendaraan(KendaraanCreateVM model)
     {
+        var client = await clientRepo.Clients
+            .Where(c => c.UserId == User.Identity!.Name)
+            .Select(c => new {
+                c.ClientID
+            })
+            .FirstOrDefaultAsync();
+
+        model.Kendaraan.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString());
+        model.Kendaraan.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString());
+        model.Kendaraan.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString());
+        model.Kendaraan.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString());
+
         return Json(Result.Success());
     }
 }

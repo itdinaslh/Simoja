@@ -45,7 +45,7 @@ function loadTable() {
 }
 
 function PopulateJenisKendaraan() {
-    $('#vehicleType').select2({
+    $('.vehicleType').select2({
         placeholder: 'Pilih Jenis Kendaraan...',
         dropdownParent: $('#myModal'),
         ajax: {

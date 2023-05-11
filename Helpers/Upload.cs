@@ -129,7 +129,191 @@ public static class Upload
         return fileNameIzin;
     }
 
-    public static async Task STNK(List<IFormFile> files, Guid clientID, string id)
+    public static async Task<string> STNK(List<IFormFile> files, string clientid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"clients/" + clientid);
+
+        string stnkPath = path + "/stnk";
+
+        string thumbPath = path + "/thumbnails/stnk";
+
+        string savePath = "/clients/" + clientid + "/stnk";
+
+        if (!Directory.Exists(stnkPath))
+        {
+            Directory.CreateDirectory(stnkPath);
+        }
+
+        if (!Directory.Exists(thumbPath))
+        {
+            Directory.CreateDirectory(thumbPath);
+        }
+
+        foreach (var file in files)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(stnkPath, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            if (!fileName.Contains("pdf"))
+            {
+                Image image = Image.Load(file.OpenReadStream());
+                image.Mutate(x => x.Resize(600, 400));
+
+                image.Save(Path.Combine(thumbPath, fileName));
+            }
+        }
+
+        return savePath;
+    }
+
+    public static async Task<string> KIR(List<IFormFile> files, string clientid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"clients/" + clientid);
+
+        string kirPath = path + "/kir";
+
+        string thumbPath = path + "/thumbnails/kir";
+
+        string savePath = "/clients/" + clientid + "/kir";
+
+        if (!Directory.Exists(kirPath))
+        {
+            Directory.CreateDirectory(kirPath);
+        }
+
+        if (!Directory.Exists(thumbPath))
+        {
+            Directory.CreateDirectory(thumbPath);
+        }
+
+        foreach (var file in files)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(kirPath, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            if (!fileName.Contains("pdf"))
+            {
+                Image image = Image.Load(file.OpenReadStream());
+                image.Mutate(x => x.Resize(600, 400));
+
+                image.Save(Path.Combine(thumbPath, fileName));
+            }
+        }
+
+        return savePath;
+    }
+
+    public static async Task<string> UjiEmisi(List<IFormFile> files, string clientid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"clients/" + clientid);
+
+        string ujiPath = path + "/emisi";
+
+        string thumbPath = path + "/thumbnails/emisi";
+
+        string savePath = "/clients/" + clientid + "/emisi";
+
+        if (!Directory.Exists(ujiPath))
+        {
+            Directory.CreateDirectory(ujiPath);
+        }
+
+        if (!Directory.Exists(thumbPath))
+        {
+            Directory.CreateDirectory(thumbPath);
+        }
+
+        foreach (var file in files)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(ujiPath, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            if (!fileName.Contains("pdf"))
+            {
+                Image image = Image.Load(file.OpenReadStream());
+                image.Mutate(x => x.Resize(600, 400));
+
+                image.Save(Path.Combine(thumbPath, fileName));
+            }
+        }
+
+        return savePath;
+    }
+
+    public static async Task<string> FotoKendaraan(List<IFormFile> files, string clientid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"clients/" + clientid);
+
+        string kendaraanPath = path + "/kendaraan";
+
+        string thumbPath = path + "/thumbnails/kendaraan";
+
+        string savePath = "/clients/" + clientid + "/kendaraan";
+
+        if (!Directory.Exists(kendaraanPath))
+        {
+            Directory.CreateDirectory(kendaraanPath);
+        }
+
+        if (!Directory.Exists(thumbPath))
+        {
+            Directory.CreateDirectory(thumbPath);
+        }
+
+        foreach (var file in files)
+        {
+            FileInfo fileInfo = new FileInfo(file.FileName);
+            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+
+            string fileNameWithPath = Path.Combine(kendaraanPath, fileName);
+
+            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            if (!fileName.Contains("pdf"))
+            {
+                Image image = Image.Load(file.OpenReadStream());
+                image.Mutate(x => x.Resize(600, 400));
+
+                image.Save(Path.Combine(thumbPath, fileName));
+            }
+        }
+
+        return savePath;
+    }
+
+    public static async Task STNK1(List<IFormFile> files, Guid clientID, string id)
     {
 		foreach (var file in files)
 		{
@@ -154,78 +338,5 @@ public static class Upload
 		}
 	}
 
-	public static async Task KIR(List<IFormFile> files, Guid clientID, string id)
-	{
-		foreach (var file in files)
-		{
-			string wwwPath = Uploads.Path;
-			string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/kir/" + id);
-
-			//create folder if not exist
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
-
-			//get file extension
-			FileInfo fileInfo = new FileInfo(file.FileName);
-			string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-			string fileNameWithPath = Path.Combine(path, fileName);
-
-			using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-			{
-				await file.CopyToAsync(stream);
-			}
-
-		}
-	}
-
-    public static async Task FotoKendaraan(List<IFormFile> files, Guid clientID, string id)
-    {
-        foreach (var file in files)
-        {
-            string wwwPath = Uploads.Path;
-            string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/kendaraan/" + id);
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-        }
-    }
-
-    public static async Task UjiEmisi(List<IFormFile> files, Guid clientID, string id)
-    {
-        foreach (var file in files)
-        {
-            string wwwPath = Uploads.Path;
-            string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/ujiemisi/" + id);
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //get file extension
-            FileInfo fileInfo = new FileInfo(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-
-        }
-    }
+	
 }

@@ -40,42 +40,42 @@ public class JasaAngkutController : Controller {
         });
     }
 
-    [HttpPost("/clients/pengangkutan/upload/stnk")]
-    public async Task<IActionResult> UploadSTNK(List<IFormFile> files, string id) {
-        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+    //[HttpPost("/clients/pengangkutan/upload/stnk")]
+    //public async Task<IActionResult> UploadSTNK(List<IFormFile> files, string id) {
+    //    Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        await Upload.STNK(files, c.ClientID, id);
+    //    await Upload.STNK(files, c.ClientID, id);
 
-        return Json(Result.Success());
-    }
+    //    return Json(Result.Success());
+    //}
 
-    [HttpPost("/clients/pengangkutan/upload/kir")]
-    public async Task<IActionResult> UploadKIR(List<IFormFile> files, string id) {
-        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+    //[HttpPost("/clients/pengangkutan/upload/kir")]
+    //public async Task<IActionResult> UploadKIR(List<IFormFile> files, string id) {
+    //    Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        await Upload.KIR(files, c!.ClientID, id);
+    //    await Upload.KIR(files, c!.ClientID, id);
 
-        return Json(Result.Success());
-    }
+    //    return Json(Result.Success());
+    //}
 
-    [HttpPost("/clients/pengangkutan/upload/foto-kendaraan")]
-    public async Task<IActionResult> UploadFotoKendaraan(List<IFormFile> files, string id) {
-        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+    //[HttpPost("/clients/pengangkutan/upload/foto-kendaraan")]
+    //public async Task<IActionResult> UploadFotoKendaraan(List<IFormFile> files, string id) {
+    //    Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
 
-        await Upload.FotoKendaraan(files, c!.ClientID, id);
+    //    await Upload.FotoKendaraan(files, c!.ClientID, id);
 
-        return Json(Result.Success());
-    }
+    //    return Json(Result.Success());
+    //}
 
-    [HttpPost("/clients/pengangkutan/upload/uji-emisi")]
-    public async Task<IActionResult> UploadUjiEmisi(List<IFormFile> files, string id)
-    {
-        Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity!.Name).FirstOrDefaultAsync();
+    //[HttpPost("/clients/pengangkutan/upload/uji-emisi")]
+    //public async Task<IActionResult> UploadUjiEmisi(List<IFormFile> files, string id)
+    //{
+    //    Client? c = await clientRepo.Clients.Where(m => m.UserId == User.Identity!.Name).FirstOrDefaultAsync();
 
-        await Upload.UjiEmisi(files, c.ClientID, id);
+    //    await Upload.UjiEmisi(files, c.ClientID, id);
 
-        return Json(Result.Success());
-    }
+    //    return Json(Result.Success());
+    //}
 
     [HttpPost("/clients/jasa/angkutan/kendaraan/store")]
     public async Task<IActionResult> SaveKendaraan(KendaraanCreateVM model) {

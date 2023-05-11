@@ -14,9 +14,17 @@ public class KendaraanCreateVM {
 
     public Guid UID { get; set; } = Guid.NewGuid();
 
-    public bool StnkAdded { get; set; } = false;
+    public List<IFormFile> FileSTNK { get; set; }
 
-    public bool? KirAdded { get; set; } = false;
+    public List<IFormFile> FileKIR { get; set; }
 
-    public bool? FotoIsAdded { get; set; } = false;
+    public List<IFormFile> FileUjiEmisi { get; set; }
+
+    public List<IFormFile> FotoKendaraan { get; set; }
+
+    //public bool StnkAdded { get; set; } = false;
+
+    //public bool? KirAdded { get; set; } = false;
+
+    //public bool? FotoIsAdded { get; set; } = false;
 }
