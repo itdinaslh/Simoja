@@ -60,22 +60,22 @@ public class ClientController : Controller {
         {
 
             int theID = 1;
-            string action = "";
+            //string action = "";
 
             if (User.IsInRole("PkmAngkut"))
             {
                 theID = 1;
-                action = "RegisterAngkut";
+                //action = "RegisterAngkut";
             }
             else if (User.IsInRole("PkmOlah"))
             {
                 theID = 2;
-                action = "RegisterOlah";
+                //action = "RegisterOlah";
             }           
             else
             {
                 theID = 3;
-                action = "RegisterUsaha";
+                //action = "RegisterUsaha";
             }
 
             model.Client.JenisUsahaID = theID;
@@ -102,7 +102,7 @@ public class ClientController : Controller {
                 return new JsonResult(false) { StatusCode = (int)HttpStatusCode.InternalServerError };
             }
 
-            return RedirectToAction(action);
+            return RedirectToAction("Index", "Home");
         }
 
         return View(model);

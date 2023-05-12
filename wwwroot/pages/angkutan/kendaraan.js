@@ -11,14 +11,17 @@ $(document).on('shown.bs.modal', '#myModal', function () {
     PopulateJenisKendaraan();
 });
 
+function loadContent() {
+    loadTable();
+}
+
 function loadTable() {
     $('#tblKendaraan').DataTable().destroy();
     $('#tblKendaraan').DataTable({
         serverSide: true,
         processing: true,
         responsive: true,        
-        lengthMenu: [5, 10, 20],
-        dropdownParent: $("#myModal"),
+        lengthMenu: [5, 10, 20],        
         pagingType: "simple_numbers",
         ajax: {
             url: '/api/clients/jasa/pengangkutan/kendaraan/list',

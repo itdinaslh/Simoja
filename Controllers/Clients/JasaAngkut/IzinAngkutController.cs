@@ -18,7 +18,7 @@ namespace Simoja.Controllers
             clientRepo = client;
         }
 
-        [HttpGet("/clients/jasa/pengangkutan/izin")]
+        [HttpGet("/clients/pengangkutan/izin")]
         public async Task<IActionResult> Perizinan()
         {
             Guid? curClient = await clientRepo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
@@ -40,7 +40,7 @@ namespace Simoja.Controllers
             return NotFound();
         }
 
-        [HttpPost("/clients/jasa/pengangkutan/izin/store")]
+        [HttpPost("/clients/pengangkutan/izin/store")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveIzinAngkut(RegAngkutModel model)
         {

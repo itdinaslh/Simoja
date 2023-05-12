@@ -1,9 +1,15 @@
 function bindForm(dialog) {
     $('form', dialog).submit(function () {
+        var form = $(this).closest("form");
+        var formData = new FormData(form[0]);
+
         $.ajax({
             url: this.action,
             type: this.method,
-            data: $(this).serialize(),
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            data: formData,
             success: function (result) {
                 if (result.success) {
                     $('#myModal').modal('hide');

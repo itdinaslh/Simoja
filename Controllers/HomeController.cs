@@ -39,7 +39,7 @@ public class HomeController : Controller
         if (thisClient is null) {
             return RedirectToAction("Register", "Client");
         } else if (User.IsInRole("PkmAngkut")) {
-			return RedirectToAction("Dashboard", "JasaAngkut");
+			return RedirectToAction("IndexAngkut");
 		} else if (thisClient.JenisUsahaID == 2) {
 			return RedirectToAction("IndexOlah");
 		} else {
@@ -51,6 +51,12 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpGet("/dashboard/pengangkutan")]
+    public IActionResult IndexAngkut()
+    {
+        return View("~/Views/Client/JasaAngkut/Dashboard.cshtml");
     }
 
     [HttpGet("/dashboard/pengolahan")]

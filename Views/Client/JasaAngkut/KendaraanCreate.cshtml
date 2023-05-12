@@ -1,6 +1,6 @@
 ﻿@model KendaraanCreateVM
 
-<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" class="FormCreate" method="post" enctype="multipart/form-data">
+<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post" class="vehicleForm" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
     <div class="modal-header bg-primary-700 bg-success-gradient">
         <h4 class="modal-title">Tambah Kendaraan</h4>
@@ -9,11 +9,11 @@
     <div class="modal-body">
         <div class="form-group">
             <label>No Polisi <span class="text-danger">*</span></label>
-            <input asp-for="Kendaraan.NoPolisi" class="form-control" placeholder="Isi No. Polisi" required autocomplete="off" autofocus />            
+            <input asp-for="Kendaraan.NoPolisi" class="form-control" placeholder="Isi No. Polisi" required autofocus />            
         </div>
         <div class="form-group">
             <label for="">No Pintu <span class="text-danger">*</span></label>
-            <input asp-for="Kendaraan.NoPintu" class="form-control" placeholder="Masukan No. Pintu" required autocomplete="off">            
+            <input asp-for="Kendaraan.NoPintu" class="form-control" placeholder="Masukan No. Pintu" required >            
         </div>
         <div class="form-group">
             <label for="">Jenis Kendaraan <span class="text-danger">*</span></label>
@@ -23,7 +23,7 @@
             <div class="form-group col-md-4 col-xs-12">
                 <label for="">Masa Berlaku STNK <span class="text-danger">*</span></label>
                 <div class="input-group flex-nowrap">
-                    <input type="text" id="tglSTNK" class="form-control datepicker" required autocomplete="off">
+                    <input type="text" asp-for="TglBerlakuSTNK" class="form-control datepicker" required>
                     <div class="input-group-append">
                         <span class="input-group-text fs-xl">
                             <i class="fal fa-calendar"></i>
@@ -34,7 +34,7 @@
             <div class="form-group col-md-4 col-xs-12">
                 <label for="">Masa Berlaku KIR <span class="text-danger">*</span></label>
                 <div class="input-group flex-nowrap">
-                    <input type="text" id="tglKIR" class="form-control datepicker" required autocomplete="off">
+                    <input type="text" asp-for="TglBerlakuKIR" class="form-control datepicker" required >
                     <div class="input-group-append">
                         <span class="input-group-text fs-xl">
                             <i class="fal fa-calendar"></i>
@@ -44,24 +44,24 @@
             </div>
             <div class="form-group col-md-4 col-xs-12">
                 <label for="">Tahun Pembuatan <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" required autocomplete="off" />
+                <input type="number" asp-for="Kendaraan.TahunPembuatan" class="form-control" required />
             </div>
         </div>
         <div class="form-group">
             <label>Upload Dokumen STNK <span class="text-danger">*</span></label>
-            <input type="file" class="form-control" accept="application/pdf, image/*" required />
+            <input type="file" asp-for="FileSTNK" class="form-control" accept="application/pdf, image/*" multiple required />
         </div>
         <div class="form-group">
             <label>Upload Dokumen KIR <span class="text-danger">*</span></label>
-            <input type="file" class="form-control" accept="application/pdf, image/*" required />
+            <input type="file" asp-for="FileKIR" class="form-control" accept="application/pdf, image/*" multiple required />
         </div>
         <div class="form-group">
             <label>Upload Bukti Uji Emisi <span class="text-danger">*</span></label>
-            <input type="file" class="form-control" accept="application/pdf, image/*" required />
+            <input type="file" asp-for="FileUjiEmisi" class="form-control" accept="application/pdf, image/*" multiple required />
         </div>
         <div class="form-group">
             <label>Upload Foto Kendaraan <span class="text-danger">*</span></label>
-            <input type="file" class="form-control" accept="image/*" required />
+            <input type="file" asp-for="FotoKendaraan" class="form-control" accept="image/*" multiple required />
         </div>
     </div>
     <div class="modal-footer">

@@ -58,7 +58,7 @@ public class KendaraanAngkutController : Controller
         });
     }
 
-    [HttpPost("/clients/pengangkutan/kendaraan/store")]
+    [HttpPost("/clients/pengangkutan/kendaraan/store")]    
     public async Task<IActionResult> StoreKendaraan(KendaraanCreateVM model)
     {
         var client = await clientRepo.Clients
@@ -68,11 +68,37 @@ public class KendaraanAngkutController : Controller
             })
             .FirstOrDefaultAsync();
 
+        var kendaraan = await vehicle.Kendaraans
+            .Where(v => v.KendaraanID == model.Kendaraan.KendaraanID)
+            .FirstOrDefaultAsync();
+
+        Guid uid = Guid.NewGuid();
+
+        if (kendaraan is not null)
+        {
+            uid = kendaraan.UniqueID;
+        }
+        else
+        {
+            uid = model.UID;
+        }
+
+        model.Kendaraan.ClientID = client!.ClientID;
+        model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
+        model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
+        model.Kendaraan.UniqueID = uid;
         model.Kendaraan.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString());
         model.Kendaraan.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString());
         model.Kendaraan.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString());
         model.Kendaraan.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString());
 
-        return Json(Result.Success());
+        if (ModelState.IsValid)
+        {
+            await vehicle.SaveKendaraanAsync(model.Kendaraan);
+
+            return Json(Result.Success());
+        }
+
+        return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", model);
     }
 }
