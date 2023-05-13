@@ -48,6 +48,6 @@ public class IzinAngkut {
 
     public LokasiBuang LokasiBuang { get; set; }
 
-    public ICollection<Kendaraan> Kendaraans { get; set; }
+    public List<Kendaraan> Kendaraans { get; set; }
     
 }   

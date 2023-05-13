@@ -16,6 +16,8 @@ function loadContent() {
 }
 
 function loadTable() {
+    var myID = $('#izin').val();
+
     $('#tblKendaraan').DataTable().destroy();
     $('#tblKendaraan').DataTable({
         serverSide: true,
@@ -24,7 +26,7 @@ function loadTable() {
         lengthMenu: [5, 10, 20],        
         pagingType: "simple_numbers",
         ajax: {
-            url: '/api/clients/jasa/pengangkutan/kendaraan/list',
+            url: '/api/clients/pengangkutan/kendaraan/list/?id=' + myID,
             method: 'POST'
         },
         columns: [

@@ -10,9 +10,9 @@ public class Kendaraan {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Int64 KendaraanID { get; set; }
 
-    public Guid ClientID { get; set; }
-
     public Guid UniqueID { get; set; } = Guid.NewGuid();
+
+    public Guid IzinAngkutID { get; set; }
 
     #nullable disable
     [Required(ErrorMessage = "No Polisi wajib diisi")]
@@ -49,9 +49,8 @@ public class Kendaraan {
     public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 
     # nullable disable
-    public Client Client { get; set; }
 
     public JenisKendaraan JenisKendaraan { get; set; }
 
-    public ICollection<IzinAngkut> IzinAngkuts { get; set; }
+    public IzinAngkut IzinAngkut { get; set; }
 }

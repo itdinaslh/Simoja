@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230513171804_AlterIzinKendaraan")]
+    partial class AlterIzinKendaraan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -567,6 +569,9 @@ namespace Simoja.Migrations
                     b.Property<string>("BuktiUjiEmisi")
                         .HasColumnType("text");
 
+                    b.Property<Guid>("ClientID")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -613,6 +618,8 @@ namespace Simoja.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("KendaraanID");
+
+                    b.HasIndex("ClientID");
 
                     b.HasIndex("IzinAngkutID");
 
@@ -881,6 +888,12 @@ namespace Simoja.Migrations
 
             modelBuilder.Entity("Simoja.Entity.Kendaraan", b =>
                 {
+                    b.HasOne("Simoja.Entity.Client", "Client")
+                        .WithMany("Kendaraans")
+                        .HasForeignKey("ClientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Simoja.Entity.IzinAngkut", "IzinAngkut")
                         .WithMany("Kendaraans")
                         .HasForeignKey("IzinAngkutID")
@@ -892,6 +905,8 @@ namespace Simoja.Migrations
                         .HasForeignKey("JenisKendaraanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Client");
 
                     b.Navigation("IzinAngkut");
 
@@ -936,6 +951,8 @@ namespace Simoja.Migrations
                     b.Navigation("IzinKawasans");
 
                     b.Navigation("IzinOlahs");
+
+                    b.Navigation("Kendaraans");
 
                     b.Navigation("LokasiAngkuts");
                 });

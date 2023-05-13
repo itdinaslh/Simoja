@@ -19,7 +19,7 @@ public class JasaAngkutApiController : Controller {
         repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo; izinRepo = iRepo;
     }
 
-    [HttpPost("/api/clients/jasa/pengangkutan/kendaraan/list")]
+    [HttpPost("/api/clients/pengangkutan/kendaraan/list")]
     public async Task<IActionResult> ListKendaraan() {
         #nullable disable
         string currentUser = User.Identity.Name;
@@ -41,7 +41,7 @@ public class JasaAngkutApiController : Controller {
         int recordsTotal = 0;
 
         var init = repo.Kendaraans
-            .Where(k => k.ClientID == thisClient.ClientID);
+            .Where(k => k.IzinAngkut.ClientID == thisClient.ClientID);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -71,9 +71,30 @@ public class JasaAngkutApiController : Controller {
             .Take(pageSize)
             .ToListAsync();
 
-        var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
+        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result};
         
         return Ok(jsonData);
+    }
+
+    [HttpGet("/api/clients/pengangkutan/kendaraan/data")]
+    public async Task<IActionResult> DataKendaraan(Guid id)
+    {
+        var data = await repo.Kendaraans
+            .Where(x => x.IzinAngkutID == id)
+            .Select(x => new
+            {
+                x.KendaraanID,
+                x.UniqueID,
+                x.NoPolisi,
+                x.NoPintu,
+                jenis = x.JenisKendaraan.NamaJenis,
+                tglSTNK = x.TglSTNK.ToString("dd/MM/yyyy"),
+                tglKIZR = x.TglKIR.ToString("dd/MM/yyyy")
+            })
+            .OrderBy(x => x.KendaraanID)
+            .ToListAsync();
+
+        return Ok(data);
     }
 
     [HttpPost("/api/clients/jasa/pengangkutan/lokasi-angkut/list")]
@@ -127,12 +148,12 @@ public class JasaAngkutApiController : Controller {
             .Take(pageSize)
             .ToListAsync();
 
-        var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
+        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result};
         
         return Ok(jsonData);
     }
 
-    [HttpPost("/api/clients/jasa/pengangkutan/izin/list")]
+    [HttpPost("/api/clients/pengangkutan/izin/list")]
     [Authorize(Roles = "SysAdmin, PkmAngkut, PkmAngkutOlah")]
     public async Task<IActionResult> ListIzinAngkut()
     {
@@ -168,23 +189,19 @@ public class JasaAngkutApiController : Controller {
 
         var result = await init
             .Select(c => new {
-                izinAngkutId = c.IzinAngkutID,
+                izinAngkutID = c.IzinAngkutID,
                 noIzinUsaha = c.NoIzinUsaha,
                 jmlAngkutan = c.JmlAngkutan,
+                tglTerbitIzin = c.TglTerbitIzin.ToString("dd/MM/yyyy"),
                 tglAkhirIzin = c.TglAkhirIzin.ToString("dd/MM/yyyy")
             })
             .Skip(skip)
             .Take(pageSize)
             .ToListAsync();
 
-        var jsonData = new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = result};
+        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result};
         
         return Ok(jsonData);
     }
 
-    //[HttpGet("/api/clients/total-izin")]
-    //public async Task<IActionResult> GetTotalIzin()
-    //{
-    //    return NotFound();
-    //} 
 }

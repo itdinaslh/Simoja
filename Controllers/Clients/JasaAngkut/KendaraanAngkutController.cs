@@ -21,7 +21,7 @@ public class KendaraanAngkutController : Controller
     }
 
     [HttpGet("/clients/pengangkutan/kendaraan")]
-    public async Task<IActionResult> Kendaraan()
+    public async Task<IActionResult> Kendaraan(Guid id)
     {
         string? currentUser = User.Identity!.Name;
 
@@ -36,13 +36,14 @@ public class KendaraanAngkutController : Controller
             .SumAsync(i => i.JmlAngkutan);
 
         int jumlah = await vehicle.Kendaraans
-            .Where(k => k.ClientID == thisClient!.ClientID)
+            .Where(k => k.IzinAngkutID == id)
             .CountAsync();
 
         bool isForbid = false;
 
         return View("~/Views/Client/JasaAngkut/Kendaraan.cshtml", new KendaraanIndexVM
         {
+            IzinID = id,
             KendaranBerizin = detail,
             KendaraanDiinput = jumlah,
             Forbid = isForbid
@@ -82,8 +83,7 @@ public class KendaraanAngkutController : Controller
         {
             uid = model.UID;
         }
-
-        model.Kendaraan.ClientID = client!.ClientID;
+        
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
         model.Kendaraan.UniqueID = uid;
