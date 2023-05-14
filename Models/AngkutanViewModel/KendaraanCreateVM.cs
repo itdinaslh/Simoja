@@ -7,6 +7,8 @@ public class KendaraanCreateVM {
     #nullable disable    
     public Kendaraan Kendaraan { get; set; }
 
+    public Guid IzinID { get; set; }
+
     [Required]
     public string TglBerlakuSTNK { get; set; }
 

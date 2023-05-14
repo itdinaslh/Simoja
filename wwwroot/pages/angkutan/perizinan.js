@@ -15,6 +15,15 @@ $(document).ready(function () {
     
 });
 
+$(document).on('shown.bs.modal', '#myModal', function () {
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        orientation: 'bottom'
+    });
+
+    PopulateJenisKendaraan();
+});
+
 $('#clientform').submit(function (e) {
     e.preventDefault();
 
@@ -91,6 +100,35 @@ function ClearField() {
     $('.s2').val(null).trigger('change');
     $(".dokumen").val(null);
     $(".jmlAngkut").val(0);
+}
+
+function PopulateJenisKendaraan() {
+    $('.vehicleType').select2({
+        placeholder: 'Pilih Jenis Kendaraan...',
+        dropdownParent: $('#myModal'),
+        ajax: {
+            url: '/api/master/kendaraan/jenis/search',
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            dataType: 'json',
+            delay: 100,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.namaJenis,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
+    });
 }
 
 function PopulateLokasiIzin() {

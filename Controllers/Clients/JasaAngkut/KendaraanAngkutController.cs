@@ -51,11 +51,12 @@ public class KendaraanAngkutController : Controller
     }
 
     [HttpGet("/clients/pengangkutan/kendaraan/create")]
-    public IActionResult Create()
+    public IActionResult Create(Guid myID)
     {
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", new KendaraanCreateVM
         {
-            Kendaraan = new Kendaraan()
+            Kendaraan = new Kendaraan(),
+            IzinID = myID
         });
     }
 
