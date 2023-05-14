@@ -13,6 +13,7 @@
     <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
     <link rel="stylesheet" href="~/css/datagrid/datatables/datatables.bundle.css" />
     <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/sweetalert/sweetalert2.min.css" />
     <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
 }
 
@@ -126,7 +127,7 @@
             <div class="panel-hdr bg-primary-700 bg-danger-gradient" role="heading">
                 <h2>Data Kendaraan, No Izin = &nbsp; <span id="NoIzin"></span></h2>
                 <div class="panel-toolbar">
-                    <button class="btn btn-sm btn-primary waves-effect waves-themed showMe" data-href="/clients/pengangkutan/kendaraan/create">
+                    <button id="btnAddVehicle" class="btn btn-sm btn-primary waves-effect waves-themed">
                         <i class="fal fa-plus"></i> Tambah Kendaraan
                     </button>
                 </div>
@@ -165,6 +166,7 @@
 </div>
 
 @section scripts {
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/datagrid/datatables/datatables.bundle.js"></script>
     <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>

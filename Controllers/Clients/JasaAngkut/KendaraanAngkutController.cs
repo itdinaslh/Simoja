@@ -51,12 +51,12 @@ public class KendaraanAngkutController : Controller
     }
 
     [HttpGet("/clients/pengangkutan/kendaraan/create")]
-    public IActionResult Create(Guid myID)
+    public IActionResult Create(Guid izin)
     {
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", new KendaraanCreateVM
         {
             Kendaraan = new Kendaraan(),
-            IzinID = myID
+            IzinID = izin
         });
     }
 
@@ -85,6 +85,7 @@ public class KendaraanAngkutController : Controller
             uid = model.UID;
         }
         
+        model.Kendaraan.IzinAngkutID = model.IzinID;
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
         model.Kendaraan.UniqueID = uid;

@@ -1,4 +1,6 @@
 ﻿var vehicle = '';
+var currentIzinID = '';
+var currentIzinVal = '';
 
 $(document).ready(function () {
     loadTable();    
@@ -15,6 +17,10 @@ $(document).ready(function () {
     
 });
 
+function loadContent() {
+    PopulateKendaraan(currentIzinID);
+}
+
 $(document).on('shown.bs.modal', '#myModal', function () {
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -22,6 +28,18 @@ $(document).on('shown.bs.modal', '#myModal', function () {
     });
 
     PopulateJenisKendaraan();
+});
+
+$(document).on('click', '#btnAddVehicle', function () {
+    var myURL = '/clients/pengangkutan/kendaraan/create/?izin=' + currentIzinID
+    $('#myModalContent').load(myURL, function () {
+
+        $('#myModal').modal();
+
+        bindForm(this);
+    });
+
+    return false;
 });
 
 $('#clientform').submit(function (e) {
@@ -88,10 +106,13 @@ $(document).on('click', '.btnVehicle', function () {
     var myID = $(this).attr('data-id');
     var izin = $(this).attr('data-val');
 
+    currentIzinID = myID;
+    currentIzinVal = izin;
+
     PopulateKendaraan(myID);
-    $('#panel-3').show('fast');
-    $('#NoIzin').text(izin);
-    $('.showVehicle').dropdown('toggle');
+
+    $('#panel-3').show('fast');    
+    $('.showVehicle').dropdown('toggle'); 
 });
 
 function ClearField() {
@@ -188,6 +209,7 @@ function PopulateLokasiBuang() {
 }
 
 function PopulateKendaraan(izinID) {
+    vehicle = '';
     $('#NoIzin').text('loading...');
     $.ajax({
         type: 'GET',
@@ -196,6 +218,7 @@ function PopulateKendaraan(izinID) {
         success: function (data) {
             vehicle = data;
             drawVehicle(vehicle);
+            $('#NoIzin').text(currentIzinVal);
         }
     });
 }

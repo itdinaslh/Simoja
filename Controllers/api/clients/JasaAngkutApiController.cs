@@ -88,10 +88,11 @@ public class JasaAngkutApiController : Controller {
                 x.NoPolisi,
                 x.NoPintu,
                 jenis = x.JenisKendaraan.NamaJenis,
+                tahunPembuatan = x.TahunPembuatan,
                 tglSTNK = x.TglSTNK.ToString("dd/MM/yyyy"),
-                tglKIZR = x.TglKIR.ToString("dd/MM/yyyy")
+                tglKIR = x.TglKIR.ToString("dd/MM/yyyy")
             })
-            .OrderBy(x => x.KendaraanID)
+            .OrderByDescending(x => x.KendaraanID)
             .ToListAsync();
 
         return Ok(data);
