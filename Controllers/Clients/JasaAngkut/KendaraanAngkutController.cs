@@ -89,10 +89,10 @@ public class KendaraanAngkutController : Controller
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
         model.Kendaraan.UniqueID = uid;
-        model.Kendaraan.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString());
-        model.Kendaraan.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString());
-        model.Kendaraan.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString());
-        model.Kendaraan.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString());
+        model.Kendaraan.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString(), uid.ToString());
 
         if (ModelState.IsValid)
         {

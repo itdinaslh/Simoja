@@ -76,11 +76,16 @@ public class JasaAngkutApiController : Controller {
         return Ok(jsonData);
     }
 
+#nullable enable
+
     [HttpGet("/api/clients/pengangkutan/kendaraan/data")]
-    public async Task<IActionResult> DataKendaraan(Guid id)
+    public async Task<IActionResult> DataKendaraan(Guid id, string? search)
     {
         var data = await repo.Kendaraans
             .Where(x => x.IzinAngkutID == id)
+            .Where(k => !String.IsNullOrEmpty(search) ?
+                k.NoPolisi.ToLower().Contains(search.ToLower()) || k.NoPintu.ToLower().Contains(search.ToLower()) : true
+            )
             .Select(x => new
             {
                 x.KendaraanID,

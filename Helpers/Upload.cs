@@ -129,17 +129,17 @@ public static class Upload
         return fileNameIzin;
     }
 
-    public static async Task<string> STNK(List<IFormFile> files, string clientid)
+    public static async Task<string> STNK(List<IFormFile> files, string clientid, string uid)
     {
         string wwwPath = Uploads.Path;
 
         string path = Path.Combine(wwwPath, @"clients/" + clientid);
 
-        string stnkPath = path + "/stnk";
+        string stnkPath = path + "/stnk/" + uid;
 
-        string thumbPath = path + "/thumbnails/stnk";
+        string thumbPath = path + "/thumbnails/stnk/" + uid;
 
-        string savePath = "/clients/" + clientid + "/stnk";
+        string savePath = "/clients/" + clientid + "/stnk/" + uid;
 
         if (!Directory.Exists(stnkPath))
         {
@@ -175,17 +175,17 @@ public static class Upload
         return savePath;
     }
 
-    public static async Task<string> KIR(List<IFormFile> files, string clientid)
+    public static async Task<string> KIR(List<IFormFile> files, string clientid, string uid)
     {
         string wwwPath = Uploads.Path;
 
         string path = Path.Combine(wwwPath, @"clients/" + clientid);
 
-        string kirPath = path + "/kir";
+        string kirPath = path + "/kir/" + uid;
 
-        string thumbPath = path + "/thumbnails/kir";
+        string thumbPath = path + "/thumbnails/kir/" + uid;
 
-        string savePath = "/clients/" + clientid + "/kir";
+        string savePath = "/clients/" + clientid + "/kir/" + uid;
 
         if (!Directory.Exists(kirPath))
         {
@@ -221,17 +221,17 @@ public static class Upload
         return savePath;
     }
 
-    public static async Task<string> UjiEmisi(List<IFormFile> files, string clientid)
+    public static async Task<string> UjiEmisi(List<IFormFile> files, string clientid, string uid)
     {
         string wwwPath = Uploads.Path;
 
         string path = Path.Combine(wwwPath, @"clients/" + clientid);
 
-        string ujiPath = path + "/emisi";
+        string ujiPath = path + "/emisi/" + uid;
 
-        string thumbPath = path + "/thumbnails/emisi";
+        string thumbPath = path + "/thumbnails/emisi/" + uid;
 
-        string savePath = "/clients/" + clientid + "/emisi";
+        string savePath = "/clients/" + clientid + "/emisi/" + uid;
 
         if (!Directory.Exists(ujiPath))
         {
@@ -267,17 +267,17 @@ public static class Upload
         return savePath;
     }
 
-    public static async Task<string> FotoKendaraan(List<IFormFile> files, string clientid)
+    public static async Task<string> FotoKendaraan(List<IFormFile> files, string clientid, string uid)
     {
         string wwwPath = Uploads.Path;
 
         string path = Path.Combine(wwwPath, @"clients/" + clientid);
 
-        string kendaraanPath = path + "/kendaraan";
+        string kendaraanPath = path + "/kendaraan/" + uid;
 
-        string thumbPath = path + "/thumbnails/kendaraan";
+        string thumbPath = path + "/thumbnails/kendaraan/" + uid;
 
-        string savePath = "/clients/" + clientid + "/kendaraan";
+        string savePath = "/clients/" + clientid + "/kendaraan/" + uid;
 
         if (!Directory.Exists(kendaraanPath))
         {
@@ -313,30 +313,30 @@ public static class Upload
         return savePath;
     }
 
-    public static async Task STNK1(List<IFormFile> files, Guid clientID, string id)
-    {
-		foreach (var file in files)
-		{
-			string wwwPath = Uploads.Path;
-			string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/stnk/" + id);
+ //   public static async Task STNK1(List<IFormFile> files, Guid clientID, string id)
+ //   {
+	//	foreach (var file in files)
+	//	{
+	//		string wwwPath = Uploads.Path;
+	//		string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/stnk/" + id);
 
-			//create folder if not exist
-			if (!Directory.Exists(path))
-				Directory.CreateDirectory(path);
+	//		//create folder if not exist
+	//		if (!Directory.Exists(path))
+	//			Directory.CreateDirectory(path);
 
-			//get file extension
-			FileInfo fileInfo = new FileInfo(file.FileName);
-			string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+	//		//get file extension
+	//		FileInfo fileInfo = new FileInfo(file.FileName);
+	//		string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
-			string fileNameWithPath = Path.Combine(path, fileName);
+	//		string fileNameWithPath = Path.Combine(path, fileName);
 
-			using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-			{
-				await file.CopyToAsync(stream);
-			}
+	//		using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+	//		{
+	//			await file.CopyToAsync(stream);
+	//		}
 
-		}
-	}
+	//	}
+	//}
 
 	
 }
