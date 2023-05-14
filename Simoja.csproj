@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <None Remove="Views\Client\Register.cshtml.bak" />
-    <None Remove="Views\JasaAngkut\KendaraanCreate.cshtml.bak" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +31,6 @@
 
   <ItemGroup>
     <Content Include="Views\Client\Register.cshtml.bak" />
-    <Content Include="Views\JasaAngkut\KendaraanCreate.cshtml.bak" />
   </ItemGroup>
 
   <ItemGroup>

@@ -36,7 +36,7 @@ public class KendaraanAngkutController : Controller
             .SumAsync(i => i.JmlAngkutan);
 
         int jumlah = await vehicle.Kendaraans
-            .Where(k => k.IzinAngkutID == id)
+            .Where(k => k.IzinAngkut.ClientID == thisClient!.ClientID)
             .CountAsync();
 
         bool isForbid = false;
