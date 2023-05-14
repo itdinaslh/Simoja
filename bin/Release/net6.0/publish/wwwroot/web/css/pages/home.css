@@ -1,0 +1,138 @@
+﻿@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+.font-jss h1,
+.font-jss h2,
+.font-jss h3,
+.font-jss h4,
+.font-jss h5,
+.font-jss h6 {
+    font-family: "Fredoka One", cursive;
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    height: 90vh;
+}
+
+    .hero h1 {
+        color: #00a69c;
+        font-size: 5rem;
+        font-weight: 700;
+        text-shadow: 5px 5px 0 #716558;
+    }
+
+    .hero h2 {
+        font-weight: 500;
+        font-size: 1.8rem;
+    }
+
+    .hero p:first-of-type {
+        font-size: 1.2rem;
+        text-align: center;
+        width: 30%;
+    }
+
+    .hero #kota {
+        width: 45%;
+        position: absolute;
+        bottom: -5px;
+    }
+
+    .hero .cloud {
+        position: absolute;
+        width: 100px;
+        bottom: 40%;
+        left: 23%;
+    }
+
+    .hero .cloud-sun {
+        position: absolute;
+        width: 200px;
+        bottom: 45%;
+        left: 70%;
+    }
+
+.lala {
+    position: sticky;
+    top: 150px;
+}
+
+ul.list li {
+    text-align: justify;
+    margin-bottom: 25px;
+    list-style-type: square;
+}
+
+.pilaDanMonas {
+    position: absolute;
+    bottom: 0;
+}
+
+/* .hero #truck {
+        width: %;
+        position: absolute;
+        bottom: -5px;
+      } */
+
+@media only screen and (max-width: 600px) {
+    .hero h1 {
+        font-size: 3rem;
+        line-height: 4rem;
+    }
+
+    .hero h2 {
+        width: 85%;
+        font-weight: 500;
+        font-size: 1.4rem;
+    }
+
+    .hero p:first-of-type {
+        font-size: 1rem;
+        text-align: center;
+        width: 85%;
+    }
+
+    .hero #kota {
+        width: 110%;
+        bottom: 0px;
+        right: 0;
+    }
+
+    .hero .cloud {
+        width: 50px;
+        bottom: 28%;
+        left: 83%;
+    }
+
+    .hero .cloud-sun {
+        width: 70px;
+        bottom: 27%;
+        left: 13%;
+    }
+
+
+    .lala {
+        width: 40%;
+    }
+
+    #text-cara {
+        font-size: 1.8rem;
+    }
+
+    #text-alur {
+        font-size: 1.8rem;
+    }
+
+    .cara-pelaksanaan {
+        margin-bottom: 50px !important;
+    }
+
+    /* .pilaDanMonas {
+          bottom: 100px;
+        } */
+}
