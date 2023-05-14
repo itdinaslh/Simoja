@@ -1,4 +1,5 @@
 bin/debug
+/bin/debug
 /obj
 /.vs
 /Program.cs
