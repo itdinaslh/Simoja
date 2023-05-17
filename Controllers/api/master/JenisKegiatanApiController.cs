@@ -11,7 +11,7 @@ namespace Simoja.Controllers.api;
 [Route("[controller]")]
 //[Authorize(Roles = "SysAdmin, SimojaAdmin")]
 public class JenisKegiatanApiController : Controller {
-    private IJenisKegiatan repo;
+    private readonly IJenisKegiatan repo;
 
     public JenisKegiatanApiController(IJenisKegiatan jenisRepo) => repo = jenisRepo;
 

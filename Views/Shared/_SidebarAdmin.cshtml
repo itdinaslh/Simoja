@@ -42,6 +42,11 @@
                             <span class="nav-link-text" data-i18n="nav.jenis_kawasan">Jenis Kegiatan</span>
                         </a>
                     </li>
+                    <li class='@(ViewBag.Title == "Jenis Izin Lingkungan" ? "active" : "")'>
+                        <a asp-action="Index" asp-controller="JenisIzinLingkungan" title="jenis_kegiatan" data-filter-tags="jenis izin lingkungan">
+                            <span class="nav-link-text" data-i18n="nav.jenis_izin_lingkungan">Jenis Izin Lingkungan</span>
+                        </a>
+                    </li>
                     <li class='@(ViewBag.Title == "Status Pengelolaan" ? "active" : "")'>
                         <a href="/master/kawasan/status" title="Tooltips" data-filter-tags="status pengelolaan">
                             <span class="nav-link-text" data-i18n="nav.status_pengelolaan">Status Pengelolaan</span>

@@ -25,4 +25,5 @@ public class AppDbContext : DbContext {
     public DbSet<Flag> Statuses { get; set; }
     public DbSet<LokasiIzin> LokasiIzins { get; set; }
     public DbSet<LokasiBuang> LokasiBuangs { get; set; }
+    public DbSet<JenisIzinLingkungan> JenisIzinLingkungans { get; set; }
 }

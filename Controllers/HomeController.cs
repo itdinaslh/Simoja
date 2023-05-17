@@ -66,7 +66,7 @@ public class HomeController : Controller
 
     [HttpGet("/dashboard/usaha-kegiatan")]
     public IActionResult IndexUsaha() {
-        return View();
+        return View("~/Views/Client/Usaha/Dashboard.cshtml");
     }
 
     [HttpGet("/clients/profile")]
