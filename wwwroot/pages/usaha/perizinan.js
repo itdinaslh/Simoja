@@ -3,9 +3,7 @@ var currentIzinID = '';
 var currentIzinVal = '';
 
 $(document).ready(function () {
-    loadTable();    
-
-    $('#panel-3').hide();
+    /*loadTable();*/
 
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -14,6 +12,7 @@ $(document).ready(function () {
 
     PopulateLokasiIzin();
     PopulateJenisKegiatan();
+    PopulateJenisIzin();
     
 });
 
@@ -29,18 +28,6 @@ $(document).on('shown.bs.modal', '#myModal', function () {
     });
 
     PopulateJenisKendaraan();
-});
-
-$(document).on('click', '#btnAddVehicle', function () {
-    var myURL = '/clients/pengangkutan/kendaraan/create/?izin=' + currentIzinID
-    $('#myModalContent').load(myURL, function () {
-
-        $('#myModal').modal();
-
-        bindForm(this);
-    });
-
-    return false;
 });
 
 $('#clientform').submit(function (e) {
@@ -102,61 +89,12 @@ function loadTable() {
     });
 }
 
-$(document).on('click', '.btnVehicle', function () {
-    $('#NoIzin').text('loading...');
-    var myID = $(this).attr('data-id');
-    var izin = $(this).attr('data-val');
-
-    currentIzinID = myID;
-    currentIzinVal = izin;
-
-    PopulateKendaraan(myID, '');
-
-    $('#panel-3').show('fast');    
-    $('.showVehicle').dropdown('toggle');
-});
-
-$(document).on('keyup', '#searchVehicle', function () {
-    var str = $(this).val();    
-
-    PopulateKendaraan(currentIzinID, str);
-})
-
 function ClearField() {
     $('.datainput').val('');
     $('#txtJmlAngkut').val(0);
     $('.s2').val(null).trigger('change');
     $(".dokumen").val(null);
     $(".jmlAngkut").val(0);
-}
-
-function PopulateJenisKendaraan() {
-    $('.vehicleType').select2({
-        placeholder: 'Pilih Jenis Kendaraan...',
-        dropdownParent: $('#myModal'),
-        ajax: {
-            url: '/api/master/kendaraan/jenis/search',
-            data: function (params) {
-                var query = {
-                    term: params.term,
-                };
-                return query;
-            },
-            dataType: 'json',
-            delay: 100,
-            processResults: function (data) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            text: item.namaJenis,
-                            id: item.id
-                        }
-                    })
-                }
-            },
-            cache: true
-        }
-    });
 }
 
 function PopulateLokasiIzin() {
@@ -215,41 +153,31 @@ function PopulateJenisKegiatan() {
     });
 }
 
-function PopulateKendaraan(izinID, term) {
-    vehicle = '';    
-    $('#NoIzin').text('loading...');
-    $.ajax({
-        type: 'GET',
-        url: '/api/clients/pengangkutan/kendaraan/data/?id=' + izinID + '&search=' + term,
-        contentType: "application/json; charset=utf-8",
-        success: function (data) {
-            vehicle = data;
-            drawVehicle(vehicle);
-            $('#NoIzin').text(currentIzinVal);
+function PopulateJenisIzin() {
+    $('.sJenisIzin').select2({
+        placeholder: 'Pilih Jenis Izin Lingkungan...',
+        allowClear: true,
+        ajax: {
+            url: "/api/master/kawasan/jenis-izin/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
         }
     });
 }
 
-function drawVehicle(data) {
-    $("#tblVehicle tr:has(td)").remove();
-
-    var tblNum = 0;
-    var trHTML = '';
-
-    if (data.length === 0) {
-        trHTML += '<tr><td class="text-center" colspan="7">Tidak ada data...</td><tr>';
-    } else {
-        $.each(data, function (i, item) {
-            trHTML += '<tr><td class="text-center">' + (tblNum + 1) + '</td><td class="text-center">'
-                + item.noPolisi + '</td><td class="text-center">' + item.noPintu + '</td><td class="text-center">'
-                + item.jenis + '</td><td class="text-center">' + item.tahunPembuatan
-                + '</td><td class="text-center">' + item.tglSTNK
-                + '</td><td class="text-center">' + item.tglKIR
-                + '</td></tr>';
-
-            tblNum += 1;
-        });
-    }    
-
-    $('#tblVehicle').append(trHTML);
-}

@@ -31,7 +31,7 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
-                    <form id="clientform" asp-controller="IzinAngkut" asp-action="SaveIzinAngkut" method="post" enctype="multipart/form-data">
+                    <form id="clientform" asp-controller="IzinKegiatan" asp-action="Store" method="post" enctype="multipart/form-data">
                         <input type="hidden">
                         <div asp-validation-summary="All"></div>
                         @Html.AntiForgeryToken()
@@ -45,16 +45,20 @@
                                 <select class="form-control sTerbitIzin s2"></select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Nama Kegiatan Usaha <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" />
+                        </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label>Jenis Kegiatan <span class="text-danger">*</span></label>
                                 <select class="form-control sJenisKegiatan s2"></select>
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
-                                <label for="">Jumlah Kendaraan Berizin <span class="text-danger">*</span></label>
-                                <input type="number" min="1" class="form-control jmlAngkut" autocomplete="off">
+                                <label for="">Jenis Izin Lingkungan <span class="text-danger">*</span></label>
+                                <select type="text" class="form-control sJenisIzin"></select>
                             </div>
-                        </div>
+                        </div>                        
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Tanggal Penerbitan Izin <span class="text-danger">*</span></label>
@@ -111,7 +115,7 @@
                         <thead>
                             <tr>
                                 <th>No Izin</th>
-                                <th>Jml Kendaraan</th>
+                                <th>Nama Kegiatan Usaha</th>
                                 <th>Tgl Terbit</th>
                                 <th>Masa Berakhir</th>
                                 <th>Action</th>

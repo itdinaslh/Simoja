@@ -52,4 +52,18 @@ public class JenisIzinLingkunganApiController : ControllerBase
 
         return Ok(jsonData);
     }
+
+    [HttpGet("/api/master/kawasan/jenis-izin/search")]
+    public async Task<IActionResult> SearchJenisIzin(string? term)
+    {
+        var data = await repo.JenisIzinLingkungans
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaJenisIzin.ToLower().Contains(term.ToLower()) : true
+            ).Select(jen => new {
+                id = jen.JenisIzinLingkunganID,
+                data = jen.NamaJenisIzin
+            }).ToListAsync();
+
+        return Ok(data);
+    }
 }
