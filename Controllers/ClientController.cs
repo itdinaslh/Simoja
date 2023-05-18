@@ -23,7 +23,8 @@ public class ClientController : Controller {
         return View();
     }
 
-    [HttpGet("/clients/register")]    
+    [HttpGet("/clients/register")]
+    [Authorize(Roles = "PkmAngkut, PkmOlah, PkmUsaha")]
     public async Task<IActionResult> Register() {
 #nullable disable
         string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
