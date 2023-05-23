@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Simoja.Entity;
 
 [Table("IzinKawasan")]
-public class IzinlKawasan {
+public class IzinKawasan {
     #nullable disable
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int IzinKawasanID { get; set; }

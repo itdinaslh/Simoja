@@ -145,21 +145,21 @@ public class ClientController : Controller {
         });
     }
 
-    [HttpGet("/clients/register/usaha-kegiatan")]
-    [Authorize(Roles = "PkmUsaha")]
-    public async Task<IActionResult> RegisterUsaha() {
-        Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
-            .Select(ci => ci.ClientID)
-            .FirstOrDefaultAsync();
+    //[HttpGet("/clients/register/usaha-kegiatan")]
+    //[Authorize(Roles = "PkmUsaha")]
+    //public async Task<IActionResult> RegisterUsaha() {
+    //    Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
+    //        .Select(ci => ci.ClientID)
+    //        .FirstOrDefaultAsync();
 
-        IzinlKawasan? detail = await repo.IzinKawasans.Where(o => o.ClientID == curClient).FirstOrDefaultAsync();
+    //    IzinKawasan? detail = await repo.IzinKawasans.Where(o => o.ClientID == curClient).FirstOrDefaultAsync();
 
-        if (curClient is not null) {
-            return View(detail);
-        }
+    //    if (curClient is not null) {
+    //        return View(detail);
+    //    }
 
-        return View(new IzinlKawasan());
-    }
+    //    return View(new IzinKawasan());
+    //}
 
     // Verifikasi Client
 

@@ -102,7 +102,7 @@ public class Client {
 
     public List<IzinOlah> IzinOlahs { get; set; }
 
-    public List<IzinlKawasan> IzinKawasans { get; set; }
+    public List<IzinKawasan> IzinKawasans { get; set; }
 
     public Flag Flag { get; set; }
 
