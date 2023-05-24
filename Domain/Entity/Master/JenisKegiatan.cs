@@ -19,5 +19,5 @@ public class JenisKegiatan {
 
     public bool? IsActive { get; set; } = true;
 
-    public List<IzinKawasan> DetailKawasans { get; set; }
+    public List<Kawasan> Kawasans { get; set; }
 }

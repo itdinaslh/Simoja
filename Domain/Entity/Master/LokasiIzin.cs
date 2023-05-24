@@ -1,8 +1,7 @@
-﻿using Simoja.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Simoja.Domain.Entity;
+namespace Simoja.Entity;
 
 [Table("LokasiIzin")]
 public class LokasiIzin
@@ -18,4 +17,6 @@ public class LokasiIzin
     public List<IzinAngkut> IzinAngkuts { get; set; }
 
     public List<IzinOlah> IzinOlahs { get; set; }
+
+    public List<Kawasan> Kawasans { get; set; }
 }

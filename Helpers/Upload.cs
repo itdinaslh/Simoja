@@ -153,7 +153,7 @@ public static class Upload
 
         foreach (var file in files)
         {
-            FileInfo fileInfo = new FileInfo(file.FileName);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
 
             string fileNameWithPath = Path.Combine(stnkPath, fileName);
@@ -313,30 +313,36 @@ public static class Upload
         return savePath;
     }
 
- //   public static async Task STNK1(List<IFormFile> files, Guid clientID, string id)
- //   {
-	//	foreach (var file in files)
-	//	{
-	//		string wwwPath = Uploads.Path;
-	//		string path = Path.Combine(wwwPath, @"clients/" + clientID.ToString() + "/stnk/" + id);
+    public static async Task<string> Kawasan(IFormFile file, string userid)
+    {
+        string wwwPath = Uploads.Path;
 
-	//		//create folder if not exist
-	//		if (!Directory.Exists(path))
-	//			Directory.CreateDirectory(path);
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
 
-	//		//get file extension
-	//		FileInfo fileInfo = new FileInfo(file.FileName);
-	//		string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
+        string kawasanPath = path + "/kawasan";
+        string extIzin = Path.GetExtension(file.FileName);
+        string fileNameIzin = FileName.GenerateRandomString().ToLower() + extIzin;
 
-	//		string fileNameWithPath = Path.Combine(path, fileName);
+        if (!Directory.Exists(kawasanPath))
+        {
+            Directory.CreateDirectory(kawasanPath);
+        }
 
-	//		using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
-	//		{
-	//			await file.CopyToAsync(stream);
-	//		}
+        using (FileStream stream = new(Path.Combine(kawasanPath, fileNameIzin), FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
 
-	//	}
-	//}
+        if (!extIzin.Contains("pdf"))
+        {
+            Image image = Image.Load(file.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
 
-	
+            image.Save(kawasanPath + "/" + "thumbnail-" + fileNameIzin);
+        }
+
+        return fileNameIzin;
+    }
+
+
 }

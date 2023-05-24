@@ -6,7 +6,7 @@ using Simoja.Repository;
 namespace Simoja.Services;
 
 public class JenisKegiatanService : IJenisKegiatan {
-    private AppDbContext context;
+    private readonly AppDbContext context;
 
     public JenisKegiatanService(AppDbContext ctx) => context = ctx;
 

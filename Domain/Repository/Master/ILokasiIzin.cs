@@ -1,4 +1,4 @@
-﻿using Simoja.Domain.Entity;
+﻿using Simoja.Entity;
 
 namespace Simoja.Repository;
 

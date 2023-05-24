@@ -12,7 +12,7 @@ public interface IClient {
 
     IQueryable<IzinOlah> IzinOlahs { get; }
 
-    IQueryable<IzinUsaha> IzinUsahas { get; }
+    IQueryable<Kawasan> IzinUsahas { get; }
 
     Task SaveClientAsync(RegisterVM client);
 

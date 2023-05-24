@@ -10,6 +10,8 @@ $(document).ready(function () {
         orientation: 'bottom'
     });
 
+    loadTable();
+
     PopulateLokasiIzin();
     PopulateJenisKegiatan();
     PopulateJenisIzin();
@@ -43,8 +45,7 @@ $('#clientform').submit(function (e) {
         contentType: false,
         success: function (result) {
             if (result.success) {
-                loadTable();
-                ClearField();               
+                showSuccess();          
             }
         }
     });
@@ -60,14 +61,14 @@ function loadTable() {
         lengthMenu: [5, 10, 20],
         pagingType: "simple_numbers",
         ajax: {
-            url: '/api/clients/pengangkutan/izin/list',
+            url: '/api/clients/usaha-kegiatan/kawasan/list',
             method: 'POST'
         },
         columns: [
             { data: 'noIzinUsaha', name: 'noIzinUsaha' },
-            { data: 'jmlAngkutan', name: 'jmlAngkutan' },
+            { data: 'namaKawasan', name: 'namaKawasan' },
+            { data: 'lokasiIzin', name: 'lokasiIzin' },
             { data: 'tglTerbitIzin', name: 'tglTerbitIzin' },
-            { data: 'tglAkhirIzin', name: 'tglAkhirIzin' },
             {
                 "render": function (data, type, row) {
                     return `<div class='btn-group' role='group'>
@@ -75,8 +76,7 @@ function loadTable() {
                                     Action
                                 </button>
                                 <div class="dropdown-menu">
-                                    <button class="dropdown-item" href="#">Perpanjang</button>
-                                    <button class="dropdown-item btnVehicle" data-id="` + row.izinAngkutID +  `" data-val="` + row.noIzinUsaha + `">Data Kendaraan</button>
+                                    <button class="dropdown-item" href="#">Perpanjang</button>                                    
                                 </div>
                             </div>`;
                 }
@@ -90,11 +90,10 @@ function loadTable() {
 }
 
 function ClearField() {
-    $('.datainput').val('');
-    $('#txtJmlAngkut').val(0);
+    $('.datainput').val('');    
     $('.s2').val(null).trigger('change');
-    $(".dokumen").val(null);
-    $(".jmlAngkut").val(0);
+    $(".dokumen").val(null)
+    
 }
 
 function PopulateLokasiIzin() {
@@ -179,5 +178,19 @@ function PopulateJenisIzin() {
             cache: true
         }
     });
+}
+
+function showSuccess() {
+    Swal.fire(
+        {
+            position: 'top-end',
+            type: 'success',
+            title: 'Data berhasil disimpan!',
+            showConfirmButton: false,
+            timer: 1000
+        }).then(function () {
+            loadTable();
+            ClearField();  
+        });
 }
 

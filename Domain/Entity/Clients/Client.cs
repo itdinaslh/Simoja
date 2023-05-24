@@ -109,4 +109,6 @@ public class Client {
     public JenisUsaha JenisUsaha { get; set; }
 
     public List<LokasiAngkut> LokasiAngkuts { get; set; }
+
+    public List<Kawasan> Kawasans { get; set; }
 }

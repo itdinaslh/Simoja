@@ -9,7 +9,7 @@ namespace Simoja.Controllers;
 
 [Authorize]
 public class JenisKegiatanController : Controller {
-    private IJenisKegiatan repo;
+    private readonly IJenisKegiatan repo;
 
     public JenisKegiatanController(IJenisKegiatan jRepo) {
         repo = jRepo;

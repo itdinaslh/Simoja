@@ -18,4 +18,8 @@ public class JenisIzinLingkungan
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 
     public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+#nullable disable
+
+    public List<Kawasan> Kawasans { get; set; }
 }

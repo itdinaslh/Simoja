@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230523182910_CreateIzinUsahaTable")]
+    partial class CreateIzinUsahaTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -534,10 +536,6 @@ namespace Simoja.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("NoIzinUsaha")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
                     b.Property<DateOnly?>("TglTerbitIzin")
                         .HasColumnType("date");
 
@@ -546,15 +544,13 @@ namespace Simoja.Migrations
 
                     b.HasKey("KawasanID");
 
-                    b.HasIndex("ClientID");
-
                     b.HasIndex("JenisIzinLingkunganID");
 
                     b.HasIndex("JenisKegiatanID");
 
                     b.HasIndex("LokasiIzinID");
 
-                    b.ToTable("Kawasan");
+                    b.ToTable("IzinUsahas");
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kecamatan", b =>
@@ -889,7 +885,7 @@ namespace Simoja.Migrations
                         .IsRequired();
 
                     b.HasOne("Simoja.Entity.JenisKegiatan", "JenisKegiatan")
-                        .WithMany()
+                        .WithMany("DetailKawasans")
                         .HasForeignKey("JenisKegiatanID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -941,31 +937,23 @@ namespace Simoja.Migrations
 
             modelBuilder.Entity("Simoja.Entity.Kawasan", b =>
                 {
-                    b.HasOne("Simoja.Entity.Client", "Client")
-                        .WithMany("Kawasans")
-                        .HasForeignKey("ClientID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Simoja.Entity.JenisIzinLingkungan", "JenisIzinLingkungan")
-                        .WithMany("Kawasans")
+                        .WithMany()
                         .HasForeignKey("JenisIzinLingkunganID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Simoja.Entity.JenisKegiatan", "JenisKegiatan")
-                        .WithMany("Kawasans")
+                        .WithMany()
                         .HasForeignKey("JenisKegiatanID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Simoja.Entity.LokasiIzin", "LokasiIzin")
-                        .WithMany("Kawasans")
+                        .WithMany()
                         .HasForeignKey("LokasiIzinID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Client");
 
                     b.Navigation("JenisIzinLingkungan");
 
@@ -1043,8 +1031,6 @@ namespace Simoja.Migrations
 
                     b.Navigation("IzinOlahs");
 
-                    b.Navigation("Kawasans");
-
                     b.Navigation("LokasiAngkuts");
                 });
 
@@ -1053,14 +1039,9 @@ namespace Simoja.Migrations
                     b.Navigation("Kendaraans");
                 });
 
-            modelBuilder.Entity("Simoja.Entity.JenisIzinLingkungan", b =>
-                {
-                    b.Navigation("Kawasans");
-                });
-
             modelBuilder.Entity("Simoja.Entity.JenisKegiatan", b =>
                 {
-                    b.Navigation("Kawasans");
+                    b.Navigation("DetailKawasans");
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisKendaraan", b =>
@@ -1095,8 +1076,6 @@ namespace Simoja.Migrations
                     b.Navigation("IzinAngkuts");
 
                     b.Navigation("IzinOlahs");
-
-                    b.Navigation("Kawasans");
                 });
 
             modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>

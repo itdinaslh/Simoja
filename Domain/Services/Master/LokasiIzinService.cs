@@ -1,5 +1,5 @@
 ﻿using Simoja.Data;
-using Simoja.Domain.Entity;
+using Simoja.Entity;
 using Simoja.Repository;
 
 namespace Simoja.Services;
