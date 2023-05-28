@@ -70,16 +70,7 @@
         <div class="page-wrapper">
             <div class="page-inner">
                 <!-- Left Sidebar -->
-                @{
-                    if (User.IsInRole("PkmAngkut")) {
-                        <partial name="_SidebarAngkutan" />
-                    }
-                    else if (User.IsInRole("PkmOlah")) {
-                        <partial name="_SidebarOlah" />
-                    } else {
-                        <partial name="_SidebarUsaha" />
-                    }
-                }                
+                <partial name="_SidebarClient" />
 
                 <div class="page-content-wrapper">
                     <!-- Page Header -->

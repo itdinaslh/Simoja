@@ -27,4 +27,6 @@ public class RegisterVM
 #nullable enable
 
     public IFormFile? FileNIB { get; set; }
+
+    public bool EditMode { get; set; } = false;
 }
