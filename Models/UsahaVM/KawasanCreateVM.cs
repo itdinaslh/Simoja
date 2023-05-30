@@ -5,7 +5,7 @@ namespace Simoja.Models;
 public class KawasanCreateVM
 {
 #nullable disable
-    public Kawasan Kawasan { get; set; }
+    public IzinKegiatan Kawasan { get; set; }
 
 #nullable enable
 

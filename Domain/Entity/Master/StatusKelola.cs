@@ -15,5 +15,5 @@ public class StatusKelola {
 
     public bool? IsActive { get; set; } = true;
 
-    public List<IzinKawasan> DetailKawasans { get; set; }
+    public List<IzinKegiatan> DetailKawasans { get; set; }
 }

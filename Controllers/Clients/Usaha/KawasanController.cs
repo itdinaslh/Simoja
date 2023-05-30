@@ -11,10 +11,10 @@ namespace Simoja.Controllers;
 [Authorize(Roles = "PkmUsaha")]
 public class KawasanController : Controller
 {
-    private readonly IKawasan repo;
+    private readonly IIzinKegiatan repo;
     private readonly IClient clientRepo;
 
-    public KawasanController(IKawasan repo, IClient clientRepo)
+    public KawasanController(IIzinKegiatan repo, IClient clientRepo)
     {
         this.repo = repo;
         this.clientRepo = clientRepo;
@@ -51,7 +51,7 @@ public class KawasanController : Controller
 
         if (client != null)
         {
-            model.Kawasan.KawasanID = client.ClientID;
+            model.Kawasan.IzinKegiatanID = client.ClientID;
             model.Kawasan.TglTerbitIzin = model.TglIzin != null ? DateOnly.ParseExact(model.TglIzin, "dd-MM-yyyy") : null;
             if (model.FileIzin != null)
             {
@@ -61,7 +61,7 @@ public class KawasanController : Controller
 
         if (ModelState.IsValid)
         {
-            await repo.SsveDataAsync(model.Kawasan);
+            await repo.SaveDataAsync(model.Kawasan);
 
             return Json(Result.Success());
         }

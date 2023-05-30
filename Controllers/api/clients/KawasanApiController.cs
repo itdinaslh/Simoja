@@ -11,9 +11,9 @@ namespace Simoja.Controllers.api;
 public class KawasanApiController : ControllerBase
 {
     private readonly IClient clientRepo;
-    private readonly IKawasan kawasanRepo;
+    private readonly IIzinKegiatan kawasanRepo;
 
-    public KawasanApiController(IClient clientRepo, IKawasan kawasanRepo)
+    public KawasanApiController(IClient clientRepo, IIzinKegiatan kawasanRepo)
     {
         this.clientRepo = clientRepo;
         this.kawasanRepo = kawasanRepo;
@@ -42,7 +42,7 @@ public class KawasanApiController : ControllerBase
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = kawasanRepo.Kawasans
+        var init = kawasanRepo.IzinKegiatans
             .Where(k => k.ClientID == thisClient!.ClientID);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
@@ -62,7 +62,7 @@ public class KawasanApiController : ControllerBase
         var result = await init
             .Select(c => new
             {
-                kawasanID = c.KawasanID,
+                kawasanID = c.IzinKegiatanID,
                 noIzinUsaha = c.NoIzinUsaha,
                 namaKawasan = c.NamaKawasan,
                 lokasiIzin = c.LokasiIzin.NamaLokasi,

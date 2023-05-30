@@ -21,5 +21,5 @@ public class JenisIzinLingkungan
 
 #nullable disable
 
-    public List<Kawasan> Kawasans { get; set; }
+    public List<IzinKegiatan> Kawasans { get; set; }
 }

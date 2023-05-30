@@ -17,7 +17,7 @@ public class ClientService : IClient {
 
     public IQueryable<IzinOlah> IzinOlahs => context.IzinOlahs;
 
-    public IQueryable<Kawasan> IzinUsahas => context.Kawasans;
+    public IQueryable<IzinKegiatan> IzinUsahas => context.IzinKegiatans;
 
     public async Task SaveClientAsync(RegisterVM model) {
         #nullable disable

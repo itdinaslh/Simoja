@@ -99,13 +99,11 @@ public class Client {
 
     public List<IzinOlah> IzinOlahs { get; set; }
 
-    public List<IzinKawasan> IzinKawasans { get; set; }
-
     public Flag Flag { get; set; }
 
     public List<LokasiAngkut> LokasiAngkuts { get; set; }
 
-    public List<Kawasan> Kawasans { get; set; }
+    public List<IzinKegiatan> IzinKawasans { get; set; }
 
     public List<JenisUsaha> JenisUsahas { get; set; }
 

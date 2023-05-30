@@ -18,5 +18,5 @@ public class LokasiIzin
 
     public List<IzinOlah> IzinOlahs { get; set; }
 
-    public List<Kawasan> Kawasans { get; set; }
+    public List<IzinKegiatan> Kawasans { get; set; }
 }
