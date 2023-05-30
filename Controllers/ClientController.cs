@@ -55,7 +55,7 @@ public class ClientController : Controller {
     public async Task<IActionResult> Register(RegisterVM model) {
         string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
 
-        //model.Client.ClientID = Guid.Parse(uid);
+        model.Client.ClientID = Guid.Parse(uid);
 
         if (ModelState.IsValid)
         {
@@ -79,7 +79,7 @@ public class ClientController : Controller {
                 //action = "RegisterUsaha";
             }
 
-            model.Client.JenisUsahaID = theID;
+            //model.Client.JenisUsahaID = theID;
 
             string fileNameKTP = await Upload.KTP(model.FileKTP, uid);
             string fileNameNPWP = await Upload.NPWP(model.FileNPWP, uid);

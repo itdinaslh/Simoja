@@ -1,5 +1,4 @@
-﻿using Simoja.Entity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Simoja.Entity;
@@ -19,4 +18,5 @@ public class JenisUsaha
     public string NamaJenis { get; set; }
 
     public List<Client> Clients { get; set; }
+
 }

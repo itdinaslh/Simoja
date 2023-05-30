@@ -31,6 +31,16 @@
                     <span class="nav-link-text" data-i18n="nav.profile">Profile</span>
                 </a>
             </li>
+
+            @if (User.IsInRole("PkmUsaha"))
+            {
+                <li class='@(ViewBag.Title == "Izin Lingkungan" ? "active" : "")'>
+                    <a asp-action="Perizinan" asp-controller="Kawasan" title="Izin Lingkungan" data-filter-tags="izin lingkungan">
+                        <i class="fal fa-book"></i>
+                        <span class="nav-link-text" data-i18n="nav.izin_lingkungan">Izin Lingkungan</span>
+                    </a>
+                </li>
+            }
             
 
             @if (User.IsInRole("PkmAngkut") || User.IsInRole("PkmOlah"))

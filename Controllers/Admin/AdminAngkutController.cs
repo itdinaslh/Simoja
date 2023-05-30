@@ -23,7 +23,7 @@ public class AdminAngkutController : Controller
     {
         Client? data = await repo.Clients
             .Include(x => x.Kelurahan.Kecamatan.Kabupaten)
-            .Include(u => u.JenisUsaha)
+            .Include(u => u.JenisUsahas)
             .FirstOrDefaultAsync(x => x.ClientID == theID);
 
         if (data is not null)
@@ -34,7 +34,7 @@ public class AdminAngkutController : Controller
                 NamaKabupaten = data.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
                 NamaKecamatan = data.Kelurahan.Kecamatan.NamaKecamatan,
                 NamaKelurahan = data.Kelurahan.NamaKelurahan,
-                NamaJenisUsaha = data.JenisUsaha.NamaJenis
+                //NamaJenisUsaha = data.JenisUsahas.NamaJenis
             });
         }
 

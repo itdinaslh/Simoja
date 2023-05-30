@@ -31,7 +31,7 @@ public class HomeController : Controller
         var thisClient = await repo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new {
                 c.ClientID,
-                c.JenisUsahaID,
+                //c.JenisUsahaID,
                 c.IsVerified
             })
             .FirstOrDefaultAsync();
@@ -40,7 +40,7 @@ public class HomeController : Controller
             return RedirectToAction("Register", "Client");
         } else if (User.IsInRole("PkmAngkut")) {
 			return RedirectToAction("IndexAngkut");
-		} else if (thisClient.JenisUsahaID == 2) {
+		} else if (User.IsInRole("PkmOlah")) {
 			return RedirectToAction("IndexOlah");
 		} else {
 			return RedirectToAction("IndexUsaha");
@@ -73,7 +73,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Profile()
     {
         Client? client = await repo.Clients
-            .Include(j => j.JenisUsaha)
+            //.Include(j => j.JenisUsaha)
             .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
             .FirstOrDefaultAsync(x => x.UserId == User.Identity!.Name);
 

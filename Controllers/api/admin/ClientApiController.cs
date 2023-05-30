@@ -11,7 +11,7 @@ namespace Simoja.Controllers.api;
 [Route("[controller]")]
 [Authorize(Roles = "SimojaAdmin, SysAdmin")]
 public class ClientApiController : Controller {
-    private IClient clientRepo;
+    private readonly IClient clientRepo;
 
     public ClientApiController(IClient cRepo) {
         clientRepo = cRepo;
@@ -30,7 +30,7 @@ public class ClientApiController : Controller {
         int recordsTotal = 0;
 
         var init = clientRepo.Clients
-            .Where(c => c.JenisUsahaID != 4 && c.IsVerified == false);
+            .Where(c => c.IsVerified == false);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
@@ -45,9 +45,8 @@ public class ClientApiController : Controller {
         var result = await init
             .Select(c => new {
                 clientId = c.ClientID,
-                clientName = c.ClientName,
-                jenisId = c.JenisUsahaID,
-                jenisUsaha = c.JenisUsahaID == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
+                clientName = c.ClientName,                
+                //jenisUsaha = c.ClientJenis.First().JenisUsaha.NamaJenis == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
                 email = c.UserId,
                 telp = c.Telp,
                 CreatedAt = c.CreatedAt
@@ -76,7 +75,7 @@ public class ClientApiController : Controller {
 
         var init = clientRepo.Clients
             .Include(k => k.Kelurahan.Kecamatan.Kabupaten)
-            .Where(c => c.JenisUsahaID == 1 && c.IsVerified == true);
+            .Where(c => c.JenisUsahas.Any(x => x.JenisUsahaID == 1) && c.IsVerified == true);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
         {

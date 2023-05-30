@@ -83,7 +83,7 @@ public class AdminController : Controller {
     public async Task<IActionResult> IndexAngkutan()
     {
         int countVehicle = await vRepo.Kendaraans.CountAsync();
-        int countPenyedia = await repo.Clients.Where(x => x.JenisUsahaID == 1).CountAsync();
+        int countPenyedia = await repo.Clients.Where(x => x.JenisUsahas.Any(j => j.JenisUsahaID == 1)).CountAsync();
 
         IndexAngkutanVM model = new() { TotalKendaraan = countVehicle, TotalPenyedia = countPenyedia };
 

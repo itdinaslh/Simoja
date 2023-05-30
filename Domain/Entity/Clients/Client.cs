@@ -1,4 +1,3 @@
-using Simoja.Domain.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -43,8 +42,6 @@ public class Client {
 
     [MaxLength(50)]
     public string? Longitude { get; set; }
-
-    public int? JenisUsahaID { get; set; }
 
 #nullable disable
 
@@ -106,9 +103,10 @@ public class Client {
 
     public Flag Flag { get; set; }
 
-    public JenisUsaha JenisUsaha { get; set; }
-
     public List<LokasiAngkut> LokasiAngkuts { get; set; }
 
     public List<Kawasan> Kawasans { get; set; }
+
+    public List<JenisUsaha> JenisUsahas { get; set; }
+
 }
