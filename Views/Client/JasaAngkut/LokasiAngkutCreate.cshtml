@@ -23,14 +23,14 @@
             </div>
             <div class="panel-container show">
                 <div class="panel-content">
-                    <form id="vehicleform" action="/clients/jasa/pengangkutan/lokasi-angkut/store'" method="post">
+                    <form id="locationForm" action="/clients/jasa/pengangkutan/lokasi-angkut/store'" method="post">
                         <input type="hidden" id="UID" value="@Model.UID">
                         @Html.AntiForgeryToken()
                         <input type="hidden" id="UID" asp-for="UID" />
                         <input type="hidden" name="imgadded" id="imgadded" >
                         <div class="form-group">
                             <label for="">Nama Lokasi/Gedung/Kawasan *</label>
-                            <input type="text" asp-for="LokasiAngkut.NamaLokasi" class="form-control" required autofocus autocomplete="off" >
+                            <select class="form-control sLokasi" required></select>
                         </div>
                         <div class="form-group">
                             <label for="">Kota / Kabupaten Administrasi *</label>

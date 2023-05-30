@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230530202639_AlterClientBoolJenis")]
+    partial class AlterClientBoolJenis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -633,9 +635,6 @@ namespace Simoja.Migrations
 
                     b.Property<string>("DokumenPath")
                         .HasColumnType("text");
-
-                    b.Property<bool?>("IsApproved")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("KelurahanID")
                         .IsRequired()

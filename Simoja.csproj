@@ -53,7 +53,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\pages\registration\" />
-    <Folder Include="wwwroot\upload\" />
     <Folder Include="wwwroot\web\js\" />
     <Folder Include="wwwroot\web\css\" />
   </ItemGroup>

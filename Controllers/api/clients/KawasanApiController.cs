@@ -77,4 +77,21 @@ public class KawasanApiController : ControllerBase
 
         return Ok(jsonData);
     }
+
+#nullable enable
+
+	[HttpGet("/api/master/usaha-kegiatan/kawasan/search")]
+	public async Task<IActionResult> Searc(string? term)
+	{
+		var data = await clientRepo.Clients
+            .Where(x => x.IsUsaha == true)
+			.Where(j => !String.IsNullOrEmpty(term) ?
+				j.ClientName.ToLower().Contains(term.ToLower()) : true
+			).Select(jen => new {
+				id = jen.ClientID,
+				data = jen.ClientName
+			}).Take(10).ToListAsync();
+
+		return Ok(data);
+	}
 }

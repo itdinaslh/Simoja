@@ -27,7 +27,7 @@ public class Client {
     public string? Fax { get; set; }
 
 
-    #nullable disable
+#nullable disable
     [MaxLength(15)]
     [Required(ErrorMessage = "Harap pilih kelurahan")]
     public string KelurahanID { get; set; }
@@ -36,7 +36,7 @@ public class Client {
     [Required(ErrorMessage = "Alamat wajib diisi")]
     public string Alamat { get; set;}
 
-    #nullable enable
+#nullable enable
     [MaxLength(50)]
     public string? Latitude { get; set; }
 
@@ -74,16 +74,21 @@ public class Client {
     [MaxLength(255)]
     public string DokumenNPWP { get; set; }
 
-    [MaxLength(150)]
-    [Required(ErrorMessage = "No NIB wajib diisi")]
-    public string NIB { get; set; }
-
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public long NoUrut { get; set; }
 
+    public bool IsAngkut { get; set; } = false;
+
+    public bool IsOlah { get; set; } = false;
+
+    public bool IsUsaha { get; set; } = false;
+
 #nullable enable
 
-    [MaxLength(255)]
+	[MaxLength(150)]
+	public string? NIB { get; set; }
+
+	[MaxLength(255)]
     public string? DokumenNIB { get; set; }
 
     public int? FlagID { get; set; }
@@ -103,7 +108,7 @@ public class Client {
 
     public List<LokasiAngkut> LokasiAngkuts { get; set; }
 
-    public List<IzinKegiatan> IzinKawasans { get; set; }
+    public List<IzinKegiatan> IzinKegiatans { get; set; }
 
     public List<JenisUsaha> JenisUsahas { get; set; }
 

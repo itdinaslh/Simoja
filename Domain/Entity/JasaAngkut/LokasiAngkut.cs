@@ -40,4 +40,6 @@ public class LokasiAngkut {
 
     #nullable enable
     public string? DokumenPath { get; set; }
+
+    public bool? IsApproved { get; set; } = false;
 }

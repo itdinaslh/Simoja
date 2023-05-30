@@ -59,27 +59,18 @@ public class ClientController : Controller {
 
         if (ModelState.IsValid)
         {
-
-            int theID = 1;
-            //string action = "";
-
             if (User.IsInRole("PkmAngkut"))
             {
-                theID = 1;
-                //action = "RegisterAngkut";
+                model.Client.IsAngkut = true;                
             }
-            else if (User.IsInRole("PkmOlah"))
+            if (User.IsInRole("PkmOlah"))
             {
-                theID = 2;
-                //action = "RegisterOlah";
+                model.Client.IsOlah = true;                
             }           
-            else
+            if (User.IsInRole("PkmUsaha"))
             {
-                theID = 3;
-                //action = "RegisterUsaha";
+               model.Client.IsUsaha = true;
             }
-
-            //model.Client.JenisUsahaID = theID;
 
             string fileNameKTP = await Upload.KTP(model.FileKTP, uid);
             string fileNameNPWP = await Upload.NPWP(model.FileNPWP, uid);
@@ -110,56 +101,6 @@ public class ClientController : Controller {
 
 
     }
-
-    [HttpGet("/clients/register/pengangkutan")]
-    [Authorize(Roles = "PkmAngkut")]
-    public async Task<IActionResult> RegisterAngkut() {
-        #nullable enable
-        Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
-            .Select(cli => cli.ClientID)
-            .FirstOrDefaultAsync();
-
-        IzinAngkut? detail = await repo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
-
-        if (curClient != null)
-        {
-            return View(new RegAngkutModel
-            {
-                IzinAngkut = new IzinAngkut
-                {
-                    DokumenIzin = "/upload"
-                }
-            });
-        }
-
-        return NotFound();
-    }
-
-    [HttpGet("/clients/register/pengolahan")]
-    [Authorize(Roles = "PkmOlah")]
-    public IActionResult RegisterOlah() {
-        return View(new RegOlahModel{
-            IzinOlah = new IzinOlah(),
-            TglAwal = String.Empty,
-            TglAkhir = String.Empty
-        });
-    }
-
-    //[HttpGet("/clients/register/usaha-kegiatan")]
-    //[Authorize(Roles = "PkmUsaha")]
-    //public async Task<IActionResult> RegisterUsaha() {
-    //    Guid? curClient = await repo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
-    //        .Select(ci => ci.ClientID)
-    //        .FirstOrDefaultAsync();
-
-    //    IzinKawasan? detail = await repo.IzinKawasans.Where(o => o.ClientID == curClient).FirstOrDefaultAsync();
-
-    //    if (curClient is not null) {
-    //        return View(detail);
-    //    }
-
-    //    return View(new IzinKawasan());
-    //}
 
     // Verifikasi Client
 
