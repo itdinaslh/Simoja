@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     PopulateKotaDefault();
 
-    PopulateJenisKendaraan();
+    PopulateLokasiAngkut();
 
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
@@ -34,7 +34,7 @@ $('#locationForm').submit(function (e) {
     }
 });
 
-function PopulateJenisKendaraan() {
+function PopulateLokasiAngkut() {
     $('.sLokasi').select2({
         placeholder: 'Pilih Lokasi Angkut...',        
         ajax: {
