@@ -34,6 +34,8 @@ services.AddCors();
     services.AddScoped<ILokasiAngkut, LokasiAngkutService>();
     services.AddScoped<ILokasiIzin, LokasiIzinService>();
     services.AddScoped<ILokasiBuang, LokasiBuangService>();
+    services.AddScoped<IJenisIzinLingkungan, JenisIzinLingkunganService>();
+    services.AddScoped<IKawasan, KawasanService>();
 }
 
 services.AddAuthentication(options => {
