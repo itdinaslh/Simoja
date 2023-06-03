@@ -28,21 +28,22 @@ $(document).on('shown.bs.modal', '#myModal', function () {
         orientation: 'bottom'
     });
 
-    PopulateJenisKendaraan();
-    PopulateKendaraan();
+    //PopulateJenisKendaraan();
+    //PopulateKendaraan();
+    PopulateNoPolisi();
 });
 
-$(document).on('click', '#btnAddVehicle', function () {
-    var myURL = '/clients/pengangkutan/kendaraan/create/?izin=' + currentIzinID
-    $('#myModalContent').load(myURL, function () {
+//$(document).on('click', '#btnAddVehicle', function () {
+//    var myURL = '/clients/pengangkutan/izin/kendaraan/create/?izin=' + currentIzinID
+//    $('#myModalContent').load(myURL, function () {
 
-        $('#myModal').modal();
+//        $('#myModal').modal();
 
-        bindForm(this);
-    });
+//        bindForm(this);
+//    });
 
-    return false;
-});
+//    return false;
+//});
 
 $('#clientform').submit(function (e) {
     e.preventDefault();
@@ -88,8 +89,7 @@ function loadTable() {
                                 <button type="button" class="btn btn-success btn-sm showVehicle dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Action
                                 </button>
-                                <div class="dropdown-menu">
-                                    <button class="dropdown-item" href="#">Perpanjang</button>
+                                <div class="dropdown-menu">                                    
                                     <button class="dropdown-item btnVehicle" data-id="` + row.izinAngkutID +  `" data-val="` + row.noIzinUsaha + `">Data Kendaraan</button>
                                 </div>
                             </div>`;
@@ -257,7 +257,7 @@ function drawVehicle(data) {
 
 // Tambahan
 $(document).on('click', '#btnChoiceVehicle', function () {
-    var myURL = '/clients/pengangkutan/kendaraan/choice/?izin=' + currentIzinID
+    var myURL = '/clients/pengangkutan/izin/kendaraan/create/?izin=' + currentIzinID
     $('#myModalContent').load(myURL, function () {
 
         $('#myModal').modal();
@@ -268,9 +268,30 @@ $(document).on('click', '#btnChoiceVehicle', function () {
     return false;
 });
 
-function PopulateKendaraan() {
-    $('.vehicle').select2({
-        placeholder: 'Pilih Kendaraan...',
+function PopulateNoPolisi() {
+    $('.NoPolisi').select2({
+        placeholder: 'Pilih NoPolisi...',
         dropdownParent: $('#myModal'),
+        ajax: {
+            url: "/api/clients/pengangkutan/kendaraan/nopol/search",
+            contentType: "application/json; charset=utf-8",
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            processResults: function (result) {
+                return {
+                    results: $.map(result, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
     });
 }

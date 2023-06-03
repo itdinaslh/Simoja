@@ -112,4 +112,6 @@ public class Client {
 
     public List<JenisUsaha> JenisUsahas { get; set; }
 
+    public List<Kendaraan> Kendaraans { get; set; }
+
 }

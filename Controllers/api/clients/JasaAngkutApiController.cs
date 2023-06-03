@@ -20,12 +20,14 @@ public class JasaAngkutApiController : Controller {
     }
 
     [HttpPost("/api/clients/pengangkutan/kendaraan/list")]
-    public async Task<IActionResult> ListKendaraan() {
-        #nullable disable
+    public async Task<IActionResult> ListKendaraan()
+    {
+#nullable disable
         string currentUser = User.Identity.Name;
-        
+
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
-            .Select(c => new {
+            .Select(c => new
+            {
                 c.ClientID
             })
             .FirstOrDefaultAsync();
@@ -41,14 +43,16 @@ public class JasaAngkutApiController : Controller {
         int recordsTotal = 0;
 
         var init = repo.Kendaraans
-            .Where(k => k.IzinAngkut.ClientID == thisClient.ClientID);
+            .Where(k => k.ClientID == thisClient.ClientID);
 
-        if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
+        if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+        {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
         }
 
-        if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => 
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            init = init.Where(a =>
                 a.NoPolisi.ToLower().Contains(searchValue.ToLower()) ||
                 a.NoPintu.ToLower().Contains(searchValue.ToLower())
             );
@@ -57,7 +61,8 @@ public class JasaAngkutApiController : Controller {
         recordsTotal = init.Count();
 
         var result = await init
-            .Select(c => new {
+            .Select(c => new
+            {
                 kendaraanId = c.KendaraanID,
                 uniqueId = c.UniqueID,
                 noPolisi = c.NoPolisi,
@@ -71,8 +76,8 @@ public class JasaAngkutApiController : Controller {
             .Take(pageSize)
             .ToListAsync();
 
-        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result};
-        
+        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result };
+
         return Ok(jsonData);
     }
 
@@ -82,7 +87,7 @@ public class JasaAngkutApiController : Controller {
     public async Task<IActionResult> DataKendaraan(Guid id, string? search)
     {
         var data = await repo.Kendaraans
-            .Where(x => x.IzinAngkutID == id)
+            .Where(x => x.IzinAngkuts.Any(i => i.IzinAngkutID == id))
             .Where(k => !String.IsNullOrEmpty(search) ?
                 k.NoPolisi.ToLower().Contains(search.ToLower()) || k.NoPintu.ToLower().Contains(search.ToLower()) : true
             )
@@ -210,4 +215,28 @@ public class JasaAngkutApiController : Controller {
         return Ok(jsonData);
     }
 
+
+    [HttpGet("/api/clients/pengangkutan/kendaraan/nopol/search")]
+    public async Task<IActionResult> SearchByNoPolisi(string? term)
+    {
+        string currentUser = User.Identity.Name;
+
+        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+            .Select(c => new
+            {
+                c.ClientID
+            })
+            .FirstOrDefaultAsync();
+
+        var data = await repo.Kendaraans
+            .Where(x => x.ClientID == thisClient.ClientID)
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NoPolisi.ToLower().Contains(term.ToLower()) : true
+            ).Select(jen => new {
+                id = jen.KendaraanID,
+                data = jen.NoPolisi
+            }).ToListAsync();
+
+        return Ok(data);
+    }
 }

@@ -34,47 +34,19 @@
                         </div>
                         <div class="form-group">
                             <label for="">Kota / Kabupaten Administrasi *</label>
-                            <select name="CityID" id="cbIdKota" class="form-control" required></select>
+                            <input name="CityID" class="form-control" readonly required />
                         </div>
                         <div class="form-group">
                             <label for="">Kecamatan *</label>
-                            <select name="DistrictID" id="cbIdKecamatan" class="form-control" required></select>
+                            <input name="DistrictID" id="cbIdKecamatan" class="form-control" readonly required />
                         </div>
                         <div class="form-group">
                             <label for="">Kelurahan *</label>
-                            <select asp-for="LokasiAngkut.KelurahanID" id="cbIdKelurahan" class="form-control" required></select>
+                            <input asp-for="LokasiAngkut.KelurahanID" id="cbIdKelurahan" class="form-control" required readonly />
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mb-3">
                             <label for="">Alamat *</label>
-                            <input type="text" name="Address" id="Address" class="form-control" required autocomplete="off" >
-                        </div>
-                        <div class="form-group">
-                            <label for="">Tanggal Awal Kontrak *</label>
-                            <div class="input-group flex-nowrap">
-                                <input type="text" asp-for="TglAwal" id="ContractStartDate" class="form-control datepicker" required autocomplete="off" >
-                                <div class="input-group-append">
-                                    <span class="input-group-text fs-xl">
-                                        <i class="fal fa-calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Tanggal Berakhir Kontrak *</label>
-                            <div class="input-group flex-nowrap">
-                                <input type="text" asp-for="TglAkhir" id="ContractEndDate" class="form-control datepicker" required autocomplete="off" >
-                                <div class="input-group-append">
-                                    <span class="input-group-text fs-xl">
-                                        <i class="fal fa-calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr style="border-top: 1px dotted grey;">
-
-                        <div class="form-group text-right">
-                            <button type="submit" class="btn btn-success">Submit Data</button>
+                            <input type="text" name="Address" id="Address" class="form-control" required readonly />
                         </div>
                     </form>
                 </div>
@@ -84,17 +56,44 @@
     <div class="col-md-6 col-xs-12">        
         <div id="panel-2" class="panel">
             <div class="panel-hdr bg-primary-700 bg-warning-gradient" role="heading">
-                <h2>Upload Dokumen Kontrak Kerjasama</h2>
+                <h2>Dokumen Kerjasama</h2>
             </div>
             <div class="panel-container show">
-                <div class="form-group">
-                    <div id="upLokasi" action="/clients/jasa/angkutan/upload/lokasi" class="dropzone needsclick" style="min-height: 7rem;">                        
-                        <div class="dz-message needsclick">
-                            <i class="fal fa-cloud-upload text-muted mb-3"></i> <br>
-                            <span>Drop file disini atau Klik Untuk Upload.</span>
+                <div class="panel-content">
+                    <div class="form-group">
+                        <label for="">Tanggal Awal Kontrak *</label>
+                        <div class="input-group flex-nowrap">
+                            <input type="text" asp-for="TglAwal" id="ContractStartDate" class="form-control datepicker" required autocomplete="off">
+                            <div class="input-group-append">
+                                <span class="input-group-text fs-xl">
+                                    <i class="fal fa-calendar"></i>
+                                </span>
+                            </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="">Tanggal Berakhir Kontrak *</label>
+                        <div class="input-group flex-nowrap">
+                            <input type="text" asp-for="TglAkhir" id="ContractEndDate" class="form-control datepicker" required autocomplete="off">
+                            <div class="input-group-append">
+                                <span class="input-group-text fs-xl">
+                                    <i class="fal fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Dokumen Kontrak <span class="text-danger">*</span></label>
+                        <input type="file" class="form-control" />
+                    </div>
+
+                    <hr style="border-top: 1px dotted grey;">
+
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-success">Submit Data</button>
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>

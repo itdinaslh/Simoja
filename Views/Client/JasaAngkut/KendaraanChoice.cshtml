@@ -1,6 +1,6 @@
-﻿@model KendaraanCreateVM
+﻿@model KendaraanChoiceVM
 
-<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post" class="vehicleForm" enctype="multipart/form-data">
+<form asp-controller="IzinAngkut" asp-action="AddKendaraanToIzin" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" asp-for="IzinID" />
     <div class="modal-header bg-primary-700 bg-success-gradient">
@@ -10,7 +10,7 @@
     <div class="modal-body">
         <div class="form-group">
             <label>No Polisi <span class="text-danger">*</span></label>
-            <select asp-for="Kendaraan.JenisKendaraanId" class="form-control vehicle" required></select>
+            <select asp-for="KendaraanID" class="form-control NoPolisi" required></select>
         </div>
       
     </div>

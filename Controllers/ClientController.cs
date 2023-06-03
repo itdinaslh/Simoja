@@ -109,6 +109,7 @@ public class ClientController : Controller {
     {
         var data = Request.Form["theID"].FirstOrDefault();
 
+#nullable enable
         Client? client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == Guid.Parse(data!));
 
 

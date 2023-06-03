@@ -36,7 +36,7 @@ public class KendaraanAngkutController : Controller
             .SumAsync(i => i.JmlAngkutan);
 
         int jumlah = await vehicle.Kendaraans
-            .Where(k => k.IzinAngkut.ClientID == thisClient!.ClientID)
+            .Where(k => k.ClientID == thisClient!.ClientID)
             .CountAsync();
 
         bool isForbid = false;
@@ -84,8 +84,8 @@ public class KendaraanAngkutController : Controller
         {
             uid = model.UID;
         }
-        
-        model.Kendaraan.IzinAngkutID = model.IzinID;
+
+        model.Kendaraan.ClientID = client!.ClientID;        
         model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
         model.Kendaraan.UniqueID = uid;
@@ -103,14 +103,5 @@ public class KendaraanAngkutController : Controller
 
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", model);
     }
-
-    [HttpGet("/clients/pengangkutan/kendaraan/choice")]
-    public IActionResult Choise(Guid izin)
-    {
-        return PartialView("~/Views/Client/JasaAngkut/KendaraanChoice.cshtml", new KendaraanCreateVM
-        {
-            Kendaraan = new Kendaraan(),
-            IzinID = izin
-        });
-    }
+     
 }

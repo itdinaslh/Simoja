@@ -45,6 +45,9 @@ function loadTable() {
             //    }
             //}
         ],
+        columnDefs: [
+            { className: 'text-center', targets: [0, 4, 5] }
+        ],
         order: [[0, "desc"]]
     });
 }

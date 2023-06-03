@@ -10,9 +10,9 @@ public class Kendaraan {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Int64 KendaraanID { get; set; }
 
-    public Guid UniqueID { get; set; } = Guid.NewGuid();
+    public Guid ClientID { get; set; }
 
-    public Guid IzinAngkutID { get; set; }
+    public Guid UniqueID { get; set; } = Guid.NewGuid();
 
     #nullable disable
     [Required(ErrorMessage = "No Polisi wajib diisi")]
@@ -52,5 +52,8 @@ public class Kendaraan {
 
     public JenisKendaraan JenisKendaraan { get; set; }
 
-    public IzinAngkut IzinAngkut { get; set; }
+    public Client Client { get; set; }
+
+    public List<IzinAngkut> IzinAngkuts { get; set; }
+
 }
