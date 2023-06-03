@@ -34,7 +34,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("JenisUsahasJenisUsahaID");
 
-                    b.ToTable("ClientJenisUsaha");
+                    b.ToTable("ClientJenisUsaha", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Domain.Entity.LokasiBuang", b =>
@@ -51,7 +51,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("LokasiBuangID");
 
-                    b.ToTable("LokasiBuang");
+                    b.ToTable("LokasiBuang", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Client", b =>
@@ -169,7 +169,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("KelurahanID");
 
-                    b.ToTable("Clients");
+                    b.ToTable("Clients", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Flag", b =>
@@ -186,7 +186,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("FlagID");
 
-                    b.ToTable("Flags");
+                    b.ToTable("Flags", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.IzinAngkut", b =>
@@ -238,7 +238,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("LokasiIzinID");
 
-                    b.ToTable("IzinAngkut");
+                    b.ToTable("IzinAngkut", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.IzinKegiatan", b =>
@@ -302,7 +302,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("StatusKelolaID");
 
-                    b.ToTable("IzinKegiatan");
+                    b.ToTable("IzinKegiatan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.IzinOlah", b =>
@@ -346,7 +346,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("LokasiIzinID");
 
-                    b.ToTable("IzinOlah");
+                    b.ToTable("IzinOlah", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisIzinLingkungan", b =>
@@ -370,7 +370,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("JenisIzinLingkunganID");
 
-                    b.ToTable("JenisIzinLingkungans");
+                    b.ToTable("JenisIzinLingkungans", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisKegiatan", b =>
@@ -396,7 +396,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("JenisKegiatanID");
 
-                    b.ToTable("JenisKegiatan");
+                    b.ToTable("JenisKegiatan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisKendaraan", b =>
@@ -428,7 +428,7 @@ namespace Simoja.Migrations
                     b.HasIndex("GlobalId")
                         .IsUnique();
 
-                    b.ToTable("JenisKendaraan");
+                    b.ToTable("JenisKendaraan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.JenisUsaha", b =>
@@ -449,7 +449,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("JenisUsahaID");
 
-                    b.ToTable("JenisUsaha");
+                    b.ToTable("JenisUsaha", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kabupaten", b =>
@@ -482,7 +482,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("ProvinsiID");
 
-                    b.ToTable("Kabupaten");
+                    b.ToTable("Kabupaten", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kecamatan", b =>
@@ -512,7 +512,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("KabupatenID");
 
-                    b.ToTable("Kecamatan");
+                    b.ToTable("Kecamatan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kelurahan", b =>
@@ -542,7 +542,7 @@ namespace Simoja.Migrations
 
                     b.HasIndex("KecamatanID");
 
-                    b.ToTable("Kelurahan");
+                    b.ToTable("Kelurahan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Kendaraan", b =>
@@ -610,7 +610,7 @@ namespace Simoja.Migrations
                     b.HasIndex("UniqueID")
                         .IsUnique();
 
-                    b.ToTable("Kendaraan");
+                    b.ToTable("Kendaraan", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.LokasiAngkut", b =>
@@ -668,7 +668,7 @@ namespace Simoja.Migrations
                     b.HasIndex("UniqueID")
                         .IsUnique();
 
-                    b.ToTable("LokasiAngkut");
+                    b.ToTable("LokasiAngkut", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.LokasiIzin", b =>
@@ -685,7 +685,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("LokasiIzinID");
 
-                    b.ToTable("LokasiIzin");
+                    b.ToTable("LokasiIzin", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.PihakAngkut", b =>
@@ -706,7 +706,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("PihakAngkutID");
 
-                    b.ToTable("PihakAngkut");
+                    b.ToTable("PihakAngkut", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.Provinsi", b =>
@@ -739,7 +739,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("ProvinsiID");
 
-                    b.ToTable("Provinsi");
+                    b.ToTable("Provinsi", (string)null);
                 });
 
             modelBuilder.Entity("Simoja.Entity.StatusKelola", b =>
@@ -760,7 +760,7 @@ namespace Simoja.Migrations
 
                     b.HasKey("StatusKelolaID");
 
-                    b.ToTable("StatusKelola");
+                    b.ToTable("StatusKelola", (string)null);
                 });
 
             modelBuilder.Entity("ClientJenisUsaha", b =>
