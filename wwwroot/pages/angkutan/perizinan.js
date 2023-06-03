@@ -29,6 +29,7 @@ $(document).on('shown.bs.modal', '#myModal', function () {
     });
 
     PopulateJenisKendaraan();
+    PopulateKendaraan();
 });
 
 $(document).on('click', '#btnAddVehicle', function () {
@@ -252,4 +253,24 @@ function drawVehicle(data) {
     }    
 
     $('#tblVehicle').append(trHTML);
+}
+
+// Tambahan
+$(document).on('click', '#btnChoiceVehicle', function () {
+    var myURL = '/clients/pengangkutan/kendaraan/choice/?izin=' + currentIzinID
+    $('#myModalContent').load(myURL, function () {
+
+        $('#myModal').modal();
+
+        bindForm(this);
+    });
+
+    return false;
+});
+
+function PopulateKendaraan() {
+    $('.vehicle').select2({
+        placeholder: 'Pilih Kendaraan...',
+        dropdownParent: $('#myModal'),
+    });
 }

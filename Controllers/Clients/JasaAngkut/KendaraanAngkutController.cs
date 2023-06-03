@@ -103,4 +103,14 @@ public class KendaraanAngkutController : Controller
 
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", model);
     }
+
+    [HttpGet("/clients/pengangkutan/kendaraan/choice")]
+    public IActionResult Choise(Guid izin)
+    {
+        return PartialView("~/Views/Client/JasaAngkut/KendaraanChoice.cshtml", new KendaraanCreateVM
+        {
+            Kendaraan = new Kendaraan(),
+            IzinID = izin
+        });
+    }
 }

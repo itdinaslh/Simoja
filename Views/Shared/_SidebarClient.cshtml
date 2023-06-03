@@ -46,46 +46,96 @@
             @if (User.IsInRole("PkmAngkut") || User.IsInRole("PkmOlah"))
             {
                 <li class="nav-title">Data</li>
-                <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
-                    <a asp-controller="KendaraanAngkut" asp-action="Kendaraan" title="Data Kendaraan" data-filter-tags="data kendaraan">
+                @if (User.IsInRole("PkmAngkut"))
+                {
+                    <li class='@(ViewBag.Title == "Kendaraan" ? "active" : "")'>
+                        <a asp-controller="KendaraanAngkut" asp-action="Kendaraan" title="Data Kendaraan" data-filter-tags="data kendaraan">
                         <i class="fal fa-truck"></i>
                         <span class="nav-link-text" data-i18n="nav.data_kendaraan"> Data Kendaraan</span>
                     </a>
                 </li>
-
+                }
+                @if (User.IsInRole("PkmOlah"))
+                {
+                    <li class='@(ViewBag.Title == "Lokasi Buang" ? "active" : "")'>
+                        <a asp-controller="KendaraanAngkut" asp-action="Kendaraan" title="Data Lokasi Buang" data-filter-tags="data lokasi buang">
+                            <i class="fal fa-building"></i>
+                            <span class="nav-link-text" data-i18n="nav.data_lokasi_buang"> Data Lokasi Buang</span>
+                        </a>
+                    </li>
+                }
                 <li class='@(ViewBag.Parent == "Perizinan" ? "active open" : "")'>
                     <a href="#" title="Data" data-filter-tags="data">
                         <i class="fal fa-database"></i>
                         <span class="nav-link-text" data-i18n="nav.data">Data Perizinan</span>
                     </a>
                     <ul>
-                        <li class='@(ViewBag.Title == "Daftar Izin Pengangkutan" ? "active" : "")'>
-                            <a asp-controller="IzinAngkut" asp-action="Perizinan" title="Izin Pengangkutan" data-filter-tags="izin pengangkutan">
-                                <span class="nav-link-text" data-i18n="nav.izin_pengangkutan"> Izin Pengangkutan</span>
-                            </a>
-                        </li>
-                        <li class='@(ViewBag.Title == "Lokasi Angkut" ? "active" : "")'>
-                            <a asp-controller="LokasiAngkut" asp-action="Index" title="Kerjasama" data-filter-tags="kerjasama">
-                                <span class="nav-link-text" data-i18n="nav.kerjasama"> Kerjasama</span>
-                            </a>
-                        </li>
+                        @if (User.IsInRole("PkmAngkut"))
+                        {
+                            <li class='@(ViewBag.Title == "Daftar Izin Pengangkutan" ? "active" : "")'>
+                                <a asp-controller="IzinAngkut" asp-action="Perizinan" title="Izin Pengangkutan" data-filter-tags="izin pengangkutan">
+                                    <span class="nav-link-text" data-i18n="nav.izin_pengangkutan"> Izin Pengangkutan</span>
+                                </a>
+                            </li>
+                            <li class='@(ViewBag.Title == "Lokasi Angkut" ? "active" : "")'>
+                                <a asp-controller="LokasiAngkut" asp-action="Index" title="Kerjasama" data-filter-tags="kerjasama">
+                                    <span class="nav-link-text" data-i18n="nav.kerjasama"> Kerjasama</span>
+                                </a>
+                            </li>
+                        }
+                        @if (User.IsInRole("PkmOlah"))
+                        {
+                            <li class='@(ViewBag.Title == "Daftar Izin Pengolahan" ? "active" : "")'>
+                                <a asp-controller="IzinOlah" asp-action="Perizinan" title="Izin Pengolahan" data-filter-tags="izin pengolahan">
+                                    <span class="nav-link-text" data-i18n="nav.izin_pengolahan"> Izin Pengolahan</span>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </li>
             }
 
             <li class="nav-title">Laporan</li>
-
-            <li class="{{Request::path() == 'clients/jasa/laporan/harian' ? 'active' : ''}}">
-                <a href="/clients/jasa/laporan/harian" title="Laporan Harian" data-filter-tags="laporan harian">
-                    <i class="fal fa-file-alt"></i>
-                    <span class="nav-link-text" data-i18n="nav.laporan_harian"> Laporan Harian</span>
+            <li class='@(ViewBag.Parent == "Laporan" ? "active open" : "")'>
+                <a href="#" title="Data" data-filter-tags="data">
+                    <i class="fal fa-database"></i>
+                    <span class="nav-link-text" data-i18n="nav.data">Laporan</span>
                 </a>
-            </li>
-            <li class="{{Request::path() == 'clients/jasa/laporan/bulanan' ? 'active' : ''}}">
-                <a href="/clients/jasa/laporan/bulanan" title="Laporan Bulanan" data-filter-tags="laporan bulanan">
-                    <i class="fal fa-file"></i>
-                    <span class="nav-link-text" data-i18n="nav.laporan_bulanan"> Laporan Bulanan</span>
-                </a>
+                <ul>
+                    @if (User.IsInRole("PkmAngkut"))
+                    {
+                        <li class='@(ViewBag.Parent == "Laporan Angkut" ? "active" : "")'>
+                            <a href="/clients/pengangkutan/report" title="Laporan Harian" data-filter-tags="laporan harian">
+                                <i class="fal fa-file-alt"></i>
+                                <span class="nav-link-text" data-i18n="nav.laporan_harian"> Laporan Harian Pengakutan</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("PkmOlah"))
+                    {
+                        <li class='@(ViewBag.Parent == "Laporan Olah" ? "activ" : "")'>
+                            <a href="/clients/pengolahan/report" title="Laporan Harian" data-filter-tags="laporan harian">
+                                <i class="fal fa-file-alt"></i>
+                                <span class="nav-link-text" data-i18n="nav.laporan_harian"> Laporan Harian Pengolahan</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("PkmUsaha"))
+                    {
+                        <li class='@(ViewBag.Parent == "Laporan Usaha" ? "active " : "")'>
+                            <a href="/clients/usaha-kegiatan/report" title="Laporan Harian" data-filter-tags="laporan harian">
+                                <i class="fal fa-file-alt"></i>
+                                <span class="nav-link-text" data-i18n="nav.laporan_harian"> Laporan Harian Kawasan</span>
+                            </a>
+                        </li>
+                    }
+                    <li class="{{Request::path() == 'clients/jasa/laporan/bulanan' ? 'active' : ''}}">
+                        <a href="/clients/jasa/laporan/bulanan" title="Laporan Bulanan" data-filter-tags="laporan bulanan">
+                            <i class="fal fa-file"></i>
+                            <span class="nav-link-text" data-i18n="nav.laporan_bulanan"> Laporan Bulanan</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
         </ul>
         <div class="filter-message js-filter-message bg-success-600"></div>

@@ -3,9 +3,9 @@
 @{
     Layout = "_LayoutClient";
     ViewBag.Main = "Penyedia Jasa";
-    ViewBag.Category = "Pengangkutan Sampah";
+    ViewBag.Category = "Pengolahan Sampah";
     ViewBag.Parent = "Perizinan";
-    ViewBag.Title = "Daftar Izin Pengangkutan";
+    ViewBag.Title = "Daftar Izin Pengolahan";
 }
 
 
@@ -49,11 +49,11 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
-                                <label>Lokasi Pembuangan <span class="text-danger">*</span></label>
+                                <label>Lokasi Pengolahan <span class="text-danger">*</span></label>
                                 <select asp-for="IzinAngkut.LokasiBuangID" class="form-control sLokasiBuang s2"></select>
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
-                                <label for="">Jumlah Kendaraan Berizin <span class="text-danger">*</span></label>
+                                <label for="">Jumlah Pengolahan Berizin <span class="text-danger">*</span></label>
                                 <input type="number" asp-for="IzinAngkut.JmlAngkutan" min="1" class="form-control jmlAngkut" autocomplete="off">
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                         <thead>
                             <tr>
                                 <th>No Izin</th>
-                                <th>Jml Kendaraan</th>
+                                <th>Jml Pengolahan</th>
                                 <th>Tgl Terbit</th>
                                 <th>Masa Berakhir</th>
                                 <th>Action</th>

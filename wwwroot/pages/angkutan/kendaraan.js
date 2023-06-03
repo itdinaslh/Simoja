@@ -88,3 +88,16 @@ function ValidateKendaraan() {
         }
     });
 }
+
+//tambahan
+$(document).on('click', '#btnAddVehicle', function () {
+    var myURL = '/clients/pengangkutan/kendaraan/create/?izin=8ed70b14-5f31-4e11-bf16-28db'
+    $('#myModalContent').load(myURL, function () {
+
+        $('#myModal').modal();
+
+        bindForm(this);
+    });
+
+    return false;
+});

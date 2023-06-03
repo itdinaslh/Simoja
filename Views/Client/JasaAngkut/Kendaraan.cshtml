@@ -18,7 +18,7 @@
 <input type="hidden" id="izin" value="@Model.IzinID" />
 
 <div id='myModal' class='modal fade in' data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div id='myModalContent'></div>
         </div>
@@ -55,6 +55,11 @@
         <div id="panel-1" class="panel">
             <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
                 <h2>Data Kendaraan</h2>
+                <div class="panel-toolbar">
+                    <button id="btnAddVehicle" class="btn btn-sm btn-primary waves-effect waves-themed">
+                        <i class="fal fa-plus"></i> Tambah Kendaraan
+                    </button>
+                </div>
             </div>
             <div class="panel-container show">
                 <div id="listContent" class="panel-content">
