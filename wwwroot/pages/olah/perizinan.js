@@ -1,4 +1,5 @@
-﻿var vehicle = '';
+﻿
+var vehicle = '';
 var currentIzinID = '';
 var currentIzinVal = '';
 
@@ -33,18 +34,6 @@ $(document).on('shown.bs.modal', '#myModal', function () {
     PopulateNoPolisi();
 });
 
-//$(document).on('click', '#btnAddVehicle', function () {
-//    var myURL = '/clients/pengangkutan/izin/kendaraan/create/?izin=' + currentIzinID
-//    $('#myModalContent').load(myURL, function () {
-
-//        $('#myModal').modal();
-
-//        bindForm(this);
-//    });
-
-//    return false;
-//});
-
 $('#clientform').submit(function (e) {
     e.preventDefault();
 
@@ -75,7 +64,7 @@ function loadTable() {
         lengthMenu: [5, 10, 20],
         pagingType: "simple_numbers",
         ajax: {
-            url: '/api/clients/pengangkutan/izin/list',
+            url: '/api/clients/pengolahan/izin/list',
             method: 'POST'
         },
         columns: [
@@ -90,7 +79,7 @@ function loadTable() {
                                     Action
                                 </button>
                                 <div class="dropdown-menu">                                    
-                                    <button class="dropdown-item btnVehicle" data-id="` + row.izinAngkutID + `" data-val="` + row.noIzinUsaha + `">Data Kendaraan</button>
+                                    <button class="dropdown-item btnVehicle" data-id="` + row.izinAngkutID + `" data-val="` + row.noIzinUsaha + `">Data Teknologi</button>
                                 </div>
                             </div>`;
                 }
@@ -190,7 +179,7 @@ function PopulateLokasiIzin() {
 
 function PopulateLokasiBuang() {
     $('.sLokasiBuang').select2({
-        placeholder: 'Pilih Lokasi Pembuangan...',
+        placeholder: 'Pilih Lokasi Pengolahan...',
         allowClear: true,
         ajax: {
             url: "/api/master/lokasi-buang/search",
@@ -256,8 +245,8 @@ function drawVehicle(data) {
 }
 
 // Tambahan
-$(document).on('click', '#btnChoiceVehicle', function () {
-    var myURL = '/clients/pengangkutan/izin/kendaraan/create/?izin=' + currentIzinID
+$(document).on('click', '#btnChoiceTekno', function () {
+    var myURL = '/clients/pengangkutan/izin/teknologi/create/?izin=' + currentIzinID
     $('#myModalContent').load(myURL, function () {
 
         $('#myModal').modal();

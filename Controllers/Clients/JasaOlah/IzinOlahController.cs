@@ -61,5 +61,15 @@ namespace Simoja.Controllers
 
             return View("~/Views/Client/RegisterOlah.cshtml", model);
         }
+
+        [HttpGet("/clients/pengolahan/izin/teknologi/create")]
+        public IActionResult Choise(Guid izin)
+        {
+            return PartialView("~/Views/Client/JasaOlah/TeknologiChoice.cshtml", new KendaraanChoiceVM
+            {
+
+                IzinID = izin
+            });
+        }
     }
 }

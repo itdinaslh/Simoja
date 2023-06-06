@@ -57,6 +57,15 @@
                 }
                 @if (User.IsInRole("PkmOlah"))
                 {
+                    <li class='@(ViewBag.Title == "Teknologi" ? "active" : "")'>
+                        <a asp-controller="Teknologi" asp-action="Index" title="Data Teknologi" data-filter-tags="data teknologi">
+                            <i class="fal fa-recycle "></i>
+                            <span class="nav-link-text" data-i18n="nav.data_kendaraan"> Data Teknologi</span>
+                        </a>
+                    </li>
+                }
+                @if (User.IsInRole("PkmOlah"))
+                {
                     <li class='@(ViewBag.Title == "Lokasi Buang" ? "active" : "")'>
                         <a asp-controller="KendaraanAngkut" asp-action="Kendaraan" title="Data Lokasi Buang" data-filter-tags="data lokasi buang">
                             <i class="fal fa-building"></i>
