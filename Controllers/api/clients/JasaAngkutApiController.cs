@@ -13,10 +13,10 @@ public class JasaAngkutApiController : Controller {
     private readonly IKendaraan repo;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
-    private readonly IIzinAngkut izinRepo;
+    
 
-    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo, IIzinAngkut iRepo) {
-        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo; izinRepo = iRepo;
+    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo) {
+        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo;
     }
 
     [HttpPost("/api/clients/pengangkutan/kendaraan/list")]
@@ -149,9 +149,9 @@ public class JasaAngkutApiController : Controller {
                 lokasiAngkutID = c.LokasiAngkutID,
                 uniqueID = c.UniqueID,
                 namaLokasi = c.NamaLokasi,
-                kabupaten = c.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
-                kecamatan = c.Kelurahan.Kecamatan.NamaKecamatan,
-                kelurahan = c.Kelurahan.NamaKelurahan,
+                kabupaten = c.Kawasan.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                kecamatan = c.Kawasan.Kelurahan.Kecamatan.NamaKecamatan,
+                kelurahan = c.Kawasan.Kelurahan.NamaKelurahan,
                 tglAwalKontrak = c.TglAwalKontrak.ToString("dd/MM/yyyy"),
                 tglAkhirKontrak = c.TglAkhirKontrak.ToString("dd/MM/yyyy")
             })
@@ -235,6 +235,30 @@ public class JasaAngkutApiController : Controller {
             ).Select(jen => new {
                 id = jen.KendaraanID,
                 data = jen.NoPolisi
+            }).ToListAsync();
+
+        return Ok(data);
+    }
+
+    [HttpGet("/api/clients/pengangkutan/lokasi-angkut/search")]
+    public async Task<IActionResult> SearchLokasiAngkut(string? term)
+    {
+        string currentUser = User.Identity.Name;
+
+        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+            .Select(c => new
+            {
+                c.ClientID
+            })
+            .FirstOrDefaultAsync();
+
+        var data = await lokasiRepo.LokasiAngkuts
+            .Where(x => x.ClientID == thisClient.ClientID)
+            .Where(j => !String.IsNullOrEmpty(term) ?
+                j.NamaLokasi.ToLower().Contains(term.ToLower()) : true
+            ).Select(jen => new {
+                id = jen.LokasiAngkutID,
+                data = jen.NamaLokasi
             }).ToListAsync();
 
         return Ok(data);

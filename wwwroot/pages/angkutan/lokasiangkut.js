@@ -14,8 +14,7 @@ function loadTable() {
             url: '/api/clients/jasa/pengangkutan/lokasi-angkut/list',
             method: 'POST'
         },
-        columns: [
-            {data:'lokasiAngkutId', name:'lokasiAngkutId', searchable: false},
+        columns: [            
             {data:'namaLokasi', name:'namaLokasi'},
             {data:'kabupaten', name:'kabupaten', searchable: false, orderable: false},
             {data:'kecamatan', name:'kecamatan', searchable: false, orderable: false},

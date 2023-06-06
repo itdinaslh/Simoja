@@ -14,7 +14,7 @@ $(document).on('shown.bs.modal', '#myModal', function () {
         deleteElement()
         PopulateLokasi(0)
         PopulateTujuan(0)
-    });
+});
 
     function inputRepeater() {
         var i = 0;
@@ -22,15 +22,15 @@ $(document).on('shown.bs.modal', '#myModal', function () {
             ++i;
             $("#details").append(
                 `
-                <div class="row align-items-end">
+                <div class="row align-items-end mb-3">
                     <div class="col-3">
                         <label>Lokasi Pengangkutan</label>
-                        <select name="addmore[${i}][BarangID]" class="form-control cSelect" id="sLokasi${i}" required>
+                        <select name="addmore[${i}][BarangID]" class="form-control cSelect sLokasi" id="sLokasi${i}" required>
                         </select>
                     </div>
                     <div class="col-3">
                         <label>Tujuan</label>
-                        <select name="addmore[${i}][BarangID]" class="form-control cSelect" id="sTujuan${i}" required>
+                        <select name="addmore[${i}][BarangID]" class="form-control cSelect sTujuan" id="sTujuan${i}" required>
                         </select>
                     </div>
                     <div class="col-2">
@@ -62,16 +62,61 @@ $(document).on('shown.bs.modal', '#myModal', function () {
             })
         })
     }
-    function PopulateLokasi(i) {
-        $(`#sLokasi${i}`).select2({
+    function PopulateLokasi() {
+        $(`.sLokasi`).select2({
             placeholder: 'Pilih Lokasi...',
             dropdownParent: $('#myModal'),
+            ajax: {
+                url: '/api/clients/pengangkutan/lokasi-angkut/search',
+                data: function (params) {
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
+                },
+                dataType: 'json',
+                delay: 100,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.data,
+                                id: item.id
+                            }
+                        })
+                    }
+                },
+                cache: true
+            }
         });
     }
+
     function PopulateTujuan(i) {
-        $(`#sTujuan${i}`).select2({
+        $(`.sTujuan`).select2({
             placeholder: 'Pilih Tujuan...',
             dropdownParent: $('#myModal'),
+            ajax: {
+                url: '/api/master/lokasi-buang/search',
+                data: function (params) {
+                    var query = {
+                        term: params.term,
+                    };
+                    return query;
+                },
+                dataType: 'json',
+                delay: 100,
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                text: item.data,
+                                id: item.id
+                            }
+                        })
+                    }
+                },
+                cache: true
+            }
         });
     }
 
@@ -98,6 +143,28 @@ function PopulateKendaraan() {
     $('.vehicle').select2({
         placeholder: 'Pilih Kendaraan...',
         dropdownParent: $('#myModal'),
+        ajax: {
+            url: '/api/clients/pengangkutan/kendaraan/nopol/search',
+            data: function (params) {
+                var query = {
+                    term: params.term,
+                };
+                return query;
+            },
+            dataType: 'json',
+            delay: 100,
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.data,
+                            id: item.id
+                        }
+                    })
+                }
+            },
+            cache: true
+        }
     });
 }
 

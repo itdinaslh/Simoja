@@ -13,32 +13,25 @@ $(document).on('load', function () {
     $('#imgadded').val('');
 });
 
-$('#locationForm').submit(function (e) {
-    e.preventDefault();
-    var data = $('#imgadded').val();
-
-    if (data.length == 0) {
-        alert('Harap Upload Dokumen Kontrak Kerjasama!');
-    }
-    else {
-        $.ajax({
-            url: this.action,
-            method: this.method,
-            data: $(this).serialize(),
-            success: function (result) {
-                if (result.success) {
-                    window.location.href = '/clients/jasa/angkutan/lokasi';
-                }
-            }
-        });
-    }
-});
+//$('#locationForm').submit(function (e) {
+//    e.preventDefault();
+//    $.ajax({
+//        url: this.action,
+//        method: this.method,
+//        data: $(this).serialize(),
+//        success: function (result) {
+//            if (result.success) {
+//                window.location.href = '/clients/jasa/angkutan/lokasi';
+//            }
+//        }
+//    });
+//});
 
 function PopulateLokasiAngkut() {
     $('.sLokasi').select2({
         placeholder: 'Pilih Lokasi Angkut...',        
         ajax: {
-            url: '/api/master/usaha-kegiatan/kawasan/search',
+            url: '/api/clients/usaha-kegiatan/kawasan/search',
             data: function (params) {
                 var query = {
                     term: params.term,
@@ -59,6 +52,21 @@ function PopulateLokasiAngkut() {
             },
             cache: true
         }
+    }).on('change', function () {        
+        var theName = $('.sLokasi option:selected').text();
+        var theID = $('.sLokasi option:selected').val();
+        $.ajax({
+            url: '/api/clients/usaha-kegiatan/kawasan/getbyid/?id=' + theID,
+            method: 'GET',
+            success: function (result) {
+                $('#CityName').val(result.kota);
+                $('#DistrictName').val(result.kecamatan);
+                $('#KelurahanName').val(result.kelurahan);
+                $('#Alamat').val(result.alamat);
+
+                $('#LocName').val(theName);
+            }
+        })
     });
 }
 

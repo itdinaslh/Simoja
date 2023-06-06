@@ -26,4 +26,12 @@ public class AppDbContext : DbContext {
     public DbSet<LokasiIzin> LokasiIzins { get; set; }
     public DbSet<LokasiBuang> LokasiBuangs { get; set; }
     public DbSet<JenisIzinLingkungan> JenisIzinLingkungans { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<LokasiAngkut>()
+            .HasOne(l => l.Kawasan)
+            .WithMany(c => c.LokasiAngkuts)
+            .HasForeignKey(l => l.KawasanID);
+    }
 }

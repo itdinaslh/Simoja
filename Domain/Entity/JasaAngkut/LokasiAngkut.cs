@@ -12,6 +12,9 @@ public class LokasiAngkut {
 
     public Guid ClientID { get; set; }
 
+    [Required(ErrorMessage = "Harap pilih gedung/kawasan/nama usaha")]
+    public Guid KawasanID { get; set; } // refer to ClientID in table/class Client
+
     public Guid UniqueID { get; set; } = Guid.NewGuid();
 
     #nullable disable
@@ -19,20 +22,13 @@ public class LokasiAngkut {
     [MaxLength(100, ErrorMessage = "Maksimal 100 karakter")]
     public string NamaLokasi { get; set; }
 
-    [MaxLength(15)]
-    [Required(ErrorMessage = "Pilih Kelurahan")]
-    public string KelurahanID { get; set; }
-
-    [Required(ErrorMessage = "Alamat wajib diisi")]
-    public string Alamat { get; set; }
-
     public DateOnly TglAwalKontrak { get; set; }
 
     public DateOnly TglAkhirKontrak { get; set; }
 
     public Client Client { get; set; }
 
-    public Kelurahan Kelurahan { get; set; }
+    public Client Kawasan { get; set; }
 
     public DateTime? CreatedAt { get; set; } = DateTime.Now;
 

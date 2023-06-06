@@ -85,6 +85,8 @@ public class IzinAngkutController : Controller
             if (vehicle != null)
             {
                 await izinRepo.AddKendaraan(model.IzinID, vehicle);
+
+                return Json(Result.Success());
             }            
         }
 

@@ -13,20 +13,22 @@ public class LokasiAngkutService : ILokasiAngkut {
     public IQueryable<LokasiAngkut> LokasiAngkuts => context.LokasiAngkuts;
 
     public async Task SaveLokasiAngkutAsync(LokasiAngkut lokasi) {
-        #nullable disable
         if (lokasi.LokasiAngkutID == 0) {
             await context.AddAsync(lokasi);
         } else {
             var data = await context.LokasiAngkuts.FindAsync(lokasi.LokasiAngkutID);
 
-            data.NamaLokasi = lokasi.NamaLokasi;
-            data.KelurahanID = lokasi.KelurahanID;
-            data.Alamat = lokasi.Alamat;
-            data.TglAwalKontrak = lokasi.TglAwalKontrak;
-            data.TglAkhirKontrak = lokasi.TglAkhirKontrak;
-            data.UpdatedAt = DateTime.Now;
+            if (data != null)
+            {
+                data.NamaLokasi = lokasi.NamaLokasi;
+                data.KawasanID = lokasi.KawasanID;
+                data.TglAwalKontrak = lokasi.TglAwalKontrak;
+                data.TglAkhirKontrak = lokasi.TglAkhirKontrak;
+                data.UpdatedAt = DateTime.Now;
 
-            context.Update(data);
+                context.Update(data);
+            }
+            
         }
 
         await context.SaveChangesAsync();

@@ -344,5 +344,36 @@ public static class Upload
         return fileNameIzin;
     }
 
+    public static async Task<string> LokasiAngkut(IFormFile file, string userid)
+    {
+        string wwwPath = Uploads.Path;
+
+        string path = Path.Combine(wwwPath, @"clients/" + userid);
+
+        string lokasiPath = path + "/lokasi-angkut";
+        string extDoc = Path.GetExtension(file.FileName);
+        string fileNameDoc = FileName.GenerateRandomString().ToLower() + extDoc;
+
+        if (!Directory.Exists(lokasiPath))
+        {
+            Directory.CreateDirectory(lokasiPath);
+        }
+
+        using (FileStream stream = new(Path.Combine(lokasiPath, fileNameDoc), FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        if (!extDoc.Contains("pdf"))
+        {
+            Image image = Image.Load(file.OpenReadStream());
+            image.Mutate(x => x.Resize(600, 400));
+
+            image.Save(lokasiPath + "/" + "thumbnail-" + fileNameDoc);
+        }
+
+        return fileNameDoc;
+    }
+
 
 }

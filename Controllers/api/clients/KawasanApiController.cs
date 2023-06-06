@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Simoja.Repository;
+using Simoja.Entity;
 
 namespace Simoja.Controllers.api;
 
@@ -80,8 +81,8 @@ public class KawasanApiController : ControllerBase
 
 #nullable enable
 
-	[HttpGet("/api/master/usaha-kegiatan/kawasan/search")]
-	public async Task<IActionResult> Searc(string? term)
+	[HttpGet("/api/clients/usaha-kegiatan/kawasan/search")]
+	public async Task<IActionResult> Search(string? term)
 	{
 		var data = await clientRepo.Clients
             .Where(x => x.IsUsaha == true)
@@ -94,4 +95,20 @@ public class KawasanApiController : ControllerBase
 
 		return Ok(data);
 	}
+
+    [HttpGet("/api/clients/usaha-kegiatan/kawasan/getbyid")]
+    public async Task<IActionResult> GetKawasanByClientID(Guid id)
+    {
+        var data = await clientRepo.Clients
+            .Where(i => i.ClientID == id)
+            .Select(x => new
+            {
+                kota = x.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                kecamatan = x.Kelurahan.Kecamatan.NamaKecamatan,
+                kelurahan = x.Kelurahan.NamaKelurahan,
+                alamat = x.Alamat
+            }).FirstOrDefaultAsync();
+
+        return Ok(data);
+    }
 }

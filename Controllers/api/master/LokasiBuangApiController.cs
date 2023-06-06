@@ -16,7 +16,7 @@ public class LokasiBuangApiController : ControllerBase
     public LokasiBuangApiController(ILokasiBuang repo) { this.repo = repo; }
 
     [HttpGet("/api/master/lokasi-buang/search")]
-    public async Task<IActionResult> Searc(string? term)
+    public async Task<IActionResult> Search(string? term)
     {
         var data = await repo.LokasiBuangs
             .Where(j => !String.IsNullOrEmpty(term) ?
