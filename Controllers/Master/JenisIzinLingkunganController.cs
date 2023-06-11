@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Simoja.Entity;
-using Simoja.Repository;
+using SharedLibrary.Entities.Kawasan;
+using SharedLibrary.Repositories.Kawasan;
 using Simoja.Helpers;
 
 namespace Simoja.Controllers;

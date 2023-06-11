@@ -1,10 +1,10 @@
-@model JenisKendaraan
+@model SharedLibrary.Entities.Transportation.TipeKendaraan
 
 <form action="/master/kendaraan/jenis/save" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="JenisKendaraanID" />
+    <input type="hidden" asp-for="TipeKendaraanID" />
     <div class="modal-header bg-primary-700 bg-success-gradient">
-        @if (Model.JenisKendaraanID == 0)
+        @if (Model.TipeKendaraanID == 0)
         {
             <h4 class="modal-title">Tambah Jenis kendaraan</h4>
         }
@@ -17,14 +17,14 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            <label>Global ID</label>
-            <input type="text" asp-for="GlobalId" class="form-control" placeholder="Isi Global ID..." autocomplete="off" autofocus />
-            <span asp-validation-for="GlobalId" class="text-danger"></span>
+            <label>Kode</label>
+            <input type="text" asp-for="Kode" class="form-control" placeholder="Isi Kode..." autocomplete="off" autofocus />
+            <span asp-validation-for="Kode" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label>Nama Jenis Kendaraan</label>
-            <input type="text" asp-for="NamaJenis" class="form-control" placeholder="Isi nama jenis kendaraan..." autocomplete="off" />
-            <span asp-validation-for="NamaJenis" class="text-danger"></span>
+            <input type="text" asp-for="NamaTipe" class="form-control" placeholder="Isi nama jenis kendaraan..." autocomplete="off" />
+            <span asp-validation-for="NamaTipe" class="text-danger"></span>
         </div>
     </div>
     <div class="modal-footer">

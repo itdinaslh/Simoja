@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Entity;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Authorization;
+using SharedLibrary.Repositories.Kawasan;
 
 namespace Simoja.Controllers.api;
 

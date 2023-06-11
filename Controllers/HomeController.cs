@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
-using Simoja.Repository;
-using Simoja.Entity;
 using Simoja.Helpers;
+using SharedLibrary.Repositories.Common;
 
 namespace Simoja.Controllers;
 
@@ -28,7 +27,7 @@ public class HomeController : Controller
 
         string? currentUser = User.Identity?.Name;
 
-        var thisClient = await repo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await repo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new {
                 c.ClientID,
                 //c.JenisUsahaID,
@@ -69,28 +68,28 @@ public class HomeController : Controller
         return View("~/Views/Client/Usaha/Dashboard.cshtml");
     }
 
-    [HttpGet("/clients/profile")]
-    public async Task<IActionResult> Profile()
-    {
-        Client? client = await repo.Clients
-            //.Include(j => j.JenisUsaha)
-            .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
-            .FirstOrDefaultAsync(x => x.UserId == User.Identity!.Name);
+    //[HttpGet("/clients/profile")]
+    //public async Task<IActionResult> Profile()
+    //{
+    //    Client? client = await repo.Clients
+    //        //.Include(j => j.JenisUsaha)
+    //        .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
+    //        .FirstOrDefaultAsync(x => x.UserId == User.Identity!.Name);
 
-        if (client is not null)
-        {
-            return View(new ProfileVM
-            {
-                Client = client,                
-                NamaKelurahan = client.Kelurahan.NamaKelurahan,
-                KecamatanID = client.Kelurahan.KecamatanID,
-                NamaKecamatan = client.Kelurahan.Kecamatan.NamaKecamatan,
-                KabupatenID = client.Kelurahan.Kecamatan.KabupatenID,
-                NamaKabupaten = client.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten
-            });
-        }            
+    //    if (client is not null)
+    //    {
+    //        return View(new ProfileVM
+    //        {
+    //            Client = client,                
+    //            NamaKelurahan = client.Kelurahan.NamaKelurahan,
+    //            KecamatanID = client.Kelurahan.KecamatanID,
+    //            NamaKecamatan = client.Kelurahan.Kecamatan.NamaKecamatan,
+    //            KabupatenID = client.Kelurahan.Kecamatan.KabupatenID,
+    //            NamaKabupaten = client.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten
+    //        });
+    //    }            
 
-        return NotFound();
-    }
+    //    return NotFound();
+    //}
 
 }

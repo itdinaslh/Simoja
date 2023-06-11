@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Simoja.Repository;
-using Simoja.Entity;
 using Simoja.Helpers;
+using SharedLibrary.Repositories.Kawasan;
+using SharedLibrary.Entities.Kawasan;
 
 namespace Simoja.Controllers;
 
@@ -26,13 +26,13 @@ public class JenisKegiatanController : Controller {
         await repo.JenisKegiatans.FirstOrDefaultAsync(j => j.JenisKegiatanID == jenisID)
     );
 
-    [HttpPost("/master/kawasan/jenis/save")]
-    public async Task<IActionResult> SaveDataAsync(JenisKegiatan jenis) {
-        if (ModelState.IsValid) {
-            await repo.SaveDataAsync(jenis);
-            return Json(Result.Success());
-        }
+    //[HttpPost("/master/kawasan/jenis/save")]
+    //public async Task<IActionResult> SaveDataAsync(JenisKegiatan jenis) {
+    //    if (ModelState.IsValid) {
+    //        await repo.SaveDataAsync(jenis);
+    //        return Json(Result.Success());
+    //    }
         
-        return PartialView("~/Views/Master/JenisKegiatan/AddEdit.cshtml", jenis);
-    }
+    //    return PartialView("~/Views/Master/JenisKegiatan/AddEdit.cshtml", jenis);
+    //}
 }

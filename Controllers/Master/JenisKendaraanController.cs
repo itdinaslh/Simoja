@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Simoja.Repository;
-using Simoja.Entity;
 using Simoja.Helpers;
+using SharedLibrary.Repositories.Transportation;
+using SharedLibrary.Entities.Transportation;
 
 namespace Simoja.Controllers;
 
@@ -21,18 +21,18 @@ public class JenisKendaraanController : Controller {
     }
 
     [HttpGet("/master/kendaraan/jenis/create")]
-    public IActionResult Create() => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", new JenisKendaraan());
+    public IActionResult Create() => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", new TipeKendaraan());
 
     [HttpGet("/master/kendaraan/jenis/edit")]
     public async Task<IActionResult> Edit(int jenisId) => PartialView("~/Views/Master/JenisKendaraan/AddEdit.cshtml", 
-        await repo.JenisKendaraans.FirstOrDefaultAsync(j => j.JenisKendaraanID == jenisId)
+        await repo.TipeKendaraans.FirstOrDefaultAsync(j => j.TipeKendaraanID == jenisId)
     );
 
     [HttpPost("/master/kendaraan/jenis/save")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SaveDataAsync(JenisKendaraan model) {
+    public async Task<IActionResult> SaveDataAsync(TipeKendaraan model) {
         if (ModelState.IsValid) {
-            await repo.SaveJenisAsync(model);
+            await repo.SaveTipeAsync(model);
             return Json(Result.Success());
         }
 

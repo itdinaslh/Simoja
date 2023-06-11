@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Entity;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Authorization;
+using SharedLibrary.Repositories.Transportation;
 
 namespace Simoja.Controllers.api;
 
@@ -27,14 +26,14 @@ public class JenisKendaraanApiController : Controller {
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = repo.JenisKendaraans;
+        var init = repo.TipeKendaraans;
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
             init = init.OrderBy(sortColumn + " " + sortColumnDirection);
         }
 
         if (!string.IsNullOrEmpty(searchValue)) {
-            init = init.Where(a => a.NamaJenis.ToLower().Contains(searchValue.ToLower()));
+            init = init.Where(a => a.NamaTipe.ToLower().Contains(searchValue.ToLower()));
         }
 
         recordsTotal = init.Count();
@@ -49,12 +48,12 @@ public class JenisKendaraanApiController : Controller {
     [HttpGet("/api/master/kendaraan/jenis/search")]
     [AllowAnonymous]
     public async Task<IActionResult> SearchJenisKendaraan(string? term) {
-        var data = await repo.JenisKendaraans
+        var data = await repo.TipeKendaraans
             .Where(j => !String.IsNullOrEmpty(term) ?
-                j.NamaJenis.ToLower().Contains(term.ToLower()) : true            
+                j.NamaTipe.ToLower().Contains(term.ToLower()) : true            
             ).Select(jen => new {
-                id = jen.JenisKendaraanID,
-                namaJenis = jen.NamaJenis
+                id = jen.TipeKendaraanID,
+                namaJenis = jen.NamaTipe
             }).Take(10).ToListAsync();
 
         return Ok(data);
