@@ -9,7 +9,7 @@
     </div>
     <div class="modal-body">
         <div class="form-row">
-            <div class="form-group col-md-6 col-xs-12">
+            <div class="form-group col-md-4 col-xs-12">
                 <label for="">Tanggal <span class="text-danger">*</span></label>
                 <div class="input-group flex-nowrap">
                     <input type="text" asp-for="TglBerlakuSTNK" class="form-control datepicker" required>
@@ -20,53 +20,65 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group col-md-6 col-xs-12">
+            <div class="form-group col-md-4 col-xs-12">
                 <label>Lokasi Sumber <span class="text-danger">*</span></label>
                 <select asp-for="Kendaraan.JenisKendaraanId" class="form-control " id="sSumber" required></select>
             </div>
+            <div class="form-group col-md-4 col-xs-12">
+                <label>Nama Teknologi <span class="text-danger">*</span></label>
+                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control" id="Teknologi" required></select>
+            </div>
         </div>
-        <div class="form-group">
-            <label><b>Total Sampah yang Masuk/Diangkut ke TPS atau TPS 3R <span class="text-danger">0</span></b></label>
+        <div class="form-group">            
+            <div class="row mb-3">
+                <div class="col-md-6" style="font-size:18px;font-weight:bold;">
+                    Total Sampah yang Masuk/Diangkut ke TPS atau TPS 3R
+                </div>
+                <div class="col-md-6 text-danger text-right" style="font-size:18px;">
+                    Total : <span id="totalMasuk">0</span> KG
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-md-3 col-xs-12">
                     <label>Mudah Terurai <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input id="txtTerurai1" type="text" class="form-control autonumber">
                 </div>
                 <div class="form-group col-md-3 col-xs-12">
                     <label>Daur Ulang <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input id="txtUlang1" type="text" class="form-control autonumber">
                 </div>
                 <div class="form-group col-md-3 col-xs-12">
                     <label>Sampah B3 <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input id="txtB31" type="text" class="form-control autonumber">
                 </div>
                 <div class="form-group col-md-3 col-xs-12">
                     <label>Residu <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input id="txtResidu1" type="text" class="form-control autonumber">
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label><b>Pengolahan Sampah <span class="text-danger">0</span></b></label>
+            <div class="row mb-3">
+                <div class="col-md-6" style="font-size:18px;font-weight:bold;">
+                    Pengolahan Sampah
+                </div>
+                <div class="col-md-6 text-danger text-right" style="font-size:18px;">
+                    Total : <span id="totalOlah">0</span> KG
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-md-4 col-xs-12">
                     <label>Mudah Terurai <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input type="text" id="txtTerurai2" class="form-control autonumber">
                 </div>
                 <div class="form-group col-md-4 col-xs-12">
                     <label>Daur Ulang <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input type="text" id="txtUlang2" class="form-control autonumber">
                 </div>
                 <div class="form-group col-md-4 col-xs-12">
                     <label>Residu <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control ">
+                    <input type="text" id="txtResidu2" class="form-control" readonly>
                 </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-12 col-xs-12">
-                <label>Nama Teknologi <span class="text-danger">*</span></label>
-                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control" id="Teknologi" required></select>
             </div>
         </div>
     </div>

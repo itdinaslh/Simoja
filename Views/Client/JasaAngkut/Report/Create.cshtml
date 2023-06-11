@@ -1,8 +1,7 @@
-﻿@model KendaraanCreateVM
+﻿@model SpjVM
 
-<form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post" class="vehicleForm" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IzinID" />
+<form asp-controller="ReportAngkut" asp-action="StoreSPJ" method="post" class="vehicleForm" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()    
     <div class="modal-header bg-primary-700 bg-success-gradient">
         <h4 class="modal-title">Tambah SPJ</h4>
         <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
@@ -11,13 +10,13 @@
         <div class="form-row">
             <div class="form-group col-md-6 col-xs-12">
                 <label>No Polisi <span class="text-danger">*</span></label>
-                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control vehicle" required></select>
+                <select asp-for="SpjAngkut.KendaraanID" class="form-control vehicle" required></select>
             </div>
         
             <div class="form-group col-md-6 col-xs-12">
                 <label for="">Tanggal SPJ <span class="text-danger">*</span></label>
                 <div class="input-group flex-nowrap">
-                    <input type="text" asp-for="TglBerlakuSTNK" class="form-control datepicker" required>
+                    <input type="text" asp-for="TglSpj" class="form-control datepicker" required>
                     <div class="input-group-append">
                         <span class="input-group-text fs-xl">
                             <i class="fal fa-calendar"></i>
@@ -31,11 +30,11 @@
         </div>
         <div class="form-group">
             <div id="details">
-                <div class="row align-items-end mb-3">
+                <div class="row align-items-end mb-3 row0">
                     <div class="col-3">
                         <label>Lokasi Pengangkutan</label>
                         <div class="form-group">
-                            <select name="addmore[0][BarangID]" style="width: 100%" class="form-control sLokasi"
+                            <select asp-for="DetailSpjVMs[0].LokasiAngkutID" style="width: 100%" class="form-control sLokasi"
                                     id="sLokasi0" required>
                             </select>
                         </div>
@@ -44,7 +43,7 @@
                     <div class="col-3">
                         <label>Tujuan</label>
                         <div class="form-group">
-                            <select name="addmore[0][Tujuan]" style="width: 100%" class="form-control sTujuan"
+                            <select asp-for="DetailSpjVMs[0].LokasiBuangID" style="width: 100%" class="form-control sTujuan"
                                     id="sTujuan0" required>
                             </select>
                         </div>
@@ -52,27 +51,30 @@
                     </div>
                     <div class="col-2">
                         <label>Berat Sampah</label>
-                        <input type="text" id="vol0" name="addmore[0][Vol]" class="form-control "
+                        <input type="text" asp-for="DetailSpjVMs[0].Berat" class="form-control "
                                required />
                     </div>
                     <div class="col-3">
                         <label>Tanggal Pengangkutan</label>
-                        <input type="text" id="rharga0" name="addmore[0][Date]" class="form-control datepicker"
+                        <input type="text" asp-for="DetailSpjVMs[0].TglAngkut" class="form-control datepicker"
                                required />
                     </div>
                     <div class="col-1 px-0">
-                        <a class="btn btn-sm btn-danger text-light mb-1 deleteEl">Delete</a>
+                        <button type="button" class="btn btn-sm btn-danger text-light mb-1 deleteEl" data-item-id="0"><i class="fal fa-trash"></i></button>
                     </div>
                 </div>
             </div>
         </div>
-        <p id="tambahEl" class="btn btn-sm btn-primary mt-3 text-right text-decoration-underline"
+        <div class="text-center mt-3">
+            <button type="button" id="tambahEl" class="btn btn-sm btn-primary">Tambah Detail</button>
+        </div>
+        @*<p id="tambahEl" class="btn btn-sm btn-primary mt-3"
            style="cursor: pointer">
             <u>
                 Tambah
                 Details
             </u>
-        </p>
+        </p>*@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Tutup</button>

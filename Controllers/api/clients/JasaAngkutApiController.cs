@@ -13,10 +13,11 @@ public class JasaAngkutApiController : Controller {
     private readonly IKendaraan repo;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
+    private readonly IReportAngkut reportRepo;
     
 
-    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo) {
-        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo;
+    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo, IReportAngkut reportRepo) {
+        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo; this.reportRepo = reportRepo;
     }
 
     [HttpPost("/api/clients/pengangkutan/kendaraan/list")]
@@ -215,11 +216,12 @@ public class JasaAngkutApiController : Controller {
         return Ok(jsonData);
     }
 
+#nullable enable
 
     [HttpGet("/api/clients/pengangkutan/kendaraan/nopol/search")]
     public async Task<IActionResult> SearchByNoPolisi(string? term)
     {
-        string currentUser = User.Identity.Name;
+        string currentUser = User.Identity!.Name!;
 
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new
@@ -229,7 +231,7 @@ public class JasaAngkutApiController : Controller {
             .FirstOrDefaultAsync();
 
         var data = await repo.Kendaraans
-            .Where(x => x.ClientID == thisClient.ClientID)
+            .Where(x => x.ClientID == thisClient!.ClientID)
             .Where(j => !String.IsNullOrEmpty(term) ?
                 j.NoPolisi.ToLower().Contains(term.ToLower()) : true
             ).Select(jen => new {
@@ -243,7 +245,7 @@ public class JasaAngkutApiController : Controller {
     [HttpGet("/api/clients/pengangkutan/lokasi-angkut/search")]
     public async Task<IActionResult> SearchLokasiAngkut(string? term)
     {
-        string currentUser = User.Identity.Name;
+        string currentUser = User.Identity!.Name!;
 
         var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
             .Select(c => new
@@ -253,7 +255,7 @@ public class JasaAngkutApiController : Controller {
             .FirstOrDefaultAsync();
 
         var data = await lokasiRepo.LokasiAngkuts
-            .Where(x => x.ClientID == thisClient.ClientID)
+            .Where(x => x.ClientID == thisClient!.ClientID)
             .Where(j => !String.IsNullOrEmpty(term) ?
                 j.NamaLokasi.ToLower().Contains(term.ToLower()) : true
             ).Select(jen => new {
@@ -262,5 +264,64 @@ public class JasaAngkutApiController : Controller {
             }).ToListAsync();
 
         return Ok(data);
+    }
+
+    [HttpPost("/api/clients/pengangkutan/spj")]
+    public async Task<IActionResult> GetListSPJ()
+    {
+        string currentUser = User.Identity!.Name!;
+
+        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+            .Select(c => new
+            {
+                c.ClientID
+            })
+            .FirstOrDefaultAsync();
+
+        var draw = Request.Form["draw"].FirstOrDefault();
+        var start = Request.Form["start"].FirstOrDefault();
+        var length = Request.Form["length"].FirstOrDefault();
+        var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+        var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+        var searchValue = Request.Form["search[value]"].FirstOrDefault();
+        int pageSize = length != null ? Convert.ToInt32(length) : 0;
+        int skip = start != null ? Convert.ToInt32(start) : 0;
+        int recordsTotal = 0;
+
+        var init = reportRepo.SpjAngkuts
+            .Where(k => k.ClientID == thisClient!.ClientID);
+
+        if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+        {
+            init = init.OrderBy(sortColumn + " " + sortColumnDirection);
+        }
+
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            init = init.Where(a =>
+                a.NoPolisi.ToLower().Contains(searchValue.ToLower()) ||
+                a.NoPintu.ToLower().Contains(searchValue.ToLower())
+            );
+        }
+
+        recordsTotal = init.Count();
+
+        var result = await init
+            .Select(c => new
+            {
+                noSPJ = c.NoSPJ,                
+                noPolisi = c.NoPolisi,
+                noPintu = c.NoPintu,
+                noStruk = c.NoStruk,
+                tonase = c.TonaseTimbangan,
+                tglSPJ = c.TglSPJ.ToString("dd/MM/yyyy")                
+            })
+            .Skip(skip)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result };
+
+        return Ok(jsonData);
     }
 }

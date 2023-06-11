@@ -26,6 +26,8 @@ public class AppDbContext : DbContext {
     public DbSet<LokasiIzin> LokasiIzins { get; set; }
     public DbSet<LokasiBuang> LokasiBuangs { get; set; }
     public DbSet<JenisIzinLingkungan> JenisIzinLingkungans { get; set; }
+    public DbSet<SpjAngkut> SpjAngkuts { get; set; }
+    public DbSet<DetaillSpj> DetaillSpjs { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

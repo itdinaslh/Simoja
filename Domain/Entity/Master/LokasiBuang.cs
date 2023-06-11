@@ -17,4 +17,6 @@ public class LokasiBuang
     public string NamaLokasi { get; set; }
 
     public List<IzinAngkut> IzinAngkuts { get; set; }
+
+    public List<DetaillSpj> DetaillSpjs { get; set; }
 }

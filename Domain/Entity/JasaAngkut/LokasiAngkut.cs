@@ -7,8 +7,8 @@ namespace Simoja.Entity;
 [Table("LokasiAngkut")]
 [Index(nameof(UniqueID), IsUnique = true)]
 public class LokasiAngkut {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int LokasiAngkutID { get; set; }
+    [Key]
+    public Guid LokasiAngkutID { get; set; } = Guid.Empty;
 
     public Guid ClientID { get; set; }
 
@@ -38,4 +38,8 @@ public class LokasiAngkut {
     public string? DokumenPath { get; set; }
 
     public bool? IsApproved { get; set; } = false;
+
+#nullable disable
+
+    public List<DetaillSpj> DetailSpjs { get; set; }
 }

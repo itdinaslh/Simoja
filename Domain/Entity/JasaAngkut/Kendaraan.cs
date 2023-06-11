@@ -8,7 +8,7 @@ namespace Simoja.Entity;
 [Index(nameof(UniqueID), IsUnique = true)]
 public class Kendaraan {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Int64 KendaraanID { get; set; }
+    public long KendaraanID { get; set; }
 
     public Guid ClientID { get; set; }
 
@@ -55,5 +55,7 @@ public class Kendaraan {
     public Client Client { get; set; }
 
     public List<IzinAngkut> IzinAngkuts { get; set; }
+
+    public List<SpjAngkut> SpjAngkuts { get; set; }
 
 }

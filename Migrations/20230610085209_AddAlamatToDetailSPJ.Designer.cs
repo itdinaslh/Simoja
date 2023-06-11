@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Simoja.Data;
@@ -11,9 +12,10 @@ using Simoja.Data;
 namespace Simoja.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230610085209_AddAlamatToDetailSPJ")]
+    partial class AddAlamatToDetailSPJ
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -828,20 +830,16 @@ namespace Simoja.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("IsEmergency")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsFinished")
-                        .HasColumnType("boolean");
-
                     b.Property<long>("KendaraanID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("NoPintu")
+                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
                     b.Property<string>("NoPolisi")
+                        .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
@@ -849,15 +847,8 @@ namespace Simoja.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("NoStruk")
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-
                     b.Property<DateOnly>("TglSPJ")
                         .HasColumnType("date");
-
-                    b.Property<int?>("TonaseTimbangan")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
