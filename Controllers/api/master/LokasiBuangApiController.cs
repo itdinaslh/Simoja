@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Common;
 
 namespace Simoja.Controllers.api;
 

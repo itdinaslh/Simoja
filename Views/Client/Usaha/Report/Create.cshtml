@@ -2,7 +2,7 @@
 
 <form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post" class="vehicleForm" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IzinID" />
+    @*<input type="hidden" asp-for="IzinID" />*@
     <div class="modal-header bg-primary-700 bg-success-gradient">
         <h4 class="modal-title">Tambah SPJ</h4>
         <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group col-md-6 col-xs-12">
                 <label>Lokasi Sumber <span class="text-danger">*</span></label>
-                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control " id="sSumber" required></select>
+                <select asp-for="Kendaraan.TipeKendaraanID" class="form-control " id="sSumber" required></select>
             </div>
         </div>
         <div class="form-group">
@@ -66,11 +66,11 @@
         <div class="form-row">
             <div class="form-group col-md-6 col-xs-12">
                 <label>Nama Penyedia <span class="text-danger">*</span></label>
-                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control" id="penyedia" required></select>
+                <select asp-for="Kendaraan.TipeKendaraanID" class="form-control" id="penyedia" required></select>
             </div>
             <div class="form-group col-md-6 col-xs-12">
                 <label>No Polisi <span class="text-danger">*</span></label>
-                <select asp-for="Kendaraan.JenisKendaraanId" class="form-control vehicle" required></select>
+                <select asp-for="Kendaraan.TipeKendaraanID" class="form-control vehicle" required></select>
             </div>
         </div>
     </div>

@@ -1,35 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Simoja.Entity;
+using SharedLibrary.Entities.Common;
+using SharedLibrary.Entities.Transportation;
+using SharedLibrary.Repositories.Common;
+using SharedLibrary.Repositories.Transportation;
 using Simoja.Helpers;
 using Simoja.Models;
-using Simoja.Repository;
 
 namespace Simoja.Controllers;
 
 public class IzinAngkutController : Controller
 {
-    private readonly IIzinAngkut izinRepo;
     private readonly IKendaraan kRepo;
     private readonly IClient clientRepo;
+    private readonly IIzinAngkut izinRepo;
 
-    public IzinAngkutController(IIzinAngkut izinRepo, IClient client, IKendaraan kRepo)
-    {
-        this.izinRepo = izinRepo;
+    public IzinAngkutController(IClient client, IKendaraan kRepo, IIzinAngkut izinRepo)
+    {        
         this.kRepo = kRepo;
         clientRepo = client;
+        this.izinRepo = izinRepo;
+
     }
 
     [HttpGet("/clients/pengangkutan/izin")]
     public async Task<IActionResult> Perizinan()
     {
-        Guid? curClient = await clientRepo.Clients.Where(c => c.UserId == User.Identity!.Name!.ToString())
+        Guid? curClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == User.Identity!.Name!.ToString())
             .Select(cli => cli.ClientID)
             .FirstOrDefaultAsync();
 
         if (curClient != null)
         {
-            IzinAngkut? detail = await izinRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
+            IzinAngkut? detail = await clientRepo.IzinAngkuts.Where(ang => ang.ClientID == curClient).FirstOrDefaultAsync();
             return View("~/Views/Client/JasaAngkut/Perizinan.cshtml", new RegAngkutModel
             {
                 IzinAngkut = new IzinAngkut
@@ -43,10 +46,10 @@ public class IzinAngkutController : Controller
     }
 
     [HttpPost("/clients/pengangkutan/izin/store")]
-    // [ValidateAntiForgeryToken]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveIzinAngkut(RegAngkutModel model)
     {
-        Client? client = await clientRepo.Clients.Where(c => c.UserId == User.Identity!.Name).FirstOrDefaultAsync();
+        Client? client = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == User.Identity!.Name).FirstOrDefaultAsync();
 
         model.IzinAngkut.ClientID = client!.ClientID;
         model.IzinAngkut.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
@@ -87,7 +90,7 @@ public class IzinAngkutController : Controller
                 await izinRepo.AddKendaraan(model.IzinID, vehicle);
 
                 return Json(Result.Success());
-            }            
+            }
         }
 
         return PartialView("~/Views/Client/JasaAngkut/KendaraanChoice.cshtml", new KendaraanChoiceVM

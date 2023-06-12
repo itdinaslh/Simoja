@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
-                            <input type="text" class="form-control" value="@Model.Client.UserId" readonly required autocomplete="off" >
+                            <input type="text" class="form-control" value="@Model.Client.ClientPkm!.UserEmail" readonly required autocomplete="off">
                         </div>
                         <div class="form-group">
                             <label for="">Jenis Usaha</label>
@@ -34,7 +34,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Alamat</label>
-                            <input asp-for="Client.Alamat" class="form-control" required autocomplete="off" >
+                            <input asp-for="Client.ClientPkm!.Alamat" class="form-control" required autocomplete="off">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
@@ -53,47 +53,47 @@
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Kelurahan <span class="text-danger">*</span></label>
-                                <select asp-for="Client.KelurahanID" class="form-control" required autocomplete="off" >
-                                    <option value="@Model.Client.KelurahanID">@Model.NamaKelurahan</option>
+                                <select asp-for="Client.ClientPkm!.KelurahanID" class="form-control" required autocomplete="off">
+                                    <option value="@Model.Client.ClientPkm!.KelurahanID">@Model.NamaKelurahan</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Telp <span class="text-danger">*</span></label>
-                                <input class="form-control" asp-for="Client.Telp" autocomplete="off" >
+                                <input class="form-control" asp-for="Client.ClientPkm!.Telp" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Fax</label>
-                                <input asp-for="Client.Fax"  class="form-control" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.Fax" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Penanggung Jawab</label>
-                                <input asp-for="Client.PenanggungJawab" class="form-control" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.PenanggungJawab" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">PIC</label>
-                                <input asp-for="Client.PIC" class="form-control" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.PIC" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">No HP PIC</label>
-                                <input asp-for="Client.NoHpPIC" class="form-control" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.NoHpPIC" class="form-control" autocomplete="off">
                             </div>
                         </div>     
                         <div class="form-group">
                             <label for="">No Induk Berusaha</label>
-                            <input type="text" value="@Model.Client.NIB" readonly class="form-control" autocomplete="off">
+                            <input type="text" value="@Model.Client.ClientPkm!.NIB" readonly class="form-control" autocomplete="off">
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Latitude</label>
-                                <input asp-for="Client.Latitude" class="form-control" placeholder="Masukan koordinat lintang" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.Latitude" class="form-control" placeholder="Masukan koordinat lintang" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Longitude</label>
-                                <input asp-for="Client.Longitude" class="form-control" placeholder="Masukan koordinat bujur" autocomplete="off" >
+                                <input asp-for="Client.ClientPkm!.Longitude" class="form-control" placeholder="Masukan koordinat bujur" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group text-right">

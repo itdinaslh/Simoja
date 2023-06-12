@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Entity;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Authorization;
+using SharedLibrary.Repositories.Transportation;
+using SharedLibrary.Repositories.Common;
+using SharedLibrary.Entities.Common;
 
 namespace Simoja.Controllers.api;
 
@@ -13,11 +14,13 @@ public class JasaAngkutApiController : Controller {
     private readonly IKendaraan repo;
     private readonly IClient clientRepo;
     private readonly ILokasiAngkut lokasiRepo;
-    private readonly IReportAngkut reportRepo;
-    
+    //private readonly IReportAngkut reportRepo;
 
-    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokRepo, IReportAngkut reportRepo) {
-        repo = kRepo; clientRepo = cRepo; lokasiRepo = lokRepo; this.reportRepo = reportRepo;
+
+    public JasaAngkutApiController(IKendaraan kRepo, IClient cRepo, ILokasiAngkut lokasiRepo)
+    {
+        repo = kRepo; clientRepo = cRepo;
+        this.lokasiRepo = lokasiRepo;
     }
 
     [HttpPost("/api/clients/pengangkutan/kendaraan/list")]
@@ -26,7 +29,7 @@ public class JasaAngkutApiController : Controller {
 #nullable disable
         string currentUser = User.Identity.Name;
 
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new
             {
                 c.ClientID
@@ -64,14 +67,13 @@ public class JasaAngkutApiController : Controller {
         var result = await init
             .Select(c => new
             {
-                kendaraanId = c.KendaraanID,
-                uniqueId = c.UniqueID,
+                kendaraanId = c.KendaraanID,                
                 noPolisi = c.NoPolisi,
                 noPintu = c.NoPintu,
-                jenis = c.JenisKendaraan.NamaJenis,
-                tahunPembuatan = c.TahunPembuatan,
-                tglSTNK = c.TglSTNK.ToString("dd/MM/yyyy"),
-                tglKIR = c.TglKIR.ToString("dd/MM/yyyy")
+                jenis = c.TipeKendaraan.NamaTipe,
+                tahunPembuatan = c.DokumenKendaraan!.TahunPembuatan,
+                tglSTNK = c.DokumenKendaraan.TglSTNK.ToString("dd/MM/yyyy"),
+                tglKIR = c.DokumenKendaraan.TglKIR.ToString("dd/MM/yyyy")
             })
             .Skip(skip)
             .Take(pageSize)
@@ -94,14 +96,13 @@ public class JasaAngkutApiController : Controller {
             )
             .Select(x => new
             {
-                x.KendaraanID,
-                x.UniqueID,
+                x.KendaraanID,                
                 x.NoPolisi,
                 x.NoPintu,
-                jenis = x.JenisKendaraan.NamaJenis,
-                tahunPembuatan = x.TahunPembuatan,
-                tglSTNK = x.TglSTNK.ToString("dd/MM/yyyy"),
-                tglKIR = x.TglKIR.ToString("dd/MM/yyyy")
+                jenis = x.TipeKendaraan.NamaTipe,
+                tahunPembuatan = x.DokumenKendaraan!.TahunPembuatan,
+                tglSTNK = x.DokumenKendaraan!.TglSTNK.ToString("dd/MM/yyyy"),
+                tglKIR = x.DokumenKendaraan!.TglKIR.ToString("dd/MM/yyyy")
             })
             .OrderByDescending(x => x.KendaraanID)
             .ToListAsync();
@@ -114,7 +115,7 @@ public class JasaAngkutApiController : Controller {
         #nullable disable
         string currentUser = User.Identity.Name;
         
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new {
                 c.ClientID
             })
@@ -150,9 +151,9 @@ public class JasaAngkutApiController : Controller {
                 lokasiAngkutID = c.LokasiAngkutID,
                 uniqueID = c.UniqueID,
                 namaLokasi = c.NamaLokasi,
-                kabupaten = c.Kawasan.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
-                kecamatan = c.Kawasan.Kelurahan.Kecamatan.NamaKecamatan,
-                kelurahan = c.Kawasan.Kelurahan.NamaKelurahan,
+                kabupaten = c.Kawasan.ClientPkm!.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten,
+                kecamatan = c.Kawasan.ClientPkm!.Kelurahan.Kecamatan.NamaKecamatan,
+                kelurahan = c.Kawasan.ClientPkm!.Kelurahan.NamaKelurahan,
                 tglAwalKontrak = c.TglAwalKontrak.ToString("dd/MM/yyyy"),
                 tglAkhirKontrak = c.TglAkhirKontrak.ToString("dd/MM/yyyy")
             })
@@ -171,7 +172,7 @@ public class JasaAngkutApiController : Controller {
     {
         string currentUser = User.Identity.Name;
         
-        Client thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        Client thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .FirstOrDefaultAsync();        
 
         var draw = Request.Form["draw"].FirstOrDefault();
@@ -223,7 +224,7 @@ public class JasaAngkutApiController : Controller {
     {
         string currentUser = User.Identity!.Name!;
 
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new
             {
                 c.ClientID
@@ -247,7 +248,7 @@ public class JasaAngkutApiController : Controller {
     {
         string currentUser = User.Identity!.Name!;
 
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new
             {
                 c.ClientID
@@ -266,62 +267,62 @@ public class JasaAngkutApiController : Controller {
         return Ok(data);
     }
 
-    [HttpPost("/api/clients/pengangkutan/spj")]
-    public async Task<IActionResult> GetListSPJ()
-    {
-        string currentUser = User.Identity!.Name!;
+    //[HttpPost("/api/clients/pengangkutan/spj")]
+    //public async Task<IActionResult> GetListSPJ()
+    //{
+    //    string currentUser = User.Identity!.Name!;
 
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
-            .Select(c => new
-            {
-                c.ClientID
-            })
-            .FirstOrDefaultAsync();
+    //    var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
+    //        .Select(c => new
+    //        {
+    //            c.ClientID
+    //        })
+    //        .FirstOrDefaultAsync();
 
-        var draw = Request.Form["draw"].FirstOrDefault();
-        var start = Request.Form["start"].FirstOrDefault();
-        var length = Request.Form["length"].FirstOrDefault();
-        var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-        var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-        var searchValue = Request.Form["search[value]"].FirstOrDefault();
-        int pageSize = length != null ? Convert.ToInt32(length) : 0;
-        int skip = start != null ? Convert.ToInt32(start) : 0;
-        int recordsTotal = 0;
+    //    var draw = Request.Form["draw"].FirstOrDefault();
+    //    var start = Request.Form["start"].FirstOrDefault();
+    //    var length = Request.Form["length"].FirstOrDefault();
+    //    var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
+    //    var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
+    //    var searchValue = Request.Form["search[value]"].FirstOrDefault();
+    //    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+    //    int skip = start != null ? Convert.ToInt32(start) : 0;
+    //    int recordsTotal = 0;
 
-        var init = reportRepo.SpjAngkuts
-            .Where(k => k.ClientID == thisClient!.ClientID);
+    //    var init = reportRepo.SpjAngkuts
+    //        .Where(k => k.ClientID == thisClient!.ClientID);
 
-        if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-        {
-            init = init.OrderBy(sortColumn + " " + sortColumnDirection);
-        }
+    //    if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
+    //    {
+    //        init = init.OrderBy(sortColumn + " " + sortColumnDirection);
+    //    }
 
-        if (!string.IsNullOrEmpty(searchValue))
-        {
-            init = init.Where(a =>
-                a.NoPolisi.ToLower().Contains(searchValue.ToLower()) ||
-                a.NoPintu.ToLower().Contains(searchValue.ToLower())
-            );
-        }
+    //    if (!string.IsNullOrEmpty(searchValue))
+    //    {
+    //        init = init.Where(a =>
+    //            a.NoPolisi.ToLower().Contains(searchValue.ToLower()) ||
+    //            a.NoPintu.ToLower().Contains(searchValue.ToLower())
+    //        );
+    //    }
 
-        recordsTotal = init.Count();
+    //    recordsTotal = init.Count();
 
-        var result = await init
-            .Select(c => new
-            {
-                noSPJ = c.NoSPJ,                
-                noPolisi = c.NoPolisi,
-                noPintu = c.NoPintu,
-                noStruk = c.NoStruk,
-                tonase = c.TonaseTimbangan,
-                tglSPJ = c.TglSPJ.ToString("dd/MM/yyyy")                
-            })
-            .Skip(skip)
-            .Take(pageSize)
-            .ToListAsync();
+    //    var result = await init
+    //        .Select(c => new
+    //        {
+    //            noSPJ = c.NoSPJ,                
+    //            noPolisi = c.NoPolisi,
+    //            noPintu = c.NoPintu,
+    //            noStruk = c.NoStruk,
+    //            tonase = c.TonaseTimbangan,
+    //            tglSPJ = c.TglSPJ.ToString("dd/MM/yyyy")                
+    //        })
+    //        .Skip(skip)
+    //        .Take(pageSize)
+    //        .ToListAsync();
 
-        var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result };
+    //    var jsonData = new { draw, recordsFiltered = recordsTotal, recordsTotal, data = result };
 
-        return Ok(jsonData);
-    }
+    //    return Ok(jsonData);
+    //}
 }

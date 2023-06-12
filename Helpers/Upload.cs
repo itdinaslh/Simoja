@@ -1,7 +1,4 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-
-namespace Simoja.Helpers;
+﻿namespace Simoja.Helpers;
 
 public static class Upload
 {

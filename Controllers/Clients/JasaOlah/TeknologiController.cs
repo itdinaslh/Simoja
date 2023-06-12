@@ -9,15 +9,15 @@ namespace Simoja.Controllers.Clients.JasaOlah
         [HttpGet("/clients/pengolahan/teknologi")]
         public IActionResult Index() => View("~/Views/Client/JasaOlah/Teknologi.cshtml");
 
-        [HttpGet("/clients/pengolahan/teknologi/create")]
-        public IActionResult Create(Guid izin)
-        {
-            return PartialView("~/Views/Client/JasaOlah/TeknologiCreate.cshtml", new KendaraanCreateVM
-            {
-                Kendaraan = new Kendaraan(),
-                IzinID = izin
-            });
-        }
+        //[HttpGet("/clients/pengolahan/teknologi/create")]
+        //public IActionResult Create(Guid izin)
+        //{
+        //    return PartialView("~/Views/Client/JasaOlah/TeknologiCreate.cshtml", new KendaraanCreateVM
+        //    {
+        //        Kendaraan = new Kendaraan(),
+        //        IzinID = izin
+        //    });
+        //}
     }
 
     

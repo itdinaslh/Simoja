@@ -63,7 +63,7 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Email Login <span class="text-danger">*</span></label>
-                                                    <input type="text" asp-for="Client.UserId" class="form-control" value="@User.Identity!.Name" readonly placeholder="Email Login" required />                                                    
+                                                    <input type="text" asp-for="Client.ClientPkm!.UserEmail" class="form-control" value="@User.Identity!.Name" readonly placeholder="Email Login" required />                                                    
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -77,20 +77,20 @@
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">No Telp <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.Telp" class="form-control" placeholder="No Telp" autofocus required />
-                                                    <span asp-validation-for="Client.Telp" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.Telp" class="form-control" placeholder="No Telp" autofocus required />
+                                                    <span asp-validation-for="Client.ClientPkm!.Telp" class="text-danger"></span>
                                                 </div>
                                             </div>                                            
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">No. Fax</label>
-                                                    <input asp-for="Client.Fax" class="form-control" placeholder="No. Fax" />
+                                                    <input asp-for="Client.ClientPkm!.Fax" class="form-control" placeholder="No. Fax" />
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nomor Induk Berusaha (NIB)</label>
-                                                    <input asp-for="Client.NIB" class="form-control" placeholder="NIB" />                                                    
+                                                    <input asp-for="Client.ClientPkm!.NIB" class="form-control" placeholder="NIB" />                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -121,8 +121,8 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Kelurahan <span class="text-danger">*</span></label>
-                                                    <select id="Client_KelurahanID" asp-for="Client.KelurahanID" class="form-control sKelurahan" required></select>
-                                                    <span asp-validation-for="Client.KelurahanID" class="text-danger"></span>
+                                                    <select id="Client_KelurahanID" asp-for="Client.ClientPkm!.KelurahanID" class="form-control sKelurahan" required></select>
+                                                    <span asp-validation-for="Client.ClientPkm!.KelurahanID" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -130,8 +130,8 @@
                                             <div class="col-md-12">
                                                 <div class="mb-3">
                                                     <label class="form-label">Alamat <span class="text-danger">*</span></label>
-                                                    <textarea asp-for="Client.Alamat" class="form-control" rows="3"></textarea>
-                                                    <span asp-validation-for="Client.Alamat" class="text-danger"></span>
+                                                    <textarea asp-for="Client.ClientPkm!.Alamat" class="form-control" rows="3"></textarea>
+                                                    <span asp-validation-for="Client.ClientPkm!.Alamat" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -145,22 +145,22 @@
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nama Penanggung Jawab <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.PenanggungJawab" class="form-control" placeholder="Penanggung Jawab" required />
-                                                    <span asp-validation-for="Client.PenanggungJawab" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.PenanggungJawab" class="form-control" placeholder="Penanggung Jawab" required />
+                                                    <span asp-validation-for="Client.ClientPkm!.PenanggungJawab" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">NIK / No. KTP Penanggung Jawab <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.NIK" class="form-control" placeholder="NIK Penanggung Jawab" required />
-                                                    <span asp-validation-for="Client.NIK" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.NIK" class="form-control" placeholder="NIK Penanggung Jawab" required />
+                                                    <span asp-validation-for="Client.ClientPkm!.NIK" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="mb-3">
                                                     <label class="form-label">No. NPWP Penanggung Jawab <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.NPWP" class="form-control" placeholder="No. NPWP Penanggung Jawab" required />
-                                                    <span asp-validation-for="Client.NPWP" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.NPWP" class="form-control" placeholder="No. NPWP Penanggung Jawab" required />
+                                                    <span asp-validation-for="Client.ClientPkm!.NPWP" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -168,15 +168,15 @@
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Nama PIC <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.PIC" class="form-control" placeholder="Nama PIC" required />
-                                                    <span asp-validation-for="Client.PIC" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.PIC" class="form-control" placeholder="Nama PIC" required />
+                                                    <span asp-validation-for="Client.ClientPkm!.PIC" class="text-danger"></span>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="mb-3">
                                                     <label class="form-label">Telepon PIC <span class="text-danger">*</span></label>
-                                                    <input asp-for="Client.NoHpPIC" class="form-control" placeholder="Telepon PIC" required />
-                                                    <span asp-validation-for="Client.NoHpPIC" class="text-danger"></span>
+                                                    <input asp-for="Client.ClientPkm!.NoHpPIC" class="form-control" placeholder="Telepon PIC" required />
+                                                    <span asp-validation-for="Client.ClientPkm!.NoHpPIC" class="text-danger"></span>
                                                 </div>
                                             </div>
                                         </div>

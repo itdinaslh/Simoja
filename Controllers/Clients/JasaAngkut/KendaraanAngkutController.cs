@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Simoja.Entity;
 using Simoja.Models;
-using Simoja.Repository;
 using Simoja.Helpers;
+using SharedLibrary.Repositories.Transportation;
+using SharedLibrary.Repositories.Common;
+using SharedLibrary.Entities.Transportation;
 
 namespace Simoja.Controllers;
 
@@ -25,7 +26,7 @@ public class KendaraanAngkutController : Controller
     {
         string? currentUser = User.Identity!.Name;
 
-        var thisClient = await clientRepo.Clients.Where(c => c.UserId == currentUser)
+        var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new {
                 c.ClientID
             })
@@ -51,12 +52,17 @@ public class KendaraanAngkutController : Controller
     }
 
     [HttpGet("/clients/pengangkutan/kendaraan/create")]
-    public IActionResult Create(Guid izin)
+    public IActionResult Create()
     {
         return PartialView("~/Views/Client/JasaAngkut/KendaraanCreate.cshtml", new KendaraanCreateVM
         {
-            Kendaraan = new Kendaraan(),
-            IzinID = izin
+            Kendaraan = new Kendaraan
+            {
+                DokumenKendaraan = new DokumenKendaraan
+                {
+                    DokumenKendaraanID = Guid.NewGuid()
+                }
+            }            
         });
     }
 
@@ -64,35 +70,26 @@ public class KendaraanAngkutController : Controller
     public async Task<IActionResult> StoreKendaraan(KendaraanCreateVM model)
     {
         var client = await clientRepo.Clients
-            .Where(c => c.UserId == User.Identity!.Name)
+            .Where(c => c.ClientPkm!.UserEmail == User.Identity!.Name)
             .Select(c => new {
                 c.ClientID
             })
             .FirstOrDefaultAsync();
 
-        var kendaraan = await vehicle.Kendaraans
-            .Where(v => v.KendaraanID == model.Kendaraan.KendaraanID)
-            .FirstOrDefaultAsync();
+        //var kendaraan = await vehicle.Kendaraans
+        //    .Where(v => v.KendaraanID == model.Kendaraan.KendaraanID)
+        //    .FirstOrDefaultAsync();
 
         Guid uid = Guid.NewGuid();
-
-        if (kendaraan is not null)
-        {
-            uid = kendaraan.UniqueID;
-        }
-        else
-        {
-            uid = model.UID;
-        }
-
-        model.Kendaraan.ClientID = client!.ClientID;        
-        model.Kendaraan.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
-        model.Kendaraan.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");
-        model.Kendaraan.UniqueID = uid;
-        model.Kendaraan.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString(), uid.ToString());
-        model.Kendaraan.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString(), uid.ToString());
-        model.Kendaraan.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString(), uid.ToString());
-        model.Kendaraan.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString(), uid.ToString());
+        
+        model.Kendaraan.ClientID = client!.ClientID;
+        model.Kendaraan.StatusID = 3;
+        model.Kendaraan.DokumenKendaraan!.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
+        model.Kendaraan.DokumenKendaraan!.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");        
+        model.Kendaraan.DokumenKendaraan!.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.DokumenKendaraan!.DokumenKIR = await Upload.KIR(model.FileKIR, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.DokumenKendaraan!.BuktiUjiEmisi = await Upload.UjiEmisi(model.FileUjiEmisi, client!.ClientID.ToString(), uid.ToString());
+        model.Kendaraan.DokumenKendaraan!.FotoKendaraan = await Upload.FotoKendaraan(model.FotoKendaraan, client!.ClientID.ToString(), uid.ToString());
 
         if (ModelState.IsValid)
         {

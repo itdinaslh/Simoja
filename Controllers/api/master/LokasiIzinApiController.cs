@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Common;
 
 namespace Simoja.Controllers.api;
 
@@ -16,7 +16,7 @@ public class LokasiIzinApiController : ControllerBase
     public LokasiIzinApiController(ILokasiIzin repo) { this.repo = repo; }
 
     [HttpGet("/api/master/lokasi-izin/search")]
-    public async Task<IActionResult> Searc(string? term)
+    public async Task<IActionResult> Search(string? term)
     {
         var data = await repo.LokasiIzins
             .Where(j => !String.IsNullOrEmpty(term) ?

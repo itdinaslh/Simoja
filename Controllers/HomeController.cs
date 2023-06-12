@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Helpers;
 using SharedLibrary.Repositories.Common;
+using SharedLibrary.Entities.Common;
 
 namespace Simoja.Controllers;
 
@@ -68,28 +69,28 @@ public class HomeController : Controller
         return View("~/Views/Client/Usaha/Dashboard.cshtml");
     }
 
-    //[HttpGet("/clients/profile")]
-    //public async Task<IActionResult> Profile()
-    //{
-    //    Client? client = await repo.Clients
-    //        //.Include(j => j.JenisUsaha)
-    //        .Include(kel => kel.Kelurahan.Kecamatan.Kabupaten)
-    //        .FirstOrDefaultAsync(x => x.UserId == User.Identity!.Name);
+    [HttpGet("/clients/profile")]
+    public async Task<IActionResult> Profile()
+    {
+        Client? client = await repo.Clients
+            //.Include(j => j.JenisUsaha)
+            .Include(kel => kel.ClientPkm!.Kelurahan.Kecamatan.Kabupaten)
+            .FirstOrDefaultAsync(x => x.ClientPkm!.UserEmail == User.Identity!.Name);
 
-    //    if (client is not null)
-    //    {
-    //        return View(new ProfileVM
-    //        {
-    //            Client = client,                
-    //            NamaKelurahan = client.Kelurahan.NamaKelurahan,
-    //            KecamatanID = client.Kelurahan.KecamatanID,
-    //            NamaKecamatan = client.Kelurahan.Kecamatan.NamaKecamatan,
-    //            KabupatenID = client.Kelurahan.Kecamatan.KabupatenID,
-    //            NamaKabupaten = client.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten
-    //        });
-    //    }            
+        if (client is not null)
+        {
+            return View(new ProfileVM
+            {
+                Client = client,
+                NamaKelurahan = client.ClientPkm!.Kelurahan.NamaKelurahan,
+                KecamatanID = client.ClientPkm!.Kelurahan.KecamatanID,
+                NamaKecamatan = client.ClientPkm!.Kelurahan.Kecamatan.NamaKecamatan,
+                KabupatenID = client.ClientPkm!.Kelurahan.Kecamatan.KabupatenID,
+                NamaKabupaten = client.ClientPkm!.Kelurahan.Kecamatan.Kabupaten.NamaKabupaten
+            });
+        }
 
-    //    return NotFound();
-    //}
+        return NotFound();
+    }
 
 }

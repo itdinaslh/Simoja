@@ -2,7 +2,7 @@
 
 <form asp-controller="KendaraanAngkut" asp-action="StoreKendaraan" method="post" class="vehicleForm" enctype="multipart/form-data">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="IzinID" />
+    <input type="hidden" asp-for="Kendaraan.DokumenKendaraan!.DokumenKendaraanID" />
     <div class="modal-header bg-primary-700 bg-success-gradient">
         <h4 class="modal-title">Tambah Kendaraan</h4>
         <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
@@ -24,7 +24,7 @@
             <div class="form-group col-md-4">
                 <div class="form-group">
                     <label for="">Jenis Kendaraan <span class="text-danger">*</span></label>
-                    <select asp-for="Kendaraan.JenisKendaraanId" class="form-control vehicleType" required></select>
+                    <select asp-for="Kendaraan.TipeKendaraanID" class="form-control vehicleType" required></select>
                 </div>
             </div>
         </div>              
@@ -53,7 +53,7 @@
             </div>
             <div class="form-group col-md-4 col-xs-12">
                 <label for="">Tahun Pembuatan <span class="text-danger">*</span></label>
-                <input type="number" asp-for="Kendaraan.TahunPembuatan" class="form-control" required />
+                <input type="number" asp-for="Kendaraan.DokumenKendaraan!.TahunPembuatan" class="form-control" required />
             </div>
         </div>
         <div class="row">

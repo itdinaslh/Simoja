@@ -1,4 +1,4 @@
-using Simoja.Entity;
+using SharedLibrary.Entities.Transportation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Simoja.Models;
@@ -6,8 +6,6 @@ namespace Simoja.Models;
 public class KendaraanCreateVM {
     #nullable disable    
     public Kendaraan Kendaraan { get; set; }
-
-    public Guid IzinID { get; set; }
 
     [Required]
     public string TglBerlakuSTNK { get; set; }

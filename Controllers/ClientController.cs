@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
-using Simoja.Repository;
 using Simoja.Helpers;
-using Simoja.Entity;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using SharedLibrary.Repositories.Common;
+using SharedLibrary.Entities.Common;
 
 namespace Simoja.Controllers;
 
@@ -35,18 +35,21 @@ public class ClientController : Controller {
             {
                 Client = new Client
                 {
-                    ClientID = Guid.Parse(uid)
+                    ClientID = Guid.Parse(uid),
+                    ClientPkm = new()
                 }
             });
 
-        if (User.IsInRole("PkmAngkut"))
-            return RedirectToAction("RegisterAngkut");
-        else if (User.IsInRole("PkmOlah"))
-            return RedirectToAction("RegisterOlah");
-        else if (User.IsInRole("PkmAngkutOlah"))
-            return NotFound();
-        else
-            return RedirectToAction("RegisterUsaha");
+        //if (User.IsInRole("PkmAngkut"))
+        //    return RedirectToAction("RegisterAngkut");
+        //else if (User.IsInRole("PkmOlah"))
+        //    return RedirectToAction("RegisterOlah");
+        //else if (User.IsInRole("PkmAngkutOlah"))
+        //    return NotFound();
+        //else
+        //    return RedirectToAction("RegisterUsaha");
+
+        return RedirectToAction("Index", "Home");
 
     }
 
@@ -56,20 +59,22 @@ public class ClientController : Controller {
         string uid = ((ClaimsIdentity)User.Identity!).Claims.Where(c => c.Type == "sub").Select(c => c.Value).SingleOrDefault();
 
         model.Client.ClientID = Guid.Parse(uid);
+        model.Client.IsB2B = true;
+        model.Client.ClientPkm.ClientPkmID = Guid.NewGuid();
 
         if (ModelState.IsValid)
         {
             if (User.IsInRole("PkmAngkut"))
             {
-                model.Client.IsAngkut = true;                
+                model.Client.ClientPkm.IsAngkut = true;                
             }
             if (User.IsInRole("PkmOlah"))
             {
-                model.Client.IsOlah = true;                
+                model.Client.ClientPkm.IsOlah = true;                
             }           
             if (User.IsInRole("PkmUsaha"))
             {
-               model.Client.IsUsaha = true;
+               model.Client.ClientPkm.IsUsaha = true;
             }
 
             string fileNameKTP = await Upload.KTP(model.FileKTP, uid);
@@ -81,13 +86,13 @@ public class ClientController : Controller {
                 fileNameNIB = await Upload.NIB(model.FileNIB, uid);
             }
 
-            model.Client.DokumenKTP = fileNameKTP;
-            model.Client.DokumenNIB = fileNameNIB;
-            model.Client.DokumenNPWP = fileNameNPWP;			
+            model.Client.ClientPkm.DokumenKTP = fileNameKTP;
+            model.Client.ClientPkm.DokumenNIB = fileNameNIB;
+            model.Client.ClientPkm.DokumenNPWP = fileNameNPWP;			
 
             try
             {
-				await repo.SaveClientAsync(model);
+				await repo.SaveClientAsync(model.Client);
 			}
             catch
             {
@@ -104,85 +109,32 @@ public class ClientController : Controller {
 
     // Verifikasi Client
 
-    [HttpPost("/api/admin/clients/verifikasi")]    
-    public async Task<IActionResult> Verifikasi()
-    {
-        var data = Request.Form["theID"].FirstOrDefault();
+//    [HttpPost("/api/admin/clients/verifikasi")]    
+//    public async Task<IActionResult> Verifikasi()
+//    {
+//        var data = Request.Form["theID"].FirstOrDefault();
 
-#nullable enable
-        Client? client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == Guid.Parse(data!));
+//#nullable enable
+//        Client? client = await repo.Clients.FirstOrDefaultAsync(x => x.ClientID == Guid.Parse(data!));
 
 
-        if (client is not null)
-        {
-            await repo.VerifikasiClient(client);
+//        if (client is not null)
+//        {
+//            await repo.VerifikasiClient(client);
 
-            return Json(Result.Success());
-        }
+//            return Json(Result.Success());
+//        }
 
-        return NotFound();
-    }
+//        return NotFound();
+//    }
 
     // Upload Function
 #nullable disable
-    [HttpPost("/clients/upload/izin")]
-    public async Task<IActionResult> UploadIzin(List<IFormFile> files, string id)
-    {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
-
-        foreach (var file in files)
-        {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/izin/" + id);
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //get file extension
-            FileInfo fileInfo = new(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-        }
-
-        return Json(Result.Success());
-    }
-
-    [HttpPost("/clients/upload/nib")]
-    public async Task<IActionResult> UploadNIB(List<IFormFile> files)
-    {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
-
-        foreach (var file in files)
-        {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/upload/" + c.ClientID + "/nib");
-
-            //create folder if not exist
-            if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
-
-            //get file extension
-            FileInfo fileInfo = new(file.FileName);
-            string fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-
-            string fileNameWithPath = Path.Combine(path, fileName);
-
-            using var stream = new FileStream(fileNameWithPath, FileMode.Create);
-            await file.CopyToAsync(stream);
-
-        }
-
-        return Json(Result.Success());
-    }
 
     [HttpPost("/clients/upload/wadah")]
     public async Task<IActionResult> UploadWadah(List<IFormFile> files)
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files)
         {
@@ -209,7 +161,7 @@ public class ClientController : Controller {
     [HttpPost("/clients/upload/tps")]
     public async Task<IActionResult> UploadTPS(List<IFormFile> files)
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files)
         {
@@ -236,7 +188,7 @@ public class ClientController : Controller {
     [HttpPost("/clients/upload/pengolahan")]
     public async Task<IActionResult> UploadPengolahan(List<IFormFile> files)
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         foreach (var file in files)
         {
@@ -265,8 +217,7 @@ public class ClientController : Controller {
     [HttpGet("/clients/dokumen/izin")]
     public async Task<JsonResult> GetFolderIzinContents(string id)
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
-
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
         var folderPath = "wwwroot/upload/" + c.ClientID + "/izin/" + id;
 
         if (!Directory.Exists(folderPath))
@@ -296,7 +247,7 @@ public class ClientController : Controller {
     [HttpGet("/clients/dokumen/nib")]
     public async Task<JsonResult> GetFolderNIBContents()
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/nib";
 
@@ -327,7 +278,7 @@ public class ClientController : Controller {
     [HttpGet("/clients/dokumen/wadah")]
     public async Task<JsonResult> GetFolderWadahContents()
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/wadah";
 
@@ -358,7 +309,7 @@ public class ClientController : Controller {
     [HttpGet("/clients/dokumen/tps")]
     public async Task<JsonResult> GetFolderTPSContents()
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/tps";
 
@@ -389,7 +340,7 @@ public class ClientController : Controller {
     [HttpGet("/clients/dokumen/pengolahan")]
     public async Task<JsonResult> GetFolderPengolahanContents()
     {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var folderPath = "wwwroot/upload/" + c.ClientID + "/pengolahan";
 
@@ -420,7 +371,7 @@ public class ClientController : Controller {
     // Dropzone Delete Function
     [HttpGet("/clients/dokumen/izin/delete")]
     public async Task<JsonResult> DeleteFileIzin(string id, string file) {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientID + "/izin/" + id + "/" + file);
 
@@ -435,7 +386,7 @@ public class ClientController : Controller {
 
     [HttpGet("/clients/dokumen/nib/delete")]
     public async Task<JsonResult> DeleteFileNIB(string file) {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientID + "/nib/" + file);
 
@@ -450,7 +401,7 @@ public class ClientController : Controller {
 
     [HttpGet("/clients/dokumen/wadah/delete")]
     public async Task<JsonResult> DeleteFileWadah(string file) {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientID + "/wadah/" + file);
 
@@ -465,7 +416,7 @@ public class ClientController : Controller {
 
     [HttpGet("/clients/dokumen/tps/delete")]
     public async Task<JsonResult> DeleteFileTPS(string file) {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientID + "/tps/" + file);
 
@@ -480,7 +431,7 @@ public class ClientController : Controller {
 
     [HttpGet("/clients/dokumen/pengolahan/delete")]
     public async Task<JsonResult> DeleteFilePengolahan(string file) {
-        Client c = await repo.Clients.Where(m => m.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
         var filePath = Path.Combine("wwwroot/upload/" + c.ClientID + "/pengolahan/" + file);
 
@@ -496,15 +447,15 @@ public class ClientController : Controller {
     [HttpPost("/clients/register/olah/save")]
     // [ValidateAntiForgeryToken]
     public async Task<IActionResult> SaveIzinOlah(RegOlahModel model) {
-        Client client = await repo.Clients.Where(c => c.UserId == User.Identity.Name).FirstOrDefaultAsync();
+        Client c = await repo.Clients.Where(m => m.ClientPkm.UserEmail == User.Identity.Name).FirstOrDefaultAsync();
 
-        model.IzinOlah.ClientID = client.ClientID;
-        model.IzinOlah.DokumenIzin = "/upload/" + client.ClientID + "/izin";        
-        model.IzinOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
-        model.IzinOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
+        //model.IzinOlah.ClientID = client.ClientID;
+        //model.IzinOlah.DokumenIzin = "/upload/" + client.ClientID + "/izin";        
+        //model.IzinOlah.TglTerbitIzin = DateOnly.ParseExact(model.TglAwal, "dd/MM/yyyy");
+        //model.IzinOlah.TglAkhirIzin = DateOnly.ParseExact(model.TglAkhir, "dd/MM/yyyy");
 
         if (ModelState.IsValid) {
-            await repo.SaveIzinOlah(model.IzinOlah);
+            //await repo.SaveIzinOlah(model.IzinOlah);
 
             return Json(Result.Success());
         }

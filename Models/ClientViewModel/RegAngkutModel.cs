@@ -1,4 +1,5 @@
-using Simoja.Entity;
+
+using SharedLibrary.Entities.Transportation;
 
 namespace Simoja.Models;
 

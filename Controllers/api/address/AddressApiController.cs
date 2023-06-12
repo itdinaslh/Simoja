@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Simoja.Repository;
 using Microsoft.EntityFrameworkCore;
+using SharedLibrary.Repositories.Common;
 using System.Linq.Dynamic.Core;
 
 namespace Simoja.Controllers.api;
@@ -8,9 +8,9 @@ namespace Simoja.Controllers.api;
 [ApiController]
 [Route("[controller]")]
 public class AddressApiController : Controller {
-    private IAddressRepo repo;
+    private IAddress repo;
 
-    public AddressApiController(IAddressRepo thisRepo) => repo = thisRepo;
+    public AddressApiController(IAddress thisRepo) => repo = thisRepo;
 
     [HttpGet("/api/address/provinsi/search")]
     public async Task<IActionResult> ProvinsiSearch(string? term)

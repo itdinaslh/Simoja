@@ -1,4 +1,4 @@
-﻿using Simoja.Entity;
+﻿using SharedLibrary.Entities.Common;
 using System.ComponentModel.DataAnnotations;
 
 namespace Simoja.Models;

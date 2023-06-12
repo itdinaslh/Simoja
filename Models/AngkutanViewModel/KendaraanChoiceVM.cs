@@ -4,5 +4,5 @@ public class KendaraanChoiceVM
 {
     public Guid IzinID { get; set; }
 
-    public Int64 KendaraanID { get; set; }
+    public Guid KendaraanID { get; set; }
 }
