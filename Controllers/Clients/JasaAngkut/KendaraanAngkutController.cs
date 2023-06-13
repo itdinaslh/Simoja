@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Simoja.Models;
 using Simoja.Helpers;
+using Microsoft.AspNetCore.SignalR;
 using SharedLibrary.Repositories.Transportation;
 using SharedLibrary.Repositories.Common;
 using SharedLibrary.Entities.Transportation;
+using SharedLibrary.Entities.Common;
+using Simoja.Hubs;
 
 namespace Simoja.Controllers;
 
@@ -14,17 +17,23 @@ public class KendaraanAngkutController : Controller
 {
     private readonly IKendaraan vehicle;
     private readonly IClient clientRepo;
+    private readonly INotification notificationRepo;
+    private readonly IHubContext<NotificationHub> hubContext;
 
-    public KendaraanAngkutController(IKendaraan vehicle, IClient clientRepo)
+    public KendaraanAngkutController(IKendaraan vehicle, IClient clientRepo, INotification notificationRepo, IHubContext<NotificationHub> hubContext)
     {
         this.vehicle = vehicle;
         this.clientRepo = clientRepo;
+        this.notificationRepo = notificationRepo;
+        this.hubContext = hubContext;
     }
 
     [HttpGet("/clients/pengangkutan/kendaraan")]
     public async Task<IActionResult> Kendaraan(Guid id)
     {
         string? currentUser = User.Identity!.Name;
+
+        await hubContext.Clients.All.SendAsync("ChangeNotif");
 
         var thisClient = await clientRepo.Clients.Where(c => c.ClientPkm!.UserEmail == currentUser)
             .Select(c => new {
@@ -94,6 +103,20 @@ public class KendaraanAngkutController : Controller
         if (ModelState.IsValid)
         {
             await vehicle.SaveKendaraanAsync(model.Kendaraan);
+            var notif = new Notification
+            {
+                NotificationID = Guid.NewGuid(),
+                NotificationTypeID = 1,
+                UserID = "Admin",
+                IsAdminNotification = true,
+                Title = model.Kendaraan.NoPolisi,
+                SubTitle = "Registrasi Baru",
+                Content = "Menunggu Verifikasi dan no RFID",
+                Href = "/admin/kendaraan/" + model.Kendaraan.KendaraanID
+            };
+
+            await notificationRepo.AddNotification(notif);
+            await hubContext.Clients.All.SendAsync("ChangeNotif");
 
             return Json(Result.Success());
         }
