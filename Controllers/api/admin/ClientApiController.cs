@@ -17,8 +17,8 @@ public class ClientApiController : Controller {
         clientRepo = cRepo;
     }
 
-    [HttpPost("/api/admin/jasa/unverified")]
-    public async Task<IActionResult> JasaUnverified() {
+    [HttpPost("/api/admin/clients/unverified")]
+    public async Task<IActionResult> Unverified() {
         var draw = Request.Form["draw"].FirstOrDefault();
         var start = Request.Form["start"].FirstOrDefault();
         var length = Request.Form["length"].FirstOrDefault();
@@ -29,7 +29,7 @@ public class ClientApiController : Controller {
         int skip = start != null ? Convert.ToInt32(start) : 0;
         int recordsTotal = 0;
 
-        var init = clientRepo.Clients
+        var init = clientRepo.Clients            
             .Where(c => c.IsVerified == false);
 
         if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection))) {
@@ -49,7 +49,7 @@ public class ClientApiController : Controller {
                 //jenisUsaha = c.ClientJenis.First().JenisUsaha.NamaJenis == 1 ? "Pengangkutan Sampah" : "Pengolahan Sampah",
                 email = c.UserId,
                 telp = c.Telp,
-                CreatedAt = c.CreatedAt
+                c.CreatedAt
             })
             .Skip(skip)
             .Take(pageSize)

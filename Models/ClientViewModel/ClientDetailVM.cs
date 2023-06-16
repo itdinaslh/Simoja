@@ -1,4 +1,4 @@
-﻿using Simoja.Entity;
+﻿using SharedLibrary.Entities.Common;
 
 namespace Simoja.Models;
 

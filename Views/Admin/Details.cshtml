@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
-                            <input type="text" asp-for="Client!.UserId" id="useremail" class="form-control" readonly required autofocus autocomplete="off" >
+                            <input type="text" asp-for="Client!.ClientPkm!.UserEmail" id="useremail" class="form-control" readonly required autofocus autocomplete="off" >
                         </div>
                         <div class="form-group">
                             <label for="">Jenis Usaha</label>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Alamat</label>
-                            <input type="text" asp-for="Client!.Alamat" id="address" class="form-control" required autocomplete="off" >
+                            <input type="text" asp-for="Client!.ClientPkm!.Alamat" id="address" class="form-control" required autocomplete="off" >
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
@@ -70,43 +70,43 @@
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Kelurahan</label>
-                                <select asp-for="Client!.KelurahanID" id="cbIdKelurahan" class="form-control sKelurahan" required autocomplete="off">
-                                    <option value="@Model.Client!.KelurahanID">@Model.NamaKelurahan</option>
+                                <select asp-for="Client!.ClientPkm!.KelurahanID" id="cbIdKelurahan" class="form-control sKelurahan" required autocomplete="off">
+                                    <option value="@Model.Client!.ClientPkm!.KelurahanID">@Model.NamaKelurahan</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Telp</label>
-                                <input asp-for="Client!.Telp" id="telp" class="form-control" autocomplete="off" >
+                                <input asp-for="Client!.ClientPkm!.Telp" id="telp" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Fax</label>
-                                <input type="text" asp-for="Client!.Fax" id="fax" class="form-control" autocomplete="off" >
+                                <input type="text" asp-for="Client!.ClientPkm!.Fax" id="fax" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Penanggung Jawab</label>
-                                <input asp-for="Client!.PenanggungJawab" id="tAnswer" class="form-control" autocomplete="off" >
+                                <input asp-for="Client!.ClientPkm!.PenanggungJawab" id="tAnswer" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">PIC</label>
-                                <input asp-for="Client!.PIC" id="pic" class="form-control" autocomplete="off" >
+                                <input asp-for="Client!.ClientPkm!.PIC" id="pic" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">No HP PIC</label>
-                                <input asp-for="Client!.NoHpPIC" id="picphone" class="form-control" autocomplete="off" >
+                                <input asp-for="Client!.ClientPkm!.NoHpPIC" id="picphone" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Latitude</label>
-                                <input asp-for="Client!.Latitude" id="Latitude" class="form-control" autocomplete="off">
+                                <input asp-for="Client!.ClientPkm!.Latitude" id="Latitude" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group col-md-6 col-xs-12">
                                 <label for="">Longitude</label>
-                                <input asp-for="Client!.Longitude" id="Longitude" class="form-control" autocomplete="off">
+                                <input asp-for="Client!.ClientPkm!.Longitude" id="Longitude" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="form-group text-right">

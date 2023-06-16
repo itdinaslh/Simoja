@@ -74,14 +74,14 @@
             </li>
             <li class="nav-title">Data PKM</li>
             <li class='@(ViewBag.Parent == "Penyedia Jasa" ? "active open" : "")'>
-                <a href="#" title="Penyedia Jasa" data-filter-tags="penyedia jasa">
+                <a href="#" title="Clients" data-filter-tags="clients">
                     <i class="fal fa-truck"></i>
-                    <span class="nav-link-text" data-i18n="nav.penyedia_jasa">Penyedia Jasa</span>
+                    <span class="nav-link-text" data-i18n="nav.clients">Clients</span>
                 </a>
                 <ul>
-                    <li class='@(ViewBag.Title == "Jasa Belum Verifikasi" || ViewBag.SubCategory == "Belum Verifikasi" ? "active" : "")'>
-                        <a asp-controller="Admin" asp-action="JasaUnverified" title="Verifikasi Jasa" data-filter-tags="verifikasi jasa">
-                            <span class="nav-link-text" data-i18n="nav.verifikasi_jasa">Verifikasi</span>
+                    <li class='@(ViewBag.Title == "Belum Diverifikasi" || ViewBag.SubCategory == "Belum Verifikasi" ? "active" : "")'>
+                        <a asp-controller="Admin" asp-action="ClientsUnverified" title="Verifikasi" data-filter-tags="verifikasi">
+                            <span class="nav-link-text" data-i18n="nav.verifikasi">Verifikasi</span>
                         </a>
                     </li>
                     <li class='@(ViewBag.Title == "Jasa Angkutan Terverifikasi" || ViewBag.Category == "Pengangkutan" ? "active" : "")'>
