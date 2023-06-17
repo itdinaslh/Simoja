@@ -92,7 +92,7 @@ public class KendaraanAngkutController : Controller
         Guid uid = Guid.NewGuid();
         
         model.Kendaraan.ClientID = client!.ClientID;
-        model.Kendaraan.StatusID = 3;
+        model.Kendaraan.StatusID = 1;
         model.Kendaraan.DokumenKendaraan!.TglSTNK = DateOnly.ParseExact(model.TglBerlakuSTNK, "dd/MM/yyyy");
         model.Kendaraan.DokumenKendaraan!.TglKIR = DateOnly.ParseExact(model.TglBerlakuKIR, "dd/MM/yyyy");        
         model.Kendaraan.DokumenKendaraan!.DokumenSTNK = await Upload.STNK(model.FileSTNK, client!.ClientID.ToString(), uid.ToString());
@@ -112,7 +112,7 @@ public class KendaraanAngkutController : Controller
                 Title = model.Kendaraan.NoPolisi,
                 SubTitle = "Registrasi Baru",
                 Content = "Menunggu Verifikasi dan no RFID",
-                Href = "/admin/kendaraan/" + model.Kendaraan.KendaraanID
+                Href = "/admin/kendaraan/?id=" + model.Kendaraan.KendaraanID
             };
 
             await notificationRepo.AddNotification(notif);

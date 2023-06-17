@@ -1,0 +1,177 @@
+﻿@model KendaraanDetailVM
+
+@{
+    ViewBag.Main = "Penyedia Jasa";
+    ViewBag.Category = "Pengangkutan";
+    ViewBag.Title = "Detail Kendaraan";
+    ViewBag.Parent = "Penyedia Jasa";
+}
+
+@section styles {
+    <link rel="stylesheet" media="screen, print" href="~/lib/sweetalert/sweetalert2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/select2/css/select2.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/datagrid/datatables/datatables.bundle.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/bootstrap-datepicker/bootstrap-datepicker.min.css" />
+    <link rel="stylesheet" media="screen, print" href="~/css/formplugins/dropzone/dropzone.css">
+    <link rel="stylesheet" media="screen, print" href="~/css/addon.css" />
+    <link rel="stylesheet" media="screen, print" href="~/lib/lightbox/dist/lightbox.css">
+    <style>
+        .myimg {
+            height: 75px;
+            width: 75px;
+        }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-success-gradient" role="heading">
+                <h2>Data Kendaraan</h2>
+            </div>
+            <div class="panel-container show">
+                <form id="FormUpdateKendaraan" asp-action="UpdateKendaraan" asp-controller="KendaraanAdmin" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="panel-content">
+                        <div class="form-group">
+                            <input type="hidden" asp-for="Kendaraan.KendaraanID">
+                            <label for="">No Polisi *</label>
+                            <input type="text" asp-for="Kendaraan.NoPolisi" class="form-control" required autofocus autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">No Pintu *</label>
+                            <input asp-for="Kendaraan.NoPintu" class="form-control" required autocomplete="off" >
+                        </div>
+                        <div class="form-group">
+                            <label for="">Jenis Kendaraan *</label>
+                            <select asp-for="Kendaraan.TipeKendaraanID" class="form-control" required>
+                                <option value="@Model.Kendaraan.TipeKendaraanID">@Model.Kendaraan.TipeKendaraan.NamaTipe</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Masa Berlaku STNK *</label>
+                            <div class="input-group flex-nowrap">
+                                <input asp-for="MasaBerlakuSTNK" class="form-control datepicker"required autocomplete="off" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text fs-xl">
+                                        <i class="fal fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Masa Berlaku KIR *</label>
+                            <div class="input-group flex-nowrap">
+                                <input asp-for="MasaBerlakuKIR" class="form-control datepicker" required autocomplete="off" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text fs-xl">
+                                        <i class="fal fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tgl Uji Emisi <span class="text-danger">*</span></label>
+                            <div class="input-group flex-nowrap">
+                                <input asp-for="TglUjiEmosi" class="form-control datepicker" required autocomplete="off">
+                                <div class="input-group-append">
+                                    <span class="input-group-text fs-xl">
+                                        <i class="fal fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Tahun Pembuatan <span class="text-danger">*</span></label>
+                            <input type="number" asp-for="Kendaraan.DokumenKendaraan!.TahunPembuatan" class="form-control" required autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label for="">Berat KIR <span class="text-danger">*</span></label>
+                            <input type="number" asp-for="Kendaraan.BeratKIR" class="form-control" required autocomplete="off" />
+                        </div>
+                        <div class="form-group">
+                            <label>No. RFID</label>
+                            <input asp-for="Kendaraan.RFID" class="form-control" required autocomplete="off" />
+                        </div>
+                        <div class="form-group text-right">
+                            <button class="btn btn-success" type="submit">Update Data</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xs-12">
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient">
+                <h2>Dokumen STNK</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="">
+                        @*@foreach ($stnk as $row)
+                            <a href="{{ $row['url'] }}" data-toggle="lightbox" data-gallery="gal-stnk">
+                                <img class="myimg" src="{{ $row['url'] }}" alt="image">
+                            </a>
+                        @endforeach*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient">
+                <h2>Dokumen KIR</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="">
+                        @*@foreach ($kir as $row)
+                            <a href="{{ $row['url'] }}" data-toggle="lightbox" data-gallery="gal-kir">
+                                <img class="myimg" src="{{ $row['url'] }}" alt="image">
+                            </a>
+                        @endforeach*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="panel-1" class="panel">
+            <div class="panel-hdr bg-primary-700 bg-warning-gradient">
+                <h2>Foto Kendaraan</h2>
+            </div>
+            <div class="panel-container show">
+                <div class="panel-content">
+                    <div class="">
+                        @*@foreach ($foto as $row)
+                            <a href="{{ $row['url'] }}" data-toggle="lightbox" data-gallery="gal-foto">
+                                <img class="myimg" src="{{ $row['url'] }}" alt="image">
+                            </a>
+                        @endforeach*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-top:30px;">
+    <div class="col-xl-12">
+        <div class="text-center">
+            <a class="btn btn-success" href="javascript:void(0)">Kembali Ke Daftar Kendaraan</a>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {   
+    <script src="~/lib/sweetalert/sweetalert2.all.min.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/js/formplugins/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/js/formplugins/dropzone/dropzone.js"></script>
+    <script src="~/lib/lightbox/dist/lightbox.min.js"></script>
+    <script src="~/pages/admin/kendaraan/details.js"></script>
+    <script>
+        $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+            event.preventDefault();
+            $(this).ekkoLightbox();
+        });
+    </script>
+}

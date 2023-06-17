@@ -1,4 +1,4 @@
-﻿using Simoja.Entity;
+﻿using SharedLibrary.Entities.Transportation;
 
 namespace Simoja.Models;
 
@@ -10,4 +10,7 @@ public class KendaraanDetailVM
     public string MasaBerlakuSTNK { get; set; }
 
     public string MasaBerlakuKIR { get; set; }
+
+    public string TglUjiEmosi { get; set; }
+
 }
